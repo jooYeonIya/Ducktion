@@ -50,3 +50,8 @@
   font-family: 'Pretendard-Regular', sans-serif;
   font-size: 12px;
 }
+
+/* 아이콘 라벨 */
+.iconPlusLabel {
+  cursor: pointer;
+}
