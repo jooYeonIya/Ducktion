@@ -1,4 +1,4 @@
-import '@styles/Buttons.css';
+import '@styles/components/Buttons.css';
 
 export default function RectangleButton({text, onClick}) {
   return (

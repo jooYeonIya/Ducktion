@@ -1,4 +1,4 @@
-import '@styles/Labels.css';
+import '@styles/components/Labels.css';
 
 export default function({icon, text, onClick}) {
   return (
