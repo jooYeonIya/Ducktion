@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import '@styles/components/TextField.css'
 
-export default function TextField({ placeholder }) {
+export default function CustomTextField({ placeholder }) {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
