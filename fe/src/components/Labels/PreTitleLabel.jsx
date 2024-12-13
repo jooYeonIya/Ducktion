@@ -1,6 +1,5 @@
 import '@styles/Labels.css';
 
-
 export default function PreTitleLabel({text}) {
   return (
   <>

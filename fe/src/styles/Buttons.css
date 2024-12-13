@@ -1,0 +1,26 @@
+.buttonBase {
+  font-size: 16px;
+  font-family: 'Pretendard-Regular', sans-serif;
+  cursor: pointer;
+}
+
+/*네모 버튼*/
+.rectangleButton {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+}
+
+/*라운드 버튼*/
+.roundButton {
+  background-color: white;
+  border: yellowgreen solid 2px;
+  border-radius: 24px;
+  padding: 10px 20px;
+}
+
+.roundButton.selected {
+  background-color: yellowgreen;
+  color: white;
+}
