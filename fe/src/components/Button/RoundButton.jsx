@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
-import '@styles/components/Buttons.css';
+import '@styles/components/Buttons.css'
 
 export default function RoundButton({text, onClick}) {
   const [selected, setSelected] = useState(false);

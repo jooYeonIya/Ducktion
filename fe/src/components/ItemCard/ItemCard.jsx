@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import GodoTextLabel from '../Labels/GodoTextLabel';
-import PreTextLabel from '../Labels/PreTextLabel';
-import PreCaptionLabel from '../Labels/PreCaptionLabel';
+import { useState } from 'react'
+import GodoTextLabel from '../Labels/GodoTextLabel'
+import PreTextLabel from '../Labels/PreTextLabel'
+import PreCaptionLabel from '../Labels/PreCaptionLabel'
 
 import '@styles/components/ItemCard.css'
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import '@styles/components/TextField.css'
 
 export default function CustomTextField({ placeholder }) {
