@@ -1,6 +1,6 @@
-import '@styles/components/HeaderFooter.css';
-import IconPlusLabel from './Labels/IconPlusLabel';
-import PreCaptionLabel from './Labels/PreCaptionLabel';
+import '@styles/components/HeaderFooter.css'
+import IconPlusLabel from './Labels/IconPlusLabel'
+import PreCaptionLabel from './Labels/PreCaptionLabel'
 
 export default function Footer() {
   const openWeb = (url) => {

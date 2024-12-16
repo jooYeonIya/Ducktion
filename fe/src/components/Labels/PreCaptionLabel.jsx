@@ -1,4 +1,4 @@
-import '@styles/components/Labels.css';
+import '@styles/components/Labels.css'
 
 export default function PreCaptionLabel({text}) {
   return (
