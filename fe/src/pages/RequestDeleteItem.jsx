@@ -1,27 +1,20 @@
 import React from 'react';
-import '../styles/PostForm.css'; // CSS 파일 임포트
-import PostForm from '../components/PostForm'; // PostForm 컴포넌트 임포트
+import PostForm from '../components/PostForm'; // css 임포트
 
-const RequestDeleteItem = ({ onSubmit, ItemName }) => {
-
-  const handlePostSubmit = (data) => {
-    // 상품 삭제 요청을 처리하는 로직
-    onSubmit(data); // 부모 컴포넌트에 데이터 전달
-  };
-
+const RequestAddCommunity = ({ onSubmit }) => {
   return (
     <div className="post-form-container">
-      <h1> 출품상품 삭제요청 </h1>
-      {ItemName && <h2>상품이름: {ItemName}</h2>} {/* 상품명 표시 */}
+      <h1> 커뮤니티 개설 요청 </h1>
       <PostForm 
-        onSubmit={handlePostSubmit} // PostForm에 onSubmit 전달
-        titlePlaceholder="삭제요청 제목을 입력해주세요 (30자 이내)" 
-        contentPlaceholder="삭제요청 이유를 입력해주세요"
-        titleLabel="제목"
-        contentLabel="이유"
+        onSubmit={onSubmit} // PostForm에 onSubmit 전달
+        titlePlaceholder="커뮤니티 이름을 입력해주세요 (30자 이내)" 
+        contentPlaceholder="개설 요청 이유를 입력해주세요"
+        titleLabel="커뮤니티 이름"
+        contentLabel="개설 요청 이유"
       />
     </div>
   );
 };
 
-export default RequestDeleteItem;
+export default RequestAddCommunity;
+
