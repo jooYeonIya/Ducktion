@@ -1,0 +1,13 @@
+.home_main_image img {
+  width: 1024px;
+}
+
+.home_popularCategories_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
+.home_popularCategories_item {
+  width: calc((1024px - (28px * 4)) / 5); 
+}
