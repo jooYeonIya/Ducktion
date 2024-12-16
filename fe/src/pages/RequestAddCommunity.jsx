@@ -1,9 +1,6 @@
-
-
 import PostForm from '../components/PostForm'; // css 임포트
 import React, { useState } from 'react';
 import PostForm from '../components/PostForm'; //css 임포트
-
 
 const RequestAddCommunity = ({ onSubmit }) => {
   return (
