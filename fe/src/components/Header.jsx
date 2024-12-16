@@ -1,8 +1,8 @@
 import IconPlusLabel from './Labels/IconPlusLabel'; 
 import CustomTextField from './CustomTextField';
-
-import '@styles/components/Header.css';
 import { useEffect, useState } from 'react';
+
+import '@styles/components/HeaderFooter.css';
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
