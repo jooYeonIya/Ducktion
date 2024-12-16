@@ -21,8 +21,7 @@ const PostForm = ({ onSubmit, titlePlaceholder, contentPlaceholder, titleLabel, 
   };
 
   const handleCancel = () => {
-    setTitle(''); // 제목 필드 초기화
-    setContent(''); // 내용 필드 초기화
+    window.history.back();
   };
 
   return (
