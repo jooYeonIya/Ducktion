@@ -9,6 +9,11 @@
   font-size: 20px;
 }
 
+.textLabelGodo {
+  font-family: 'Godo', sans-serif;
+  font-size: 16px;
+}
+
 /* 프리텐다드 */
 .titleLabelPre {
   font-family: 'Pretendard-Regular', 'sans-serif';

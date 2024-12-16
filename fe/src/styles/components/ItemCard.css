@@ -1,0 +1,74 @@
+/* 전체 카드 컨테이너 */
+.itemCard {
+  position: relative; 
+  width: 300px; 
+  border: 1px solid #bebebe; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 상단 이미지와 뱃지 컨테이너 */
+.itemCard_imageContainer {
+  position: relative;
+  height: 200px; 
+}
+
+/* 상단 이미지 */
+.itemCard_imageContainer_image {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; /* 이미지 비율 유지 */
+}
+
+/* 상단 뱃지 버튼 */
+.itemCard_imageContainer_badge {
+  all: unset; /* 버튼 기본 스타일 제거 */
+  position: absolute; 
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.itemCard_imageContainer_badgeImage {
+  width: 24px;
+  height: 24px;
+}
+
+/* 아이템 정보 컨테이너 */
+.itemCard_infoContainer {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.itemCard_infoContainer_price {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 오버레이 */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay_circle {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #ffffff; 
+  border-radius: 50%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: bold;
+}
