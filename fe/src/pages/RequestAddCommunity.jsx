@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PostForm from '../components/PostForm';
+import PostForm from '../components/PostForm'; //css 임포트
 
 const RequestAddCommunity = ({ onSubmit }) => {
     const [title, setTitle] = useState('');
