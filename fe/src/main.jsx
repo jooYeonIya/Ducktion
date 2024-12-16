@@ -1,10 +1,10 @@
-import React, { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import PostForm from './components/PostForm'; // 경로를 확인하세요
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './styles/index.css'
+import App from './App.jsx'
 
-const root = createRoot(document.getElementById('root'));
-root.render(
+createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <PostForm />
-  </StrictMode>
-);
+    <App />
+  </StrictMode>,
+)

@@ -1,0 +1,41 @@
+/* 고도체 */
+.titleLabelGodo {
+ font-family: 'Godo-bold', sans-serif;
+ font-size: 28px;
+}
+
+.subTitleLabelGodo {
+  font-family: 'Godo', sans-serif;
+  font-size: 20px;
+}
+
+.textLabelGodo {
+  font-family: 'Godo', sans-serif;
+  font-size: 16px;
+}
+
+/* 프리텐다드 */
+.titleLabelPre {
+  font-family: 'Pretendard-Regular', 'sans-serif';
+  font-size: 28px;
+}
+
+.subTitleLabelPre {
+  font-family: 'Pretendard-Regular', sans-serif;
+  font-size: 20px;
+}
+
+.textLabelPre {
+  font-family: 'Pretendard-Regular', sans-serif;
+  font-size: 16px;
+}
+
+.captionLabelPre {
+  font-family: 'Pretendard-Regular', sans-serif;
+  font-size: 12px;
+}
+
+/* 아이콘 라벨 */
+.iconPlusLabel {
+  cursor: pointer;
+}
