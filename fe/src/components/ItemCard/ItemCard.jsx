@@ -1,14 +1,15 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import GodoTextLabel from '../Labels/GodoTextLabel'
 import PreTextLabel from '../Labels/PreTextLabel'
 import PreCaptionLabel from '../Labels/PreCaptionLabel'
 
 import '@styles/components/ItemCard.css'
 
-function ItemCard({ data, badgeClick, cardClick }) {
-  const {image, favorited, name, priceInfo, additionalInfo, overlayText} = data
-
+function ItemCard({ data, badgeClick }) {
+  const {communityId, image, favorited, name, priceInfo, additionalInfo, overlayText} = data
   const [isFavorited, setIsFavorited] = useState(favorited);
+  const navigate = useNavigate();
 
   const toggleBadge = () => {
     setIsFavorited(!isFavorited);
@@ -16,14 +17,14 @@ function ItemCard({ data, badgeClick, cardClick }) {
   };
 
   const cardOnClick = () => {
-    cardClick();
+    navigate("/auctionItems", { state: {communityId: communityId} });
   };
 
   return (
-    <div className='itemCard'>
+    <div className='itemCard' onClick={cardOnClick}>
 
       {/* 상단: 이미지와 뱃지 */}
-      <div className='itemCard_imageContainer' onClick={cardOnClick}>
+      <div className='itemCard_imageContainer'>
         <img src={image} alt='ItemImage' className='itemCard_imageContainer_image' />
         <button className='itemCard_imageContainer_badge' onClick={(e) => {
           // 카드 클릭 이벤트와 구분

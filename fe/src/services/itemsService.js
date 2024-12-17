@@ -27,6 +27,7 @@ export async function getClosingSoonItems() {
     const data = [];
     for (let i = 0; i < 5; i++) {
       data.push({
+        communityId: i,
         image: "/src/assets/test_image.png",
         favorited: i%2 == 0,
         name: "으아아아악!!!!!! 리액트 고수 어디 없나!!!!!!",
@@ -50,6 +51,7 @@ export async function getMastersCollectorsRare() {
     const data = [];
     for (let i = 0; i < 10; i++) {
       data.push({
+        communityId: i,
         image: "/src/assets/test_image.png",
         favorited: i%2 == 0,
         name: "이거슨 마스터 컬렉션즈 레어 상품이다 이놈들아",
