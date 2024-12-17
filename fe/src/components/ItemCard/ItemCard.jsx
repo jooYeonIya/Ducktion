@@ -17,7 +17,7 @@ function ItemCard({ data, badgeClick }) {
   };
 
   const cardOnClick = () => {
-    navigate("/auctionItems", { state: {communityId: communityId} });
+    navigate("/viewItemList", { state: {communityId: communityId} });
   };
 
   return (

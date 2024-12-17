@@ -8,10 +8,10 @@ import RoundButton from '../components/Button/RoundButton'
 import RectangleButton from '../components/Button/RectangleButton'
 import SearchTextField from '../components/SearchTextField'
 
-import '@styles/pages/AuctionItemsPage.css'
+import '@styles/pages/ViewItemList.css'
 
 // DT-01-02 출품 상품 목록 보기
-export default function AuctionItemsPage() {
+export default function ViewItemList() {
   const sortOptions = [
     { value: "latest", title: "최신순" },
     { value: "price_desc", title: "고가순" },
