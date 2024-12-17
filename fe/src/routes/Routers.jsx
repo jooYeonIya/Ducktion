@@ -2,10 +2,11 @@ import {Routes, Route } from 'react-router-dom'
 import Home from '../pages/Home'
 import RequestAddCommunity from '../pages/RequestAddCommunity'
 import ViewItemList from '../pages/ViewItemList'
-import ViewCommunityList from '../pages/ViewCommunityList';
-import ViewSearchResult from '../pages/ViewSearchResult';
-import ViewFavoriteItemList from '../pages/ViewFavoriteItemList';
-import ViewMypage from '../pages/ViewMypage';
+import ViewCommunityList from '../pages/ViewCommunityList'
+import ViewSearchResult from '../pages/ViewSearchResult'
+import ViewFavoriteItemList from '../pages/ViewFavoriteItemList'
+import ViewMypage from '../pages/ViewMypage'
+import ViewBiddedHistoryList from '../pages/ViewBiddedHistoryList'
 
 export default function Routers() {
   return (
@@ -17,7 +18,7 @@ export default function Routers() {
       <Route path='/viewSearchResult' element={<ViewSearchResult />} />
       <Route path='/viewFavoriteItemList' element={<ViewFavoriteItemList/>} />
       <Route path='/viewMypage' element={<ViewMypage/>} />
-
+      <Route path='/viewBiddedHistoryList' element={<ViewBiddedHistoryList/>} />
     </Routes>
   );
 }

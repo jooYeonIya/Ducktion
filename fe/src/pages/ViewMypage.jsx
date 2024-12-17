@@ -8,6 +8,10 @@ export default function ViewMypage() {
 
   const navigate = useNavigate();
 
+  const handleBiddedItem = () => {
+    navigate('/viewBiddedHistoryList')  
+  }
+
   const handleFavoriteItem = () => {
     const data = [];
     for (let i = 0; i < 10; i++) {
@@ -27,6 +31,13 @@ export default function ViewMypage() {
   return (
     <>
       <GodoTitleLabel text={"마이페이지"} />
+
+      <div className='biddedItem_container'>
+        <div className='biddedItem_container_title'>
+          <GodoTitleLabel text={"출품 이력"} />
+          <button onClick={handleBiddedItem}><PreCaptionLabel text={"출품 이력"} /></button>
+        </div>
+      </div>
 
       <div className='favoriteItem_container'>
         <div className='favoriteItem_container_title'>
