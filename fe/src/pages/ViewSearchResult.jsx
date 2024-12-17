@@ -5,7 +5,6 @@ import { getItemSearchResults } from '../services/itemsService'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import CommunityList from '../components/CommunityList'
 import CardItemsList from '../components/ItemCard/ItemCardList'
-import PreCaptionLabel from '../components/Labels/PreCaptionLabel'
 
 import '@styles/pages/ViewSearchResult.css'
 
@@ -26,14 +25,6 @@ export default function ViewSearchResult() {
     setItems(data);
   }
 
-  const handleMoreCommunity = () => {
-
-  }
-
-  const handleMoreItem = () => {
-
-  }
-
   useEffect(() => {
     fetchCommunitySearchResults();
     fetchItemSearchResults();
@@ -46,19 +37,11 @@ export default function ViewSearchResult() {
       </div>
 
       <div className='viewSearchResult_community_container'>
-        <div className='viewSearchResult_subTitle'>
-          <GodoTitleLabel text={"커뮤니티"} />
-          <button onClick={handleMoreCommunity}><PreCaptionLabel text={"더보기"} /></button>
-        </div>
-        <CommunityList communityList={communities} />
+        <CommunityList title={"커뮤니티"} communityList={communities} />
       </div>
 
       <div className='viewSearchResult_item_container'>
-        <div className='viewSearchResult_subTitle'>
-          <GodoTitleLabel text={"커뮤니티"} />
-          <button onClick={handleMoreItem}><PreCaptionLabel text={"더보기"} /></button>
-        </div>
-        <CardItemsList itemList={items} />
+        <CardItemsList title={"출품 상품"} itemList={items} />
       </div>
     </>
   )
