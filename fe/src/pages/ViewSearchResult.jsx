@@ -53,13 +53,13 @@ export default function ViewSearchResult() {
         </div>
       </div>
 
-      {selectedOption === "community" && (
+      {selectedOption === options[0].value && (
         <div className="viewSearchResult_community_container">
           <CommunityList title={"커뮤니티"} communityList={communities} />
         </div>
       )}
 
-      {selectedOption === "item" && (
+      {selectedOption === options[1].value && (
         <div className="viewSearchResult_item_container">
           <CardItemsList title={"출품 상품"} itemList={items} />
         </div>
