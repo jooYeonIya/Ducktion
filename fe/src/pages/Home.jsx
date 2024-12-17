@@ -11,7 +11,7 @@ export default function Home() {
   const [closingSoonItems, setClosingSoonItems] = useState([]);
   const [mastersItems, setMastersItems] = useState([]);
 
-  const fetchPopularCategories = async () => {
+  const fetchPopularCommunitie = async () => {
     try {
       const data = await getPopularCommunities();
       setCommunities(data);
@@ -39,7 +39,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    fetchPopularCategories();
+    fetchPopularCommunitie();
     fetchClosingSoonItems();    
     fetchMastersItems();
   }, [])
@@ -50,8 +50,8 @@ export default function Home() {
         <img src='/src/assets/test_image2.jpg' alt='home image' />
       </div>
 
-      <div className='home_popularCategories'>
-        <CommunityList title={"인기 카테고리"} communityList={communities} />
+      <div className='home_popularCommunitie'>
+        <CommunityList title={"인기 커뮤니티"} communityList={communities} />
       </div>
 
       <div className='home_cardItems'>
