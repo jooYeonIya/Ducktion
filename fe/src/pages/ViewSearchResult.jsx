@@ -1,9 +1,23 @@
 import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { getCommunitySearchResults } from '../services/communityService'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
+import CommunityList from '../components/CommunityList'
 
 export default function ViewSearchResult() {
+  const [communities, setCommunities] = useState([]);
+
   const location = useLocation();
   const searchText = location.state.searchText;
+
+  const fetchCommunitySearchResults = async () => {
+      const data = await getCommunitySearchResults(searchText);
+      setCommunities(data);
+  }
+
+  useEffect(() => {
+    fetchCommunitySearchResults();
+  }, [searchText])
 
   return (
     <>
@@ -12,7 +26,7 @@ export default function ViewSearchResult() {
       </div>
 
       <div className='viewSearchResult_community_container'>
-        <GodoTitleLabel text={"커뮤니티"} />
+        <CommunityList title={"커뮤니티"} communityList={communities} />
       </div>
 
       <div className='viewSearchResult_item_container'>
