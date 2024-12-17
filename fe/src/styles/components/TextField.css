@@ -1,12 +1,29 @@
-.textField {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  font-family: 'Pretendard-Regular', sans-serif;
+.searchTextField_container {
+  display: flex;
+  align-items: center;
   border: 1px solid #bebebe;
-  outline: none; 
+  padding: 8px;
 }
 
-.textField.focused {
+.searchTextField_container.focused {
   border-color: yellowgreen
+}
+
+.searchTextField_input {
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Pretendard-Regular', sans-serif;
+  outline: none;
+  border: none;
+}
+
+.searchTextField_button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.searchTextField_button img {
+  width: 20px;
+  height: 20px;
 }
