@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { getClosingSoonItems, getMastersCollectorsRare } from '../services/itemsService'
 import { getPopularCommunities } from '../services/communityService'
-import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
-import ItemCard from '../components/ItemCard/ItemCard'
 import CommunityList from '../components/CommunityList'
+import CardItemsList from '../components/ItemCard/ItemCardList'
+
 import '@styles/pages/Home.css'
 
 export default function Home() {
@@ -55,25 +55,11 @@ export default function Home() {
       </div>
 
       <div className='home_cardItems'>
-        <GodoTitleLabel text={"마감 임박 상품"} />
-        <div className='home_cardItems_container'>
-          {closingSoonItems && closingSoonItems.map((item) => (
-            <div className='home_cardItems_item'>
-              <ItemCard data={item} />
-            </div>
-          ))}
-        </div>
+        <CardItemsList title={"마감 임박 상품"} items={closingSoonItems} />
       </div>
 
       <div className='home_cardItems'>
-        <GodoTitleLabel text={"마스터즈컬렉션즈레어 상품"} />
-        <div className='home_cardItems_container'>
-          {mastersItems && mastersItems.map((item) => (
-            <div className='home_cardItems_item'>
-              <ItemCard data={item} />
-            </div>
-          ))}
-        </div>
+        <CardItemsList title={"마스터즈컬렉션즈레어 상품"} items={mastersItems} />  
       </div>
     </>
   )

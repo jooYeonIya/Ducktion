@@ -1,11 +1,14 @@
 import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getCommunitySearchResults } from '../services/communityService'
+import { getItemSearchResults } from '../services/itemsService'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import CommunityList from '../components/CommunityList'
+import CardItemsList from '../components/ItemCard/ItemCardList'
 
 export default function ViewSearchResult() {
   const [communities, setCommunities] = useState([]);
+  const [items, setItems] = useState([]);
 
   const location = useLocation();
   const searchText = location.state.searchText;
@@ -15,8 +18,14 @@ export default function ViewSearchResult() {
       setCommunities(data);
   }
 
+  const fetchItemSearchResults = async () => {
+    const data = await getItemSearchResults(searchText);
+    setItems(data);
+}
+
   useEffect(() => {
     fetchCommunitySearchResults();
+    fetchItemSearchResults();
   }, [searchText])
 
   return (
@@ -30,7 +39,7 @@ export default function ViewSearchResult() {
       </div>
 
       <div className='viewSearchResult_item_container'>
-        <GodoTitleLabel text={"출품 상품"} />
+        <CardItemsList title={"출품 상품"} items={items} />
       </div>
     </>
   )
