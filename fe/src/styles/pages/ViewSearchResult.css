@@ -1,0 +1,11 @@
+.viewSearchResult_subTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.viewSearchResult_subTitle button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #bebebe;
+}

@@ -5,6 +5,9 @@ import { getItemSearchResults } from '../services/itemsService'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import CommunityList from '../components/CommunityList'
 import CardItemsList from '../components/ItemCard/ItemCardList'
+import PreCaptionLabel from '../components/Labels/PreCaptionLabel'
+
+import '@styles/pages/ViewSearchResult.css'
 
 export default function ViewSearchResult() {
   const [communities, setCommunities] = useState([]);
@@ -14,14 +17,22 @@ export default function ViewSearchResult() {
   const searchText = location.state.searchText;
 
   const fetchCommunitySearchResults = async () => {
-      const data = await getCommunitySearchResults(searchText);
-      setCommunities(data);
+    const data = await getCommunitySearchResults(searchText);
+    setCommunities(data);
   }
 
   const fetchItemSearchResults = async () => {
     const data = await getItemSearchResults(searchText);
     setItems(data);
-}
+  }
+
+  const handleMoreCommunity = () => {
+
+  }
+
+  const handleMoreItem = () => {
+
+  }
 
   useEffect(() => {
     fetchCommunitySearchResults();
@@ -35,11 +46,19 @@ export default function ViewSearchResult() {
       </div>
 
       <div className='viewSearchResult_community_container'>
-        <CommunityList title={"커뮤니티"} communityList={communities} />
+        <div className='viewSearchResult_subTitle'>
+          <GodoTitleLabel text={"커뮤니티"} />
+          <button onClick={handleMoreCommunity}><PreCaptionLabel text={"더보기"} /></button>
+        </div>
+        <CommunityList communityList={communities} />
       </div>
 
       <div className='viewSearchResult_item_container'>
-        <CardItemsList title={"출품 상품"} items={items} />
+        <div className='viewSearchResult_subTitle'>
+          <GodoTitleLabel text={"커뮤니티"} />
+          <button onClick={handleMoreItem}><PreCaptionLabel text={"더보기"} /></button>
+        </div>
+        <CardItemsList itemList={items} />
       </div>
     </>
   )

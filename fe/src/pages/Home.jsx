@@ -55,11 +55,11 @@ export default function Home() {
       </div>
 
       <div className='home_cardItems'>
-        <CardItemsList title={"마감 임박 상품"} items={closingSoonItems} />
+        <CardItemsList title={"마감 임박 상품"} itemList={closingSoonItems} />
       </div>
 
       <div className='home_cardItems'>
-        <CardItemsList title={"마스터즈컬렉션즈레어 상품"} items={mastersItems} />  
+        <CardItemsList title={"마스터즈컬렉션즈레어 상품"} itemList={mastersItems} />  
       </div>
     </>
   )
