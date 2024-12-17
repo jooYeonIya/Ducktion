@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getCommunityInfo } from '../services/communityService'
 import { getItemsByCommunityId } from '../services/itemsService'
 import GodoTitelLabe from '../components/Labels/GodoTitleLabel'
 import ItemCard from '../components/ItemCard/ItemCard'
 import RoundButton from '../components/Button/RoundButton'
+import RectangleButton from '../components/Button/RectangleButton'
 
 import '@styles/pages/AuctionItemsPage.css'
 
@@ -26,6 +27,7 @@ export default function AuctionItemsPage() {
   const [message, setMessage] = useState('');
   const [disply, setDisplay] = useState(false);
 
+  const navigate = useNavigate();
   const location = useLocation();
   const communityId = location.state.communityId;
 
@@ -81,6 +83,10 @@ export default function AuctionItemsPage() {
     setCurrentPage(0);
   };
 
+  const handleRegistItemButton = () => {
+    navigate('/registItem')
+  }
+
   useEffect(() => {
     fetchCommunityInfo();
     displayWinningBidMessage();
@@ -100,8 +106,13 @@ export default function AuctionItemsPage() {
         <div className='message_text'>"으아아아 으아아아 으아아아 낙찰찰 차라라라라라랄"</div>
       </div>
 
-      <div className='autionItems_sortOption'>
-        <RoundButton options={sortOptions} onChange={handleSortChange} />
+      <div className='autionItems_sortOption_container'>
+        <div className='autionItems_sortOption'>
+          <RoundButton options={sortOptions} onChange={handleSortChange} />
+        </div>
+        <div className='autionItems_registItemButton'>
+          <RectangleButton text={"출품 상품 등록하기"} onClick={handleRegistItemButton}/>
+        </div>
       </div>
 
       <div className='auctionItems_cardItems_container'>
