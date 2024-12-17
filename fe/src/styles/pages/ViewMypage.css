@@ -1,0 +1,11 @@
+.favoriteItem_container_title{
+  display: flex;
+  justify-content: space-between;
+}
+
+.favoriteItem_container_title button {
+  border: none;
+  background: none;
+  color: #bebebe;
+  cursor: pointer;
+}
