@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import '../styles/PostForm.css'; // CSS 파일 임포트
+import GodoTitleLabel from './Labels/GodoTitleLabel';
 
-const PostForm = ({ onSubmit, titlePlaceholder, contentPlaceholder, titleLabel, contentLabel }) => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+const PostForm = ({ 
+  onSubmit, 
+  titleName,
+  titlePlaceholder, 
+  contentPlaceholder, 
+  titleLabel, 
+  contentLabel
+}) => {
+  const [title, setTitle] = useState();
+  const [content, setContent] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,21 +34,24 @@ const PostForm = ({ onSubmit, titlePlaceholder, contentPlaceholder, titleLabel, 
 
   return (
     <div className="post-form-container">
+      <GodoTitleLabel text={titleName} />
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="title">{titleLabel}</label> {/* titleLabel prop 사용 */}
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder={titlePlaceholder} 
-            required
-            maxLength={30} // 최대 글자 수 제한
-          />
+          <div className='title-container'>
+            <label htmlFor="title">{titleLabel}</label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder={titlePlaceholder} 
+              required
+              maxLength={30} // 최대 글자 수 제한
+            />
+          </div>
         </div>
         <div className="form-group">
-          <label htmlFor="content">{contentLabel}</label> {/* contentLabel prop 사용 */}
+          <label htmlFor="content">{contentLabel}</label>
           <textarea
             id="content"
             value={content}
@@ -56,7 +67,7 @@ const PostForm = ({ onSubmit, titlePlaceholder, contentPlaceholder, titleLabel, 
       </form>
     </div>
   );
-};
+};  
 
 export default PostForm;
 
