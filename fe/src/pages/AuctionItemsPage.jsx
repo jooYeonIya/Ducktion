@@ -23,6 +23,9 @@ export default function AuctionItemsPage() {
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [sortOption, setSortOption] = useState(sortOptions[0].value);
 
+  const [message, setMessage] = useState('');
+  const [disply, setDisplay] = useState(false);
+
   const location = useLocation();
   const communityId = location.state.communityId;
 
@@ -51,6 +54,24 @@ export default function AuctionItemsPage() {
     }
   }
 
+  const displayWinningBidMessage = () => {
+    const eventSource = new EventSource("URL");
+    eventSource.onmessage = (event) => {
+      setMessage(event.data);
+      setDisplay(true);
+      setTimeout(() => setDisplay(false), 10000);
+    };
+
+    eventSource.error = (error) => {
+      console.log("SSE error", error);
+      eventSource.close();
+    }
+
+    return () => {
+      eventSource.close();
+    };    
+  }
+
   const handlePageClick = (e) => {
     setCurrentPage(e.target.value);
   };
@@ -62,6 +83,7 @@ export default function AuctionItemsPage() {
 
   useEffect(() => {
     fetchCommunityInfo();
+    displayWinningBidMessage();
   }, [])
 
   useEffect(() => {
@@ -73,9 +95,13 @@ export default function AuctionItemsPage() {
       <div className='auctionItems_title'>
         <GodoTitelLabe text={communityInfo.name} />
       </div>
-      
+
+      <div className={`message_container ${disply ? "disply" : ""}`}>
+        <div className='message_text'>"으아아아 으아아아 으아아아 낙찰찰 차라라라라라랄"</div>
+      </div>
+
       <div className='autionItems_sortOption'>
-        <RoundButton options={sortOptions} onChange={handleSortChange}/>
+        <RoundButton options={sortOptions} onChange={handleSortChange} />
       </div>
 
       <div className='auctionItems_cardItems_container'>
