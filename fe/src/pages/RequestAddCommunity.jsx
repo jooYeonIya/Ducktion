@@ -1,60 +1,22 @@
-import React, { useState } from 'react';
+import PostForm from '../components/PostForm'; // css 임포트
+import React from 'react';
 
-const RequestAddCommunity = ({ onSubmit }) => {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+const RequestAddCommunity = ({  }) => {
+  const onsubmit = () => {
+  }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!title && !content) {
-            alert('커뮤니티 이름과 개설 요청 이유를 입력해주세요.'); 
-        } else if (!title) {
-            alert('커뮤니티 이름을 입력해주세요.'); 
-        } else if (!content) {
-            alert('커뮤니티 개설 요청 이유를 입력해주세요.'); 
-        } else {
-            onSubmit({ title, content });
-            setTitle(''); 
-            setContent(''); 
-        }
-    };
-
-    const handleCancel = () => {
-        setTitle(''); // 제목 필드 초기화
-        setContent(''); // 내용 필드 초기화
-    };
-    
-    return (
-        <form onSubmit={handleSubmit}>
-            <h1>
-                <title>출품 상품 삭제 요청</title>
-            </h1>
-            <div>
-                <label htmlFor="title">커뮤니티 이름</label>
-                <input
-                    type="text"
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="커뮤니티 이름을 입력해주세요 (30자)" 
-                    required
-                    maxLength={30} // 최대 글자 수 제한
-                />
-            </div>
-            <div>
-                <label htmlFor="content">개설 요청 이유</label>
-                <textarea
-                    id="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    placeholder="개설 요청 이유를 입력해주세요" 
-                    required
-                />
-            </div>
-            <button type="submit">확인</button>
-            <button type="button" onClick={handleCancel}>취소</button>
-        </form>
-    );
+  return (
+    <div className="post-form-container">
+      <GodoTitleLabel> 커뮤니티 개설 요청 </GodoTitleLabel>
+      <PostForm 
+        onSubmit={onsubmit} // PostForm에 onSubmit 전달
+        titlePlaceholder="커뮤니티 이름을 입력해주세요 (30자 이내)" 
+        contentPlaceholder="개설 요청 이유를 입력해주세요"
+        titleLabel="커뮤니티 이름"
+        contentLabel="개설 요청 이유"
+      />
+    </div>
+  );
 };
 
 export default RequestAddCommunity;
