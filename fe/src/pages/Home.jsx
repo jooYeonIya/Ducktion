@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getPopularCategories, getClosingSoonItems, getMastersCollectorsRare } from '../services/itemsService'
+import { getClosingSoonItems, getMastersCollectorsRare } from '../services/itemsService'
+import { getPopularCommunities } from '../services/communityService'
 import IconPlusLabel from '../components/Labels/IconPlusLabel'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import '@styles/pages/Home.css'
@@ -12,7 +13,7 @@ export default function Home() {
 
   const fetchPopularCategories = async () => {
     try {
-      const data = await getPopularCategories();
+      const data = await getPopularCommunities();
       setCategories(data);
     } catch (error) {
       console.error("Failed", error);
