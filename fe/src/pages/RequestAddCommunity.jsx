@@ -13,8 +13,8 @@ const RequestAddCommunity = () => {
   };
 
   return (
-    <div className="post-form-container">
-      <GodoTitleLabel text="커뮤니티 개설 요청" />
+  <div className="post-form-container">
+    <GodoTitleLabel text="커뮤니티 개설 요청" />
       <PostForm 
         onSubmit={onsubmit} // PostForm에 onSubmit 전달
         titlePlaceholder="커뮤니티 이름을 입력해주세요 (30자 이내)" 
@@ -22,7 +22,7 @@ const RequestAddCommunity = () => {
         titleLabel="커뮤니티 이름"
         contentLabel="개설 요청 이유"
       />
-    </div>
+  </div>
   );
 };
 
