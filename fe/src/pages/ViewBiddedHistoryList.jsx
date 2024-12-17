@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import RoundButton from '../components/Button/RoundButton'
-import DateNavigator from '../components/DateNavigator';
+import DateNavigator from '../components/DateNavigator'
+import CardItemsList from '../components/ItemCard/ItemCardList'
+import { getBiddedHistory } from '../services/itemsService'
 
 export default function ViewBiddedHistoryList() {
   const sortOptions = [
@@ -11,14 +13,42 @@ export default function ViewBiddedHistoryList() {
     { value: "bidded", title: "낙찰" },
     { value: "biddedCancel", title: "유찰" },
   ];
-  
-  const [sortOption, setSortOption] = useState(sortOptions[0].value);
-  
+
   const location = useLocation();
+  const sortType = location.state.sortType;
+
+  const [selectedSortOption, setSelectedSortOption] = useState(sortType);
+  const [biddedHistory, setBiddedHistory] = useState([]);
+  const [selectedDate, setSelectedDate] = useState({
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+  });
+
+  const fetchBiddedHisory = async () => {
+    const biddedHistoryRequest = {
+      sortType: selectedSortOption,
+      date: selectedDate
+    }
+
+    try {
+      const data = await getBiddedHistory(biddedHistoryRequest);
+      setBiddedHistory(data);
+    } catch (error) {
+      console.error("Failed", error);
+    }
+  };
 
   const handleSortChange = (value) => {
-    setSortOption(value);
+    setSelectedSortOption(value);
   }
+
+  const handleDateChange = (year, month) => {
+    setSelectedDate({ year, month });
+  };
+
+  useEffect(() => {
+    fetchBiddedHisory();
+  }, [selectedSortOption, selectedDate])
 
   return (
     <>
@@ -27,13 +57,17 @@ export default function ViewBiddedHistoryList() {
       </div>
 
       <div className='biddedHistoryList_date'>
-        <DateNavigator />
+        <DateNavigator onDateChange={handleDateChange}/>
       </div>
 
-      <div className='biddedHistoryLis_sortOption_container'>
-        <div className='biddedHistoryLis_sortOption'>
-          <RoundButton options={sortOptions} onChange={handleSortChange} />
+      <div className='biddedHistoryList_sortOption_container'>
+        <div className='biddedHistoryList_sortOption'>
+          <RoundButton options={sortOptions} onChange={handleSortChange} selectedOption={selectedSortOption} />
         </div>
+      </div>
+
+      <div className='biddedHistoryList_cardItems'>
+        <CardItemsList itemList={biddedHistory} />
       </div>
     </>
   )

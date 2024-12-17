@@ -5,11 +5,17 @@ import PreCaptionLabel from "../components/Labels/PreCaptionLabel";
 import '@styles/pages/ViewMypage.css'
 
 export default function ViewMypage() {
+  const biddedSortOptions = [
+    { value: "all", title: "전체" },
+    { value: "bidding", title: "입찰중" },
+    { value: "bidded", title: "낙찰" },
+    { value: "biddedCancel", title: "유찰" },
+  ];
 
   const navigate = useNavigate();
 
   const handleBiddedItem = () => {
-    navigate('/viewBiddedHistoryList')  
+    navigate('/viewBiddedHistoryList', {state: {sortType: biddedSortOptions[1].value} })  
   }
 
   const handleFavoriteItem = () => {

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PreTitleLabel from '../components/Labels/PreTitleLabel'
 
 import '@styles/components/DateNavigator.css'
 
-export default function DateNavigator() {
+export default function DateNavigator( {onDateChange} ) {
   const [currentDate, setCurrentDate] = useState({
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1
@@ -22,6 +22,12 @@ export default function DateNavigator() {
       return newMonth > 12 ? { year: preDate.year + 1, month: 1 } : { ...preDate, month: newMonth }
     })
   }
+
+  useEffect(() => {
+    if (onDateChange) {
+      onDateChange(currentDate.year, currentDate.month);
+    }
+  }, [currentDate]);
 
   return (
     <div>
