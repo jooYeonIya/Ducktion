@@ -1,0 +1,9 @@
+.auctionItems_cardItems_container, .autionItems_sortOption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.auctionItems_cardItems_item {
+  width: calc((1024px - (20px * 3)) / 4); 
+}

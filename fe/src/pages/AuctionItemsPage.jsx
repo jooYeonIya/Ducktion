@@ -1,15 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getCommunityInfo } from '../services/communityService';
+import { getCommunityInfo } from '../services/communityService'
+import { getItemsByCommunityId } from '../services/itemsService'
 import GodoTitelLabe from '../components/Labels/GodoTitleLabel'
+import ItemCard from '../components/ItemCard/ItemCard'
+import RoundButton from '../components/Button/RoundButton'
+
+import '@styles/pages/AuctionItemsPage.css'
 
 // DT-01-02 출품 상품 목록 보기
 export default function AuctionItemsPage() {
+  const sortOptions = [
+    { value: "latest", title: "최신순" },
+    { value: "price_desc", title: "고가순" },
+    { value: "price_asc", title: "저가순" },
+  ];
+
   const [communityInfo, setCommunityInfo] = useState('');
+  const [auctionItems, setAuctionItems] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPageCount, setTotalPageCount] = useState(0);
+  const [sortOption, setSortOption] = useState(sortOptions[0].value);
+
   const location = useLocation();
   const communityId = location.state.communityId;
 
-  const fetchCommunityInfo = async() => {
+  const fetchCommunityInfo = async () => {
     try {
       const data = await getCommunityInfo(communityId);
       setCommunityInfo(data);
@@ -18,13 +35,61 @@ export default function AuctionItemsPage() {
     }
   }
 
+  const fetchAuctionItems = async () => {
+    const acutionItemsReques = {
+      currentPage,
+      communityId,
+      sortOption
+    };
+
+    try {
+      const data = await getItemsByCommunityId(acutionItemsReques);
+      setAuctionItems(data);
+      setTotalPageCount(data.totalPageCount);
+    } catch (error) {
+      console.error("Faild", error);
+    }
+  }
+
+  const handlePageClick = (e) => {
+    setCurrentPage(e.target.value);
+  };
+
+  const handleSortChange = (value) => {
+    setSortOption(value);
+    setCurrentPage(0);
+  };
+
   useEffect(() => {
     fetchCommunityInfo();
   }, [])
-  
+
+  useEffect(() => {
+    fetchAuctionItems();
+  }, [currentPage, sortOption])
+
   return (
     <>
-      <GodoTitelLabe text={communityInfo.name} />
+      <div className='auctionItems_title'>
+        <GodoTitelLabe text={communityInfo.name} />
+      </div>
+      
+      <div className='autionItems_sortOption'>
+        <RoundButton options={sortOptions} onChange={handleSortChange}/>
+      </div>
+
+      <div className='auctionItems_cardItems_container'>
+        {auctionItems && auctionItems.map((item, index) => (
+          <div className='auctionItems_cardItems_item' key={index}>
+            <ItemCard key={index} data={item} />
+          </div>
+        ))}
+      </div>
+
+      <div className='auctionItems_pagination'>
+        <p>페이지 네이션 부분 어떤 라이브러리를 사용할지 선택</p>
+        <button onClick={handlePageClick} value={100}>페이지네이션</button>
+      </div>
     </>
   )
 }
