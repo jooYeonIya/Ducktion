@@ -1,13 +1,9 @@
-.home_main_image img {
-  width: 1024px;
-}
-
-.home_cardItems_container {
+.communityList {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
 
-.home_cardItems_item {
+.communityList_item {
   width: calc((1024px - (12px * 4)) / 5); 
 }
