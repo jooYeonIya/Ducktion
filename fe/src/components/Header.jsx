@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import IconPlusLabel from './Labels/IconPlusLabel'
-import CustomTextField from './CustomTextField'
+import SearchTextField from './SearchTextField'
 
 import '@styles/components/HeaderFooter.css'
 
@@ -61,7 +61,7 @@ export default function Header() {
         <IconPlusLabel icon={'/src/assets/duck.png'} text={'덕션'} />
       </div>
       <div className='header_container_searchField'>
-        <CustomTextField placeholder={'검색어 입력하시든가 말든가'} />
+        <SearchTextField placeholder={'검색어 입력하시든가 말든가'} />
       </div>
       <div className='header_container_options'>
         {options.map((item, index) => (

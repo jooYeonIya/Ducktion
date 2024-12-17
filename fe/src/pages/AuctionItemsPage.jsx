@@ -6,6 +6,7 @@ import GodoTitelLabe from '../components/Labels/GodoTitleLabel'
 import ItemCard from '../components/ItemCard/ItemCard'
 import RoundButton from '../components/Button/RoundButton'
 import RectangleButton from '../components/Button/RectangleButton'
+import SearchTextField from '../components/SearchTextField'
 
 import '@styles/pages/AuctionItemsPage.css'
 
@@ -23,6 +24,7 @@ export default function AuctionItemsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [sortOption, setSortOption] = useState(sortOptions[0].value);
+  const [searchText, setSearchText] = useState('');
 
   const [message, setMessage] = useState('');
   const [disply, setDisplay] = useState(false);
@@ -41,14 +43,15 @@ export default function AuctionItemsPage() {
   }
 
   const fetchAuctionItems = async () => {
-    const acutionItemsReques = {
+    const acutionItemsRequest = {
       currentPage,
       communityId,
-      sortOption
+      sortOption,
+      searchText
     };
 
     try {
-      const data = await getItemsByCommunityId(acutionItemsReques);
+      const data = await getItemsByCommunityId(acutionItemsRequest);
       setAuctionItems(data);
       setTotalPageCount(data.totalPageCount);
     } catch (error) {
@@ -83,6 +86,11 @@ export default function AuctionItemsPage() {
     setCurrentPage(0);
   };
 
+  const handleSearch = (value) => {
+    setSearchText(value);
+    setCurrentPage(0);
+  }
+
   const handleRegistItemButton = () => {
     navigate('/registItem')
   }
@@ -94,7 +102,7 @@ export default function AuctionItemsPage() {
 
   useEffect(() => {
     fetchAuctionItems();
-  }, [currentPage, sortOption])
+  }, [currentPage, sortOption, searchText])
 
   return (
     <>
@@ -126,6 +134,10 @@ export default function AuctionItemsPage() {
       <div className='auctionItems_pagination'>
         <p>페이지 네이션 부분 어떤 라이브러리를 사용할지 선택</p>
         <button onClick={handlePageClick} value={100}>페이지네이션</button>
+      </div>
+
+      <div className='auctionItems_searchTextField'>
+        <SearchTextField placeholder={"검색어를 입력하지 않았으면.."} onSearch={handleSearch} />
       </div>
     </>
   )

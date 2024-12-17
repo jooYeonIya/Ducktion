@@ -49,9 +49,9 @@ export async function getMastersCollectorsRare() {
 }
 
 // 출품 상품 목록
-export async function getItemsByCommunityId(acutionItemsReques) {
+export async function getItemsByCommunityId(acutionItemsRequest) {
   try {
-    // const response = await axios.get("http://localhost:8080/api/items/auction", acutionItemsReques);
+    // const response = await axios.get("http://localhost:8080/api/items/auction", acutionItemsRequest);
     // return response.data;
     const data = [];
     for (let i = 0; i < 10; i++) {
