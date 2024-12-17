@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getCommunityInfo } from '../services/communityService'
 import { getItemsByCommunityId } from '../services/itemsService'
-import GodoTitelLabe from '../components/Labels/GodoTitleLabel'
+import GodoTitleLabe from '../components/Labels/GodoTitleLabel'
 import ItemCard from '../components/ItemCard/ItemCard'
 import RoundButton from '../components/Button/RoundButton'
 import RectangleButton from '../components/Button/RectangleButton'
@@ -107,7 +107,7 @@ export default function ViewItemList() {
   return (
     <>
       <div className='auctionItems_title'>
-        <GodoTitelLabe text={communityInfo.name} />
+        <GodoTitleLabe text={communityInfo.name} />
       </div>
 
       <div className={`message_container ${disply ? "disply" : ""}`}>
