@@ -5,12 +5,19 @@ import { getItemSearchResults } from '../services/itemsService'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import CommunityList from '../components/CommunityList'
 import CardItemsList from '../components/ItemCard/ItemCardList'
+import RoundButton from '../components/Button/RoundButton'
 
 import '@styles/pages/ViewSearchResult.css'
 
 export default function ViewSearchResult() {
+  const options = [
+    { value: "community", title: "커뮤니티" },
+    { value: "item", title: "출품 상품" }
+  ];
+
   const [communities, setCommunities] = useState([]);
   const [items, setItems] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(options[0].value); 
 
   const location = useLocation();
   const searchText = location.state.searchText;
@@ -25,6 +32,10 @@ export default function ViewSearchResult() {
     setItems(data);
   }
 
+  const handleOptionChange = (value) => {
+    setSelectedOption(value);
+  }
+
   useEffect(() => {
     fetchCommunitySearchResults();
     fetchItemSearchResults();
@@ -36,13 +47,23 @@ export default function ViewSearchResult() {
         <GodoTitleLabel text={"검색 결과"} />
       </div>
 
-      <div className='viewSearchResult_community_container'>
-        <CommunityList title={"커뮤니티"} communityList={communities} />
+      <div className='autionItems_sortOption_container'>
+        <div className='autionItems_sortOption'>
+          <RoundButton options={options} onChange={handleOptionChange} />
+        </div>
       </div>
 
-      <div className='viewSearchResult_item_container'>
-        <CardItemsList title={"출품 상품"} itemList={items} />
-      </div>
+      {selectedOption === "community" && (
+        <div className="viewSearchResult_community_container">
+          <CommunityList title={"커뮤니티"} communityList={communities} />
+        </div>
+      )}
+
+      {selectedOption === "item" && (
+        <div className="viewSearchResult_item_container">
+          <CardItemsList title={"출품 상품"} itemList={items} />
+        </div>
+      )}
     </>
   )
 }
