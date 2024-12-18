@@ -9,13 +9,10 @@ import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
 
 const ViewMyInfo = () => {
   const location = useLocation();
-
-  const { nickname, phoneNumber, address } = location.state || {
-    
-  };
+  const { nickname, phoneNumber, address } = location.state || {};
 
   const [nicknameNew, setNicknameNew] = useState(nickname);
-  const [phoneNumberNew, setPhoneNumberNew] = useState(phoneNumber);
+  const [phoneNumberNew, setPhoneNumberNew] = useState(phoneNumber.replace(/-/g, '')); // 하이픈 제거
   const [addressNew, setAddressNew] = useState(address);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -25,51 +22,36 @@ const ViewMyInfo = () => {
 
   const handleSave = () => {
     if (!nicknameNew || !phoneNumberNew || !addressNew) {
-      window.alert('모든 필드를 채워주세요.'); // 오류 메시지 alert
+      window.alert('모든 필드를 채워주세요.'); // window.alert로 변경
       return;
     }
 
-    if (phoneNumberNew.replace(/-/g, '').length !== 11) {
-      window.alert('전화번호는 11자리여야 합니다.'); // 오류 메시지 alert
+    if (phoneNumberNew.length !== 11) { // 하이픈 없이 11자리 확인
+      window.alert('전화번호는 11자리여야 합니다.'); // window.alert로 변경
       return;
     }
 
-    if (!validatePhoneNumber(phoneNumberNew)) {
-      window.alert('전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)'); // 오류 메시지 alert
-      return;
-    }
+    // 저장하기 전에 하이픈 추가
+    const formattedPhoneNumber = `${phoneNumberNew.slice(0, 3)}-${phoneNumberNew.slice(3, 7)}-${phoneNumberNew.slice(7)}`;
+    setPhoneNumberNew(formattedPhoneNumber); // 전화번호 상태 업데이트
 
-    // 수정된 정보를 저장하기 전에 사용자에게 확인 요청
     const confirmSave = window.confirm("저장하시겠습니까?");
     if (!confirmSave) {
-      return; // 사용자가 취소하면 함수 종료
+      return;
     }
 
-    // 에러가 없을 경우
     setIsEditing(false);
-    window.alert('저장되었습니다!'); // 성공 알림
-    // 추가적인 저장 로직을 여기에 구현
-  };
-
-  const validatePhoneNumber = (number) => {
-    const regex = /^\d{3}-\d{4}-\d{4}$/; // 전화번호 형식
-    return regex.test(number);
+    window.alert('저장되었습니다!'); // window.alert로 변경
   };
 
   const handlePhoneChange = (e) => {
-    const value = e.target.value.replace(/[^\d]/g, ''); // 숫자만 남기기
-    if (value.length > 11) return; // 11자리값 입력 시 종료
+    const inputValue = e.target.value;
+    const digitsOnly = inputValue.replace(/[^\d]/g, ''); // 숫자만 남기기
 
-    let formattedValue = '';
-    if (value.length > 6) {
-      formattedValue = `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7)}`;
-    } else if (value.length > 3) {
-      formattedValue = `${value.slice(0, 3)}-${value.slice(3)}`;
-    } else {
-      formattedValue = value;
-    }
+    // 최대 11자리 숫자만 허용
+    if (digitsOnly.length > 11) return;
 
-    setPhoneNumberNew(formattedValue); // 상태 업데이트
+    setPhoneNumberNew(digitsOnly); // 상태 업데이트
   };
 
   return (
@@ -116,7 +98,7 @@ const ViewMyInfo = () => {
               className="searchTextField_input"
             />
           ) : (
-            <span>{phoneNumberNew}</span>
+            <span>{phoneNumberNew.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}</span> // 하이픈 추가하여 표시
           )}
         </div>
       </div>
@@ -139,7 +121,6 @@ const ViewMyInfo = () => {
       </div>
       <HorizontalRule type="hr2" />
 
-      {alert && <p style={{ color: 'red' }}>{alert}</p>} {/* 오류 메시지 표시 */}
       <div>
         <RectangleButton text={isEditing ? "저장" : "변경"} onClick={isEditing ? handleSave : handleEditToggle} />
       </div>
@@ -147,4 +128,4 @@ const ViewMyInfo = () => {
   );
 };
 
-export default ViewMyInfo;
+export default ViewMyInfo; 
