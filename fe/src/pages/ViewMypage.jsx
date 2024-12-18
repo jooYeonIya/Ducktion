@@ -3,6 +3,8 @@ import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreCaptionLabel from "../components/Labels/PreCaptionLabel";
 import RectangleButton from "../components/Button/RectangleButton"
 import GodoSubTitleLabel from "../components/Labels/GodoSubTitleLabel"
+import PreTitleLabel from "../components/Labels/PreTitleLabel"
+import IconPlusLabelColumn from "../components/Labels/IconPlusLabelColumn"
 
 import '@styles/pages/ViewMypage.css'
 import ProfileImage from "../components/ProfileImage";
@@ -64,7 +66,25 @@ export default function ViewMypage() {
         </div>
         <RectangleButton text='프로필 관리' />
       </div>
-      
+      <div className='rate_container'>
+        <div className='rate_items'>
+          <div className='rate_item'>
+            <IconPlusLabelColumn icon={"src/assets/rate.png"} text={"내 점수"} />
+            <PreTitleLabel text={"58점"}/>
+          </div>
+          <hr/>
+          <div className='rate_item'>
+            <IconPlusLabelColumn icon={"src/assets/heldBid.png"} text={"보유 비드"} />
+            <PreTitleLabel text={"58점"}/>
+          </div>
+          <hr/>
+          <div className='rate_item'>
+            <IconPlusLabelColumn icon={"src/assets/usableBiid.png"} text={"사용 가능 비드"} />
+            <PreTitleLabel text={"58점"}/>
+          </div>
+        </div>
+      </div>
+
       <div className='biddingItem_container'>
         <div className='biddingItem_container_title'>
           <GodoTitleLabel text={"입찰 이력"} />

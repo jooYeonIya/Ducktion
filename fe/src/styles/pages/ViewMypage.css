@@ -21,21 +21,27 @@
 }
 
 /* 내 점수, 비드 */
-.score_container {
+.rate_container {
   display: flex;
   justify-content: space-between;
   margin: 80px 0;
 }
 
-.score_items {
-  display: flex;
-  justify-content: space-evenly;
-  text-align: center;
+.rate_items {
+  display: flex; 
   border: 1px solid #bebebe;
-  flex: 1;
   border-radius: 20px;
+  padding: 32px 54px;
+  width: 100%;
 }
 
+.rate_item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  gap: 20px;
+}
 
 /* 관심 상품 */
 .favoriteItem_container_title{
