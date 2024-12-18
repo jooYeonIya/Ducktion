@@ -5,8 +5,18 @@ import PreCaptionLabel from "../components/Labels/PreCaptionLabel";
 import '@styles/pages/ViewMypage.css'
 
 export default function ViewMypage() {
+  const biddedSortOptions = [
+    { value: "all", title: "전체" },
+    { value: "bidding", title: "입찰중" },
+    { value: "bidded", title: "낙찰" },
+    { value: "biddedCancel", title: "유찰" },
+  ];
 
   const navigate = useNavigate();
+
+  const handleBiddedItem = () => {
+    navigate('/viewBiddedHistoryList', {state: {sortType: biddedSortOptions[1].value} })  
+  }
 
   const handleFavoriteItem = () => {
     const data = [];
@@ -27,6 +37,13 @@ export default function ViewMypage() {
   return (
     <>
       <GodoTitleLabel text={"마이페이지"} />
+
+      <div className='biddedItem_container'>
+        <div className='biddedItem_container_title'>
+          <GodoTitleLabel text={"출품 이력"} />
+          <button onClick={handleBiddedItem}><PreCaptionLabel text={"출품 이력"} /></button>
+        </div>
+      </div>
 
       <div className='favoriteItem_container'>
         <div className='favoriteItem_container_title'>

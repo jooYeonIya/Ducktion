@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { getCommunityInfo } from '../services/communityService'
 import { getItemsByCommunityId } from '../services/itemsService'
 import GodoTitleLabe from '../components/Labels/GodoTitleLabel'
-import ItemCard from '../components/ItemCard/ItemCard'
+import CardItemsList from '../components/ItemCard/ItemCardList'
 import RoundButton from '../components/Button/RoundButton'
 import RectangleButton from '../components/Button/RectangleButton'
 import SearchTextField from '../components/SearchTextField'
@@ -124,11 +124,7 @@ export default function ViewItemList() {
       </div>
 
       <div className='auctionItems_cardItems_container'>
-        {auctionItems && auctionItems.map((item, index) => (
-          <div className='auctionItems_cardItems_item' key={index}>
-            <ItemCard key={index} data={item} />
-          </div>
-        ))}
+        <CardItemsList itemList={auctionItems} />
       </div>
 
       <div className='auctionItems_pagination'>
