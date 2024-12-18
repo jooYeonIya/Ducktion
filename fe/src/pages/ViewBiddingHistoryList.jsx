@@ -1,9 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getBiddingHistory } from '../services/itemsService';
+import { getBiddingHistory } from '../services/itemsService'
 import RoundButton from '../components/Button/RoundButton'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import DateNavigator from '../components/DateNavigator'
+import ItemCardRow from '../components/ItemCard/ItemCardRow'
+import BiddingHistoryList from '../components/BiddingHistoryList'
+import RectangleButton from '../components/Button/RectangleButton'
+
+import '@styles/pages/ViewBiddingHistory.css'
 
 export default function ViewBiddingHistoryList() {
   const sortOptions = [
@@ -64,6 +69,23 @@ export default function ViewBiddingHistoryList() {
           <RoundButton options={sortOptions} onChange={handleSortChange} selectedOption={selectedSortOption} />
         </div>
       </div>
+
+      {biddingHistory.map((item, index) => (
+        <div className='biddingHistoryList_item_container'>
+          <div className='biddingHistoryList_item_info'>
+            <ItemCardRow
+              image={item.info.image}
+              texts={[item.info.name, item.info.biddingCount, item.info.rareTier]} />
+          </div>
+          <div className='biddingHistoryList_item_histories'>
+            <BiddingHistoryList histories={item.histories} />
+          </div>
+          <div className='biddingHistoryList_item_buttons'>
+            <RectangleButton text={"배송 번호 조회"} />
+            <RectangleButton text={"출품자 평가"} />
+          </div>
+        </div>
+      ))}
     </>
   )
 }

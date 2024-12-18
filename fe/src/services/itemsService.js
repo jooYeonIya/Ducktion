@@ -105,13 +105,24 @@ export async function getBiddingHistory(biddingHistoryRequest) {
     const data = [];
     for (let i = 0; i < 10; i++) {
       data.push({
-        communityId: i,
-        image: "/src/assets/test_image.png",
-        favorited: i%2 == 0,
-        name: `${biddingHistoryRequest.sortType} ${biddingHistoryRequest.date.year} 상품`,
-        priceInfo: null,
-        additionalInfo: null,
-        overlayText: false
+        info: {
+          communityId: 1,
+          image: "/src/assets/test_image.png",
+          favorited: true,
+          name: "1 검색어 상품",
+          biddingCount: "1111",
+          rareTier: "레어"
+        },
+        histories: [
+          {
+            date: "4444년 44월 323일",
+            price: "10000비드"
+          },
+          {
+            date: "1111년 22월 333일",
+            price: "120000비드"
+          }
+        ]
       });
     }
     return data;
