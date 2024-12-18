@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { getBiddedHistory } from '../services/itemsService'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import RoundButton from '../components/Button/RoundButton'
 import DateNavigator from '../components/DateNavigator'
-import CardItemsList from '../components/ItemCard/ItemCardList'
-import { getBiddedHistory } from '../services/itemsService'
+import ItemCard from '../components/ItemCard/ItemCard'
+
+import '@styles/pages/ViewBiddedHistory.css'
+import RectangleButton from '../components/Button/RectangleButton'
 
 export default function ViewBiddedHistoryList() {
   const sortOptions = [
@@ -57,7 +60,7 @@ export default function ViewBiddedHistoryList() {
       </div>
 
       <div className='biddedHistoryList_date'>
-        <DateNavigator onDateChange={handleDateChange}/>
+        <DateNavigator onDateChange={handleDateChange} />
       </div>
 
       <div className='biddedHistoryList_sortOption_container'>
@@ -67,7 +70,18 @@ export default function ViewBiddedHistoryList() {
       </div>
 
       <div className='biddedHistoryList_cardItems'>
-        <CardItemsList itemList={biddedHistory} />
+        {biddedHistory && biddedHistory.map((item, index) => (
+          <div className='biddedHistoryList_cardItems_item' key={index}>
+            <ItemCard key={index} data={item} />
+            <div className='biddedHistoryList_cardItems_bottons'>
+              <RectangleButton text={"수정"}/>
+              <RectangleButton text={"삭제"}/>
+            </div>
+            <div className='biddedHistoryList_cardItems_botton'>
+                <RectangleButton text={"배송 번호 입력"} />
+            </div>
+          </div>
+        ))}
       </div>
     </>
   )
