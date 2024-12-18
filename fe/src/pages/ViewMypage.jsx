@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
-import PreCaptionLabel from "../components/Labels/PreCaptionLabel";
+import GodoTitleLabel from "../components/Labels/GodoTitleLabel"
+import PreCaptionLabel from "../components/Labels/PreCaptionLabel"
 import RectangleButton from "../components/Button/RectangleButton"
 import GodoSubTitleLabel from "../components/Labels/GodoSubTitleLabel"
 import PreTitleLabel from "../components/Labels/PreTitleLabel"
@@ -8,20 +8,21 @@ import IconPlusLabelColumn from "../components/Labels/IconPlusLabelColumn"
 
 import '@styles/pages/ViewMypage.css'
 import ProfileImage from "../components/ProfileImage";
+import Historybox from "../components/Historybox";
 
 export default function ViewMypage() {
   const biddedSortOptions = [
-    { value: "all", title: "전체" },
-    { value: "bidding", title: "입찰중" },
-    { value: "bidded", title: "낙찰" },
-    { value: "biddedCancel", title: "유찰" },
+    { value: "all", title: "전체", count: 0},
+    { value: "bidding", title: "입찰중", count: 0 },
+    { value: "bidded", title: "낙찰", count: 0 },
+    { value: "biddedCancel", title: "유찰", count: 0 },
   ];
 
   const biddingSortOptions = [
-    { value: "all", title: "전체" },
-    { value: "bidding", title: "입찰중" },
-    { value: "bidded", title: "낙찰" },
-    { value: "biddedFail", title: "패찰" },
+    { value: "all", title: "전체", count: 0 },
+    { value: "bidding", title: "입찰중", count: 0 },
+    { value: "bidded", title: "낙찰", count: 0 },
+    { value: "biddedFail", title: "패찰", count: 0 },
   ];
 
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ export default function ViewMypage() {
         </div>
         <RectangleButton text='프로필 관리' />
       </div>
+
       <div className='rate_container'>
         <div className='rate_items'>
           <div className='rate_item'>
@@ -88,15 +90,15 @@ export default function ViewMypage() {
       <div className='biddingItem_container'>
         <div className='biddingItem_container_title'>
           <GodoTitleLabel text={"입찰 이력"} />
-          <button onClick={handleBiddingItem}><PreCaptionLabel text={"입찰 이력"} /></button>
         </div>
+        <Historybox items={biddingSortOptions} />
       </div>
 
       <div className='biddedItem_container'>
         <div className='biddedItem_container_title'>
           <GodoTitleLabel text={"출품 이력"} />
-          <button onClick={handleBiddedItem}><PreCaptionLabel text={"출품 이력"} /></button>
         </div>
+        <Historybox items={biddedSortOptions} />
       </div>
 
       <div className='favoriteItem_container'>

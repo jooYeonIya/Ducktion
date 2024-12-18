@@ -6,7 +6,7 @@
   border: 1px solid #bebebe;
   border-radius: 20px;
   padding: 24px 52px;
-  margin: 80px 0;
+  margin-top: 20px;
 }
 
 .profile_info_section {
@@ -24,7 +24,7 @@
 .rate_container {
   display: flex;
   justify-content: space-between;
-  margin: 80px 0;
+  margin-top: 20px;
 }
 
 .rate_items {
@@ -41,6 +41,15 @@
   align-items: center;
   justify-content: center; 
   gap: 20px;
+}
+
+/* 입찰 이력 & 출품 이력 */
+.biddingItem_container, .biddedItem_container {
+  margin: 40px 0;
+}
+
+.biddingItem_container_title, .biddedItem_container_title {
+  padding-bottom: 20px;
 }
 
 /* 관심 상품 */
