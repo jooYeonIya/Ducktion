@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreCaptionLabel from "../components/Labels/PreCaptionLabel";
+import RectangleButton from "../components/Button/RectangleButton"
+import GodoSubTitleLabel from "../components/Labels/GodoSubTitleLabel"
 
 import '@styles/pages/ViewMypage.css'
+import ProfileImage from "../components/ProfileImage";
 
 export default function ViewMypage() {
   const biddedSortOptions = [
@@ -22,11 +25,11 @@ export default function ViewMypage() {
   const navigate = useNavigate();
 
   const handleBiddedItem = () => {
-    navigate('/viewBiddedHistoryList', {state: {sortType: biddedSortOptions[1].value} })  
+    navigate('/viewBiddedHistoryList', { state: { sortType: biddedSortOptions[1].value } })
   }
 
   const handleBiddingItem = () => {
-    navigate('/viewBiddingHistoryList', {state: {sortType: biddingSortOptions[1].value} })  
+    navigate('/viewBiddingHistoryList', { state: { sortType: biddingSortOptions[1].value } })
   }
 
   const handleFavoriteItem = () => {
@@ -35,20 +38,33 @@ export default function ViewMypage() {
       data.push({
         communityId: i,
         image: "/src/assets/test_image.png",
-        favorited: i%2 == 0,
+        favorited: i % 2 == 0,
         name: `${i} 상품`,
-        priceInfo: {price: i*10000, type: ""},
+        priceInfo: { price: i * 10000, type: "" },
         additionalInfo: null,
         overlayText: false
       });
     }
-    navigate('/viewFavoriteItemList', { state: {items: data} })  
+    navigate('/viewFavoriteItemList', { state: { items: data } })
   }
-  
+
   return (
     <>
       <GodoTitleLabel text={"마이페이지"} />
 
+      <div className='profile_container'>
+        <div className='profile_info_section'>
+          <div className='profile_image'>
+            <ProfileImage imageUrl={"/src/assets/duck.png"} />
+          </div>
+          <div className='profile_info'>
+            <GodoSubTitleLabel text={"닉네임"} />
+            <GodoSubTitleLabel text={"이메일"} />
+          </div>
+        </div>
+        <RectangleButton text='프로필 관리' />
+      </div>
+      
       <div className='biddingItem_container'>
         <div className='biddingItem_container_title'>
           <GodoTitleLabel text={"입찰 이력"} />
