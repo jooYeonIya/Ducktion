@@ -11,40 +11,43 @@ const ViewMyInfo = () => {
   const location = useLocation();
 
   const { nickname, phoneNumber, address } = location.state || {
-    nickname: '덕션잉',
-    phoneNumber: '010-1234-5678',
-    address: '경기도 성남시 성남대로 어딘가.. 나머지는 비~밀',
+    
   };
 
-  const [nicknameState, setNickname] = useState(nickname);
-  const [phoneNumberState, setPhoneNumber] = useState(phoneNumber);
-  const [addressState, setAddress] = useState(address);
+  const [nicknameNew, setNicknameNew] = useState(nickname);
+  const [phoneNumberNew, setPhoneNumberNew] = useState(phoneNumber);
+  const [addressNew, setAddressNew] = useState(address);
   const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState('');
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
-    setError('');
   };
 
   const handleSave = () => {
-    if (!nicknameState || !phoneNumberState || !addressState) {
-      setError('모든 필드를 채워주세요.');
+    if (!nicknameNew || !phoneNumberNew || !addressNew) {
+      window.alert('모든 필드를 채워주세요.'); // 오류 메시지 alert
       return;
     }
 
-    if (phoneNumberState.replace(/-/g, '').length !== 11) {
-      setError('전화번호는 11자리여야 합니다.');
+    if (phoneNumberNew.replace(/-/g, '').length !== 11) {
+      window.alert('전화번호는 11자리여야 합니다.'); // 오류 메시지 alert
       return;
     }
 
-    if (!validatePhoneNumber(phoneNumberState)) {
-      setError('전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)');
+    if (!validatePhoneNumber(phoneNumberNew)) {
+      window.alert('전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)'); // 오류 메시지 alert
       return;
     }
 
-    setError('');
+    // 수정된 정보를 저장하기 전에 사용자에게 확인 요청
+    const confirmSave = window.confirm("저장하시겠습니까?");
+    if (!confirmSave) {
+      return; // 사용자가 취소하면 함수 종료
+    }
+
+    // 에러가 없을 경우
     setIsEditing(false);
+    window.alert('저장되었습니다!'); // 성공 알림
     // 추가적인 저장 로직을 여기에 구현
   };
 
@@ -66,7 +69,7 @@ const ViewMyInfo = () => {
       formattedValue = value;
     }
 
-    setPhoneNumber(formattedValue); // 상태 업데이트
+    setPhoneNumberNew(formattedValue); // 상태 업데이트
   };
 
   return (
@@ -90,12 +93,12 @@ const ViewMyInfo = () => {
           {isEditing ? (
             <input
               type="text"
-              value={nicknameState}
-              onChange={(e) => setNickname(e.target.value)}
+              value={nicknameNew}
+              onChange={(e) => setNicknameNew(e.target.value)}
               className="searchTextField_input"
             />
           ) : (
-            <span>{nicknameState}</span>
+            <span>{nicknameNew}</span>
           )}
         </div>
       </div>
@@ -107,13 +110,13 @@ const ViewMyInfo = () => {
           {isEditing ? (
             <input
               type="text"
-              value={phoneNumberState}
+              value={phoneNumberNew}
               onChange={handlePhoneChange}
-              placeholder="예: 010-1234-5678"
+              placeholder="숫자만 입력해주세요. (01012345678)"
               className="searchTextField_input"
             />
           ) : (
-            <span>{phoneNumberState}</span>
+            <span>{phoneNumberNew}</span>
           )}
         </div>
       </div>
@@ -125,18 +128,18 @@ const ViewMyInfo = () => {
           {isEditing ? (
             <input
               type="text"
-              value={addressState}
-              onChange={(e) => setAddress(e.target.value)}
+              value={addressNew}
+              onChange={(e) => setAddressNew(e.target.value)}
               className="searchTextField_input"
             />
           ) : (
-            <span>{addressState}</span>
+            <span>{addressNew}</span>
           )}
         </div>
       </div>
       <HorizontalRule type="hr2" />
 
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* 오류 메시지 표시 */}
+      {alert && <p style={{ color: 'red' }}>{alert}</p>} {/* 오류 메시지 표시 */}
       <div>
         <RectangleButton text={isEditing ? "저장" : "변경"} onClick={isEditing ? handleSave : handleEditToggle} />
       </div>
