@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import IconPlusLabel from './Labels/IconPlusLabel'
 import SearchTextField from './SearchTextField'
 
@@ -6,6 +7,8 @@ import '@styles/components/HeaderFooter.css'
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
 
   // 토큰 확인
   // 나중에 좀 변경해야할 수 있음 
@@ -35,6 +38,10 @@ export default function Header() {
     setIsLoggedIn(!isLoggedIn)
   };
 
+  const handleSearch = (searchText) => {
+    navigate('/viewSearchResult', { state: {searchText: searchText} })
+  }
+
   const options = [
     {
       icon: "/src/assets/comunity.png",
@@ -61,7 +68,7 @@ export default function Header() {
         <IconPlusLabel icon={'/src/assets/duck.png'} text={'덕션'} />
       </div>
       <div className='header_container_searchField'>
-        <SearchTextField placeholder={'검색어 입력하시든가 말든가'} />
+        <SearchTextField placeholder={'검색어 입력하시든가 말든가'} onSearch={(searchText) => handleSearch(searchText)} />
       </div>
       <div className='header_container_options'>
         {options.map((item, index) => (

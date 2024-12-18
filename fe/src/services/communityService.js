@@ -70,3 +70,22 @@ export async function fetchCommunityList() {
     throw error;
   }
 }
+
+// 통합 검색 페이지 - 커뮤니티 검색 결과
+export async function getCommunitySearchResults(searchText) {
+  try {
+    // const response = await axios.get(`http://localhost:8080/api/communities/result/list/${searchText}`);
+    // return response.data;
+    const data = [];
+    for (let i = 0; i < 10; i++) {
+      data.push({
+        title: `${i} ${searchText}`,
+        isFavorited: i % 2 == 0 ? true : false,
+      });
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error; 
+  }
+}

@@ -87,3 +87,51 @@ export async function createItem(dto) {
   //   throw error; // 에러를 호출한 쪽으로 전달
   // }
 }
+
+// 통합 검색 페이지 - 출품 상품 검색 결과
+export async function getItemSearchResults(searchText) {
+  try {
+    // const response = await axios.get(`http://localhost:8080/api/items/result/list/${searchText}`);
+    // return response.data;
+    const data = [];
+    for (let i = 0; i < 10; i++) {
+      data.push({
+        communityId: i,
+        image: "/src/assets/test_image.png",
+        favorited: i%2 == 0,
+        name: `${i} ${searchText} 상품`,
+        priceInfo: {price: i*10000, type: ""},
+        additionalInfo: null,
+        overlayText: false
+      });
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error; 
+  }
+}
+
+// 출품 이력 페이지
+export async function getBiddedHistory(biddedHistoryRequest) {
+  try {
+    // const response = await axios.get(http://localhost:8080/api/items/biddedhistory, biddedHistoryRequest);
+    // return response.data;
+    const data = [];
+    for (let i = 0; i < 10; i++) {
+      data.push({
+        communityId: i,
+        image: "/src/assets/test_image.png",
+        favorited: i%2 == 0,
+        name: `${biddedHistoryRequest.sortType} ${biddedHistoryRequest.date.year} 상품`,
+        priceInfo: {price: i*10000, type: ""},
+        additionalInfo: null,
+        overlayText: false
+      });
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error; 
+  }
+}
