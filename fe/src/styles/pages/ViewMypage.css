@@ -43,6 +43,14 @@
   gap: 20px;
 }
 
+.rate_item:nth-child(3), 
+.rate_item:nth-child(5),
+.biddingItem_container,
+.biddedItem_container
+{
+  cursor: pointer;
+}
+
 /* 입찰 이력 & 출품 이력 */
 .biddingItem_container, .biddedItem_container {
   margin: 40px 0;
