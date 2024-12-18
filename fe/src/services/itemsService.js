@@ -97,6 +97,30 @@ export async function getItemSearchResults(searchText) {
   }
 }
 
+// 입찰 이력 페이지
+export async function getBiddingHistory(biddingHistoryRequest) {
+  try {
+    // const response = await axios.get(http://localhost:8080/api/items/biddinghistory, biddingHistoryRequest);
+    // return response.data;
+    const data = [];
+    for (let i = 0; i < 10; i++) {
+      data.push({
+        communityId: i,
+        image: "/src/assets/test_image.png",
+        favorited: i%2 == 0,
+        name: `${biddingHistoryRequest.sortType} ${biddingHistoryRequest.date.year} 상품`,
+        priceInfo: null,
+        additionalInfo: null,
+        overlayText: false
+      });
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error; 
+  }
+}
+
 // 출품 이력 페이지
 export async function getBiddedHistory(biddedHistoryRequest) {
   try {
@@ -110,7 +134,7 @@ export async function getBiddedHistory(biddedHistoryRequest) {
         favorited: i%2 == 0,
         name: `${biddedHistoryRequest.sortType} ${biddedHistoryRequest.date.year} 상품`,
         priceInfo: {price: i*10000, type: ""},
-        additionalInfo: null,
+        additionalInfo: "출품 일시: 오늘인지 어제인지 생각 안남",
         overlayText: false
       });
     }

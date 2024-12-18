@@ -12,10 +12,21 @@ export default function ViewMypage() {
     { value: "biddedCancel", title: "유찰" },
   ];
 
+  const biddingSortOptions = [
+    { value: "all", title: "전체" },
+    { value: "bidding", title: "입찰중" },
+    { value: "bidded", title: "낙찰" },
+    { value: "biddedFail", title: "패찰" },
+  ];
+
   const navigate = useNavigate();
 
   const handleBiddedItem = () => {
     navigate('/viewBiddedHistoryList', {state: {sortType: biddedSortOptions[1].value} })  
+  }
+
+  const handleBiddingItem = () => {
+    navigate('/viewBiddingHistoryList', {state: {sortType: biddingSortOptions[1].value} })  
   }
 
   const handleFavoriteItem = () => {
@@ -37,6 +48,13 @@ export default function ViewMypage() {
   return (
     <>
       <GodoTitleLabel text={"마이페이지"} />
+
+      <div className='biddingItem_container'>
+        <div className='biddingItem_container_title'>
+          <GodoTitleLabel text={"입찰 이력"} />
+          <button onClick={handleBiddingItem}><PreCaptionLabel text={"입찰 이력"} /></button>
+        </div>
+      </div>
 
       <div className='biddedItem_container'>
         <div className='biddedItem_container_title'>

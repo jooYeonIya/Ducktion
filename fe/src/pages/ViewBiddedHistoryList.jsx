@@ -56,7 +56,7 @@ export default function ViewBiddedHistoryList() {
   return (
     <>
       <div className='biddedHistoryList_title'>
-        <GodoTitleLabel text={"출력 이력"} />
+        <GodoTitleLabel text={"출품 이력"} />
       </div>
 
       <div className='biddedHistoryList_date'>
