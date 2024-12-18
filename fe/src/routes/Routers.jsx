@@ -8,6 +8,7 @@ import ViewFavoriteItemList from '../pages/ViewFavoriteItemList'
 import ViewMypage from '../pages/ViewMypage'
 import ViewBiddedHistoryList from '../pages/ViewBiddedHistoryList'
 import ViewBiddingHistoryList from '../pages/ViewBiddingHistoryList'
+import RegistItem from '../pages/RegistItem';
 
 export default function Routers() {
   return (
@@ -21,6 +22,7 @@ export default function Routers() {
       <Route path='/viewMypage' element={<ViewMypage/>} />
       <Route path='/viewBiddedHistoryList' element={<ViewBiddedHistoryList/>} />
       <Route path='/viewBiddingHistoryList' element={<ViewBiddingHistoryList/>} />
+      <Route path="/registItem" element={<RegistItem />} />
     </Routes>
   );
 }
