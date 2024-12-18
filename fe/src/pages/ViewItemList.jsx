@@ -109,7 +109,7 @@ export default function ViewItemList() {
       <div className='auctionItems_title'>
         <GodoTitelLabe text={communityInfo.name} />
       </div>
-
+      
       <div className={`message_container ${disply ? "disply" : ""}`}>
         <div className='message_text'>"으아아아 으아아아 으아아아 낙찰찰 차라라라라라랄"</div>
       </div>
