@@ -3,23 +3,26 @@ import { postChargeBidPoint } from '../../services/bidService'
 import { numericInputValidate } from '../../utils/numericInputValidate'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import RectangleButton from '../Button/RectangleButton'
+import DropdownInput from './DropdownInput'
 import BidInputTextField from './BidInputTextField'
 
 import '@styles/components/modal/BidPointModalContent.css'
 
-export default function ChargeBidPointModalContent({ heldBid = 0, usableBid = 0, onClose }) {
+export default function WithdrwalBidPointModalContent({ heldBid = 0, usableBid = 0, onClose }) {
   const [bidPoint, setBidPoint] = useState('');
 
   const handleBidPointChange = (value) => {
     setBidPoint(value); 
   };
 
+  const banks = ["하나은행", "신한은행", "우리은행", "농협", "카카오뱅크"];
+
   const probs = {
     heldBid: heldBid, 
     usableBid: usableBid, 
-    leftTitle: "충전 금액", 
-    rightTitle: "만원", 
-    placeholder: "금액을 입력해 주세요",
+    leftTitle: "현금화 비드", 
+    rightTitle: "비드", 
+    placeholder: "비드를 입력해 주세요",
     onChange: handleBidPointChange
   }
 
@@ -41,8 +44,16 @@ export default function ChargeBidPointModalContent({ heldBid = 0, usableBid = 0,
 
   return (
     <>
-      <GodoTitleLabel text={'비드 충전'} />
+      <GodoTitleLabel text={'비드 현금화'} />
       <BidInputTextField probs={probs} />
+      <div>
+        <DropdownInput
+          dropList={banks}
+          title={'은행 선택'}
+          placeholder={'계좌 번호 - 없이 입력'}
+        />
+      </div>
+
       <div className='bidPointModalContent_buttons'>
         <RectangleButton text="취소" onClick={onClose} />
         <RectangleButton text="확인" onClick={handleSubmit} />
