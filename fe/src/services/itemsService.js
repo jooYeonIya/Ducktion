@@ -197,7 +197,8 @@ export async function getBiddedHistory(biddedHistoryRequest) {
         name: `${biddedHistoryRequest.sortType} ${biddedHistoryRequest.date.year} 상품`,
         priceInfo: {price: i*10000, type: ""},
         additionalInfo: "출품 일시: 오늘인지 어제인지 생각 안남",
-        overlayText: false
+        overlayText: false,
+        itemId: `${i} item id`
       });
     }
     return data;

@@ -5,3 +5,9 @@
   gap: 20px;
   justify-content: right;
 }
+
+.modal_contaier {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
