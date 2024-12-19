@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "../../styles/components/StarRating.css";
 
-const StarRating = ({ onChange }) => {
+const StarRating = ({ rating, onChange }) => {
   const [hoveredValue, setHoveredValue] = useState(null); // 마우스 오버 시 임시 점수
-  const [rating, setRating] = useState(0); // 최종 선택한 점수
 
   const handleMouseMove = (event, index) => {
     event.stopPropagation(); // 이벤트 전파 방지
@@ -20,7 +19,6 @@ const StarRating = ({ onChange }) => {
 
   const handleClick = () => {
     const selectedRating = hoveredValue !== null ? hoveredValue : 0; // 0도 정상적으로 선택 가능
-    setRating(selectedRating);
     if (onChange) {
       onChange(selectedRating); // 부모 컴포넌트로 선택한 점수를 전달
     }

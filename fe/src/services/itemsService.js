@@ -76,17 +76,53 @@ export async function getItemsByCommunityId(acutionItemsRequest) {
 }
 
 // 상품 등록 API 호출
-export async function createItem(dto) {
-  console.log(dto);
+export async function postItem(dto) {
+  console.log("dto : ", dto);
   return true;
   // try {
-  //   const response = await api.post("/api/items", dto); // 서버에 POST 요청
+  //   const response = await api.post("items", dto); // 서버에 POST 요청
   //   return response.data; // 성공적으로 응답 데이터를 반환
   // } catch (error) {
   //   console.error("상품 등록에 실패했습니다:", error);
   //   throw error; // 에러를 호출한 쪽으로 전달
   // }
 }
+
+// 상품 수정 보기 API 호출
+export async function getItemEdit(itemId) {
+  console.log("itemId : ", itemId);
+  try {
+    // const response = await api.get(`items/${itemId}`); // 서버에 POST 요청
+    // return response.data; // 성공적으로 응답 데이터를 반환
+    const dto = {
+      productName: "임시 이름",
+      images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_8Rj-vULPVGhf-eQyiY5sG2dMcHFQzD6RrQ&s", "https://m.jncompany.shop/web/product/big/202302/55da73b5645922de32ffa07cf315ee64.jpg", "https://sitem.ssgcdn.com/87/70/47/item/1000026477087_i1_750.jpg", "https://wimg.heraldcorp.com/content/default/2015/03/06/20150306001045_0.jpg"],
+      description: "상품 설명",
+      productCondition: "NO_USE",
+      rareScore: 3.5,
+      startingBid: 10000,
+      auctionEndDate: "2023-12-31T23:59:59",
+      immediateBid: 20000,
+    };
+    return dto;
+  } catch (error) {
+    console.error("상품 등록에 실패했습니다:", error);
+    throw error; // 에러를 호출한 쪽으로 전달
+  }
+}
+
+// 상품 수정 API 호출
+export async function putItemEdit(dto) {
+  console.log("dto : ", dto);
+  try {
+    const response = await api.put(`items/${itemId}`, dto); // 서버에 PUT 요청
+    return response.data; // 성공적으로 응답 데이터를 반환
+  } catch (error) {
+    console.error("상품 등록에 실패했습니다:", error);
+    throw error; // 에러를 호출한 쪽으로 전달
+  }
+}
+
 
 // 통합 검색 페이지 - 출품 상품 검색 결과
 export async function getItemSearchResults(searchText) {
@@ -98,9 +134,9 @@ export async function getItemSearchResults(searchText) {
       data.push({
         communityId: i,
         image: "/src/assets/test_image.png",
-        favorited: i%2 == 0,
+        favorited: i % 2 == 0,
         name: `${i} ${searchText} 상품`,
-        priceInfo: {price: i*10000, type: ""},
+        priceInfo: { price: i * 10000, type: "" },
         additionalInfo: null,
         overlayText: false
       });
@@ -108,7 +144,7 @@ export async function getItemSearchResults(searchText) {
     return data;
   } catch (error) {
     console.error("Error fetching:", error);
-    throw error; 
+    throw error;
   }
 }
 
@@ -150,14 +186,14 @@ export async function getBiddingHistory(biddingHistoryRequest) {
 // 출품 이력 페이지
 export async function getBiddedHistory(biddedHistoryRequest) {
   try {
-    // const response = await axios.get(http://localhost:8080/api/items/biddedhistory, biddedHistoryRequest);
+    // const response = await api.get("items/biddedhistory", biddedHistoryRequest);
     // return response.data;
     const data = [];
     for (let i = 0; i < 10; i++) {
       data.push({
         communityId: i,
         image: "/src/assets/test_image.png",
-        favorited: i%2 == 0,
+        favorited: i % 2 == 0,
         name: `${biddedHistoryRequest.sortType} ${biddedHistoryRequest.date.year} 상품`,
         priceInfo: {price: i*10000, type: ""},
         additionalInfo: "출품 일시: 오늘인지 어제인지 생각 안남",
@@ -191,7 +227,7 @@ export async function getFavoriteItems() {
     return data;
   } catch (error) {
     console.error("Error fetching:", error);
-    throw error; 
+    throw error;
   }
 }
 
