@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getBiddingHistory } from '../services/itemsService'
+import { getBiddingHistory } from '../services/itemService'
 import RoundButton from '../components/Button/RoundButton'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import DateNavigator from '../components/DateNavigator'
