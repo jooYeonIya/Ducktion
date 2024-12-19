@@ -12,6 +12,7 @@ import PreCaptionLabel from '../components/Labels/PreCaptionLabel';
 import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
 import CustomModal from '../components/Modal/CustomModal'
 import ChargeBidPointModalContent from '../components/Modal/ChargeBidPointModalContent';
+import WithdrwalBidPointModalContent from '../components/Modal/WithdrwalBidPointModalContent';
 
 import '@styles/pages/ViewBidPointHistoryList.css'
 
@@ -50,6 +51,15 @@ export default function ViewBidPointHistoryList() {
       text={'충전 금액'}
     />)
   }
+  const openWithdrwalBidPointModal = () => {
+    openModal(
+    <WithdrwalBidPointModalContent
+      heldBid={state.heldBid} 
+      usableBid={state.usableBid} 
+      onClose={closeModal}  
+      text={'충전 금액'}
+    />)
+  }
 
   const fetchBidPointHistories = async () => {
     const bidPointHistoriesRequest = {
@@ -79,8 +89,8 @@ export default function ViewBidPointHistoryList() {
       <div className="bidPointHistory_historyCard">
         <BidPointHistoryCard heldBid={state.heldBid} usableBid={state.usableBid} />
         <div className='bidPointHistory_historyCard_buttons'>
-          <RectangleButton text={'현금화 하기'} onClick={openChargeBidPointModal}/>
-          <RectangleButton text={'충전하기'} />
+          <RectangleButton text={'현금화 하기'} onClick={openWithdrwalBidPointModal} />
+          <RectangleButton text={'충전하기'} onClick={openChargeBidPointModal} />
         </div>
       </div>
 
