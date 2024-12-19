@@ -71,7 +71,7 @@ const navigateViewUserInfo = () => {
 }
 
 const navigateBidPointHistoryList = () => {
-  navigate('/viewBidPointHistoryList')
+  navigate('/viewBidPointHistoryList', { state: { heldBid: userInfo.heldBid, usableBid: userInfo.usableBid }})
 }
 
 const navigateBiddedHistoryList = (option) => {
