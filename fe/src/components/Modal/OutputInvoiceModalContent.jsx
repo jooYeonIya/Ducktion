@@ -35,6 +35,5 @@ export default function OutputInvoiceModalContent({ itemName, itemId, onClose })
       <div className='bidPointModalContent_buttons'>
         <RectangleButton text="취소" onClick={onClose} />
       </div>
-
     </div>)
 }

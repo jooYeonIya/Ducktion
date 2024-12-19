@@ -163,7 +163,8 @@ export async function getBiddingHistory(biddingHistoryRequest) {
           name: "1 검색어 상품",
           biddingCount: "1111",
           rareTier: "레어",
-          itemId: `item id ${i}`
+          itemId: `item id ${i}`,
+          userId: "출품자 id"
         },
         histories: [
           {

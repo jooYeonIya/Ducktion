@@ -10,6 +10,7 @@ import BiddingHistoryList from '../components/BiddingHistoryList'
 import RectangleButton from '../components/Button/RectangleButton'
 import CustomModal from '../components/Modal/CustomModal'
 import OutputInvoiceModalContent from '../components/Modal/OutputInvoiceModalContent'
+import UserRatingModalContent from '../components/Modal/UserRatingModalContent'
 
 import '@styles/pages/ViewBiddingHistory.css'
 
@@ -53,10 +54,13 @@ export default function ViewBiddingHistoryList() {
     setSelectedDate({ year, month });
   };
 
-   const openInvoiceModal = (item) => {
-    console.log(item.itemId)
-      openModal(<OutputInvoiceModalContent itemId={item.itemId} itemName={item.itemId} onClose={closeModal} />);
-    };
+  const openInvoiceModal = (item) => {
+    openModal(<OutputInvoiceModalContent itemId={item.itemId} itemName={item.itemName} onClose={closeModal} />);
+  };
+
+  const openUserRatiangModal = (item) => {
+    openModal(<UserRatingModalContent userId={item.userId} onClose={closeModal} />);
+  }
 
   useEffect(() => {
     fetchBiddingHisory();
@@ -65,7 +69,7 @@ export default function ViewBiddingHistoryList() {
   return (
     <>
       <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
-    
+
       <div className='biddingHistoryList_title'>
         <GodoTitleLabel text={"입찰 이력"} />
       </div>
@@ -91,8 +95,8 @@ export default function ViewBiddingHistoryList() {
             <BiddingHistoryList histories={item.histories} />
           </div>
           <div className='biddingHistoryList_item_buttons'>
-            <RectangleButton text={"배송 번호 조회"} onClick={() => openInvoiceModal(item.info)}/>
-            <RectangleButton text={"출품자 평가"} />
+            <RectangleButton text={"배송 번호 조회"} onClick={() => openInvoiceModal(item.info)} />
+            <RectangleButton text={"출품자 평가"} onClick={() => openUserRatiangModal(item.info)} />
           </div>
         </div>
       ))}

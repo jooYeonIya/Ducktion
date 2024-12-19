@@ -12,7 +12,7 @@
   border-radius: 4px;
   cursor: pointer;
   background-color: white;
-  font-family: 'pre', sans-serif;
+  font-family: 'Pretendard-Regular', 'sans-serif';
   font-size: 16px;
 }
 
@@ -45,7 +45,7 @@
   padding: 8px;
   border: 1px solid #bebebe;
   border-radius: 4px;
-  font-family: 'pre', sans-serif;
+  font-family: 'Pretendard-Regular', 'sans-serif';
   font-size: 16px;
   width: 300px;;
 }
