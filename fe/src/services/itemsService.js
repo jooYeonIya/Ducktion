@@ -91,7 +91,7 @@ export async function createItem(dto) {
 // 통합 검색 페이지 - 출품 상품 검색 결과
 export async function getItemSearchResults(searchText) {
   try {
-    // const response = await axios.get(`http://localhost:8080/api/items/result/list/${searchText}`);
+    // const response = await api.get(`/items/result/list/${searchText}`);
     // return response.data;
     const data = [];
     for (let i = 0; i < 10; i++) {
@@ -115,7 +115,7 @@ export async function getItemSearchResults(searchText) {
 // 입찰 이력 페이지
 export async function getBiddingHistory(biddingHistoryRequest) {
   try {
-    // const response = await axios.get(http://localhost:8080/api/items/biddinghistory, biddingHistoryRequest);
+    // const response = await api.get("/items/biddinghistory, biddingHistoryRequest");
     // return response.data;
     const data = [];
     for (let i = 0; i < 10; i++) {
@@ -187,6 +187,32 @@ export async function getFavoriteItems() {
         additionalInfo: null,
         overlayText: false
       });
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error; 
+  }
+}
+
+// 입찰 이력, 출품 이력 횟수 불러오기 
+export async function getHistoriesCount() {
+  try {
+    // const response = await api.get(`/api/histories/count/${user_id}`);
+    // return response.data;
+    const data = {
+      bidded: {
+        all: 100,
+        bidding: 10,
+        bidded: 20,
+        biddedCancel: 70,
+      }, 
+      bidding: {
+        all: 200,
+        bidding: 20,
+        bidded: 30,
+        biddedFail: 150,
+      }
     }
     return data;
   } catch (error) {
