@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "@styles/components/modal/DropdownInput.css";
 
-export default function DropdownInput({ dropList, title, placeholder, selectedList, inputed }) {
+export default function DropdownInput({ dropList, title, placeholder, selectedList, inputed, isEditable = true }) {
   const [selected, setSelected] = useState('');
   const [inputText, setInputText] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -20,11 +20,14 @@ export default function DropdownInput({ dropList, title, placeholder, selectedLi
 
   return (
     <div className="dropdownInput_container">
-      <div className="dropdownInput_select" onClick={() => setIsDropdownOpen((prev) => !prev)}>
+      <div
+        className={`dropdownInput_select ${!isEditable ? 'disabled' : ''}`} 
+        onClick={() => isEditable && setIsDropdownOpen((prev) => !prev)}
+      >
         {selected || title}
       </div>
 
-      {isDropdownOpen && (
+      {isEditable && isDropdownOpen && (
         <div className="dropdownInput_selectDropdown">
           {dropList.map((item, index) => (
             <div
@@ -44,6 +47,7 @@ export default function DropdownInput({ dropList, title, placeholder, selectedLi
         onChange={handleInputTextChange}
         className="dropdownInput_input"
         placeholder={placeholder}
+        disabled={!isEditable}
       />
     </div>
   );

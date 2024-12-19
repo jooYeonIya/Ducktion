@@ -55,7 +55,7 @@ export default function ViewBiddedHistoryList() {
   };
 
  const openInvoiceModal = (itemId) => {
-    openModal(<InputInvoiceModalContent itemId={itemId} title={"배송 번호 입력"} onClose={closeModal} />);
+    openModal(<InputInvoiceModalContent itemId={itemId} onClose={closeModal} />);
   };
 
   useEffect(() => {

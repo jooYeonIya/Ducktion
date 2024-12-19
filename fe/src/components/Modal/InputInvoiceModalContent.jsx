@@ -3,11 +3,10 @@ import { postExhibitorshipInvoice, getShippingDeadline } from '../../services/in
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import DropdownInput from './DropdownInput'
 import RectangleButton from '../Button/RectangleButton'
-
-import '@styles/components/modal/BidPointModalContent.css'
 import PreTextLabel from '../Labels/PreTextLabel';
+import '@styles/components/modal/BidPointModalContent.css'
 
-export default function InputInvoiceModalContent({ itemId, title, onClose }) {
+export default function InputInvoiceModalContent({ itemId, onClose }) {
   const courier = ["롯데택배", "CJ대한통운", "우체국택배", "로젠택배"];
 
   const [selectedCourier, setSelectedCourier] = useState('');
@@ -62,7 +61,7 @@ export default function InputInvoiceModalContent({ itemId, title, onClose }) {
 
   return (
     <div className='modal_contaier'>
-      <GodoTitleLabel text={title} />
+      <GodoTitleLabel text={"배송 번호 입력"} />
       <PreTextLabel text={`배송 번호 입력 마감일: ${deadlineDate}`} />
       <DropdownInput
         dropList={courier}

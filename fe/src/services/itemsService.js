@@ -162,7 +162,8 @@ export async function getBiddingHistory(biddingHistoryRequest) {
           favorited: true,
           name: "1 검색어 상품",
           biddingCount: "1111",
-          rareTier: "레어"
+          rareTier: "레어",
+          itemId: `item id ${i}`
         },
         histories: [
           {
