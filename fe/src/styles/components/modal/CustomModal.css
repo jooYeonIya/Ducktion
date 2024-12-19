@@ -8,16 +8,10 @@
   transform: translate(-50%, -50%);
   border-radius: 20px;
   padding: 52px;
-  width: 400px;
-  text-align: center;
   background-color: white;
-}
-
-.modalContent button {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: none;
-  border: none;
-  cursor: pointer;
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
 }

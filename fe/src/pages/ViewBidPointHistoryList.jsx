@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { getBidPointHistories } from '../services/bidService';
+import { useModal } from '../hooks/useModal';
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import BidPointHistoryCard from '../components/BidPointHistoryCard'
 import DateNavigator from '../components/DateNavigator';
@@ -9,6 +10,8 @@ import RectangleButton from '../components/Button/RectangleButton';
 import PreTextLabel from '../components/Labels/PreTextLabel';
 import PreCaptionLabel from '../components/Labels/PreCaptionLabel';
 import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
+import CustomModal from '../components/Modal/CustomModal'
+import ChargeBidPointModalContent from '../components/Modal/ChargeBidPointModalContent';
 
 import '@styles/pages/ViewBidPointHistoryList.css'
 
@@ -19,6 +22,7 @@ export default function ViewBidPointHistoryList() {
     { value: "minus", title: "차감" }
   ];
 
+  const { isModalOpen, modalContent, openModal, closeModal } = useModal();
   const location = useLocation();
   const state = location.state || { heldBid: 0, usableBid: 0 }
 
@@ -36,6 +40,16 @@ export default function ViewBidPointHistoryList() {
   const handleDateChange = (year, month) => {
     setSelectedDate({ year, month });
   };
+
+  const openChargeBidPointModal = () => {
+    openModal(
+    <ChargeBidPointModalContent 
+      heldBid={state.heldBid} 
+      usableBid={state.usableBid} 
+      onClose={closeModal}  
+      text={'충전 금액'}
+    />)
+  }
 
   const fetchBidPointHistories = async () => {
     const bidPointHistoriesRequest = {
@@ -58,12 +72,14 @@ export default function ViewBidPointHistoryList() {
 
   return (
     <>
+      <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
+
       <GodoTitleLabel text={'비드 이력'} />
 
       <div className="bidPointHistory_historyCard">
         <BidPointHistoryCard heldBid={state.heldBid} usableBid={state.usableBid} />
         <div className='bidPointHistory_historyCard_buttons'>
-          <RectangleButton text={'현금화 하기'} />
+          <RectangleButton text={'현금화 하기'} onClick={openChargeBidPointModal}/>
           <RectangleButton text={'충전하기'} />
         </div>
       </div>

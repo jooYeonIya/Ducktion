@@ -18,3 +18,15 @@ export async function getBidPointHistories(bidPointHistoriesRequest) {
     throw error;
   }
 }
+
+// 비드 충전하기
+export async function postChargeBidPoint(bidPoint) {
+  try {
+    // const response = await api.post("api/bidpoint/charge", bidPoint);
+    // return response.data; 
+    return `비드 충전 성공 메세지 ${bidPoint}`;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error;
+  }
+}

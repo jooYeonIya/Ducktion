@@ -16,7 +16,6 @@ export default function CustomModal({ isOpen, onClose, content }) {
         },
       }}
     >
-      <button onClick={onClose}>&times;</button>
       {content}
     </Modal>
   );
