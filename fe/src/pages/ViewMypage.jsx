@@ -70,8 +70,8 @@ const navigateViewUserInfo = () => {
   navigate('/viewUserInfo', { state: { userInfo: userInfo }})
 }
 
-const navigateBidHistory = () => {
-  navigate('/')
+const navigateBidPointHistoryList = () => {
+  navigate('/viewBidPointHistoryList', { state: { heldBid: userInfo.heldBid, usableBid: userInfo.usableBid }})
 }
 
 const navigateBiddedHistoryList = (option) => {
@@ -116,12 +116,12 @@ return (
           <PreTitleLabel text={`${userInfo.rate} 점`} />
         </div>
         <hr />
-        <div className='rate_item' onClick={navigateBidHistory}>
+        <div className='rate_item' onClick={navigateBidPointHistoryList}>
           <IconPlusLabelColumn icon={"src/assets/heldBid.png"} text={"보유 비드"} />
           <PreTitleLabel text={`${userInfo.heldBid} 비드`} />
         </div>
         <hr />
-        <div className='rate_item' onClick={navigateBidHistory}>
+        <div className='rate_item' onClick={navigateBidPointHistoryList}>
           <IconPlusLabelColumn icon={"src/assets/usableBiid.png"} text={"사용 가능 비드"} />
           <PreTitleLabel text={`${userInfo.usableBid} 비드`} />
         </div>
