@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "@styles/components/modal/DropdownInput.css";
 
-export default function DropdownInput({ dropList, placeholder, onSubmit }) {
+export default function DropdownInput({ dropList, title, placeholder }) {
   const [selected, setSelected] = useState('');
   const [inputText, setInputText] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -18,7 +18,7 @@ export default function DropdownInput({ dropList, placeholder, onSubmit }) {
   return (
     <div className="dropdownInput_container">
       <div className="dropdownInput_select" onClick={() => setIsDropdownOpen((prev) => !prev)}>
-        {selected}
+        {selected || title}
       </div>
 
       {isDropdownOpen && (

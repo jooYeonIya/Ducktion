@@ -5,18 +5,30 @@
   position: relative; /* 드롭다운 위치를 부모 기준으로 고정 */
 }
 
+.dropdownInput_select {
+  width: 150px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+  font-family: 'pre', sans-serif;
+  font-size: 16px;
+}
+
 .dropdownInput_selectDropdown {
   position: absolute;
   top: 100%; /* 선택 박스 바로 아래에 표시 */
   left: 0;
   width: 150px;
-  max-height: 150px; 
+  max-height: 62px; 
   overflow-y: auto; 
   border: 1px solid #bebebe;
   border-radius: 4px;
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
+  padding: 8px;
 }
 
 .dropdownInput_option {
@@ -33,4 +45,6 @@
   padding: 8px;
   border: 1px solid #bebebe;
   border-radius: 4px;
+  font-family: 'pre', sans-serif;
+  font-size: 16px;
 }
