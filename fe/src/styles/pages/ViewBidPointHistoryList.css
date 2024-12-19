@@ -1,0 +1,33 @@
+.bidPointHistory_historyList {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #bebebe;
+}
+
+.bidPointHistory_historyList_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #bebebe;
+  padding: 20px 0;
+}
+
+.bidPointHistory_historyList_item_left {
+  flex: 1;
+  display: flex;
+  gap: 40px;
+}
+
+.bidPointHistory_historyList_item_leftContent{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bidPointHistory_historyList_item_right.plus {
+  color: yellowgreen;
+}
+
+.bidPointHistory_historyList_item_right.minus {
+  color: black;
+}
