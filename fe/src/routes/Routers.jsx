@@ -10,7 +10,7 @@ import ViewBiddedHistoryList from '../pages/ViewBiddedHistoryList'
 import ViewBiddingHistoryList from '../pages/ViewBiddingHistoryList'
 import RegistItem from '../pages/RegistItem';
 import EditItem from '../pages/EditItem'
-import PostList from '../components/PostList'
+import ViewAdminPage from '../pages/ViewAdminPage'
 
 
 export default function Routers() {
@@ -27,7 +27,7 @@ export default function Routers() {
       <Route path='/viewBiddingHistoryList' element={<ViewBiddingHistoryList/>} />
       <Route path="/registItem" element={<RegistItem />} />
       <Route path="/editItem" element={<EditItem />} />
-      <Route path="/postlist" element={<PostList />} />
+      <Route path="/viewAdminPage" element={<ViewAdminPage />} />
     </Routes>
   );
 }
