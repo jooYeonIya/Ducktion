@@ -3,7 +3,7 @@
 // - 커뮤니티 정보 불러오기
 export async function getCommunityInfo(communityId) {
   try {
-    // const response = await axios.get(`http://localhost:8080/api/communities/${communityId}`);
+    // const response = await api.get(`communities/${communityId}`);
     // return response.data;
     const id = Number(communityId); // 백엔드 연결할 때는 딱히 필요 없을 것 같음 
     const data = [];
@@ -22,7 +22,7 @@ export async function getCommunityInfo(communityId) {
 // 홈 페이지 - 인기 커뮤니티
 export async function getPopularCommunities() {
   try {
-    // const response = await axios.get("http://localhost:8080/api/communities/popularity");
+    // const response = await api.get("communities/popularity");
     // return response.data;
     const data = [];
     for (let i = 0; i < 10; i++) {
@@ -41,7 +41,7 @@ export async function getPopularCommunities() {
 // 커뮤니티 목록 가져오기
 export async function fetchCommunityList() {
   try {
-    // const response = await axios.get("http://localhost:8080/api/communities/list");
+    // const response = await api.get("communities/list");
     // return response.data;
     const data = [];
     data.push({
@@ -74,7 +74,7 @@ export async function fetchCommunityList() {
 // 통합 검색 페이지 - 커뮤니티 검색 결과
 export async function getCommunitySearchResults(searchText) {
   try {
-    // const response = await axios.get(`http://localhost:8080/api/communities/result/list/${searchText}`);
+    // const response = await api.get(`communities/result/list/${searchText}`);
     // return response.data;
     const data = [];
     for (let i = 0; i < 10; i++) {

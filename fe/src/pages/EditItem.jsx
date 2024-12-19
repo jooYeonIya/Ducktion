@@ -1,5 +1,5 @@
 import '../styles/pages/RegistItem.css';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel';
 import PreTitleLabel from '../components/Labels/PreTitleLabel';
@@ -9,18 +9,20 @@ import NumericInput from '../components/NumericInput';
 import RectangleButton from '../components/Button/RectangleButton';
 import Calendar from '../components/Calendar';
 import { validateImageFile } from "../utils/ImageFileValidators";
-import { postItem } from '../services/itemsService';
+import { putItemEdit, getItemEdit } from '../services/itemsService';
 
 
-function RegistItem() {
+function EditItem() {
   const navigate = useNavigate();
 
-  const [images, setImages] = useState([]); // 이미지 URL 상태
-  const [imageFiles, setImageFiles] = useState([]); // 이미지 파일 상태
+  const [images, setImages] = useState([]); // 기존 이미지 S3 URL들의 상태
+  const [newImageFiles, setNewImageFiles] = useState([]); // 추가된 새 이미지 파일들의 파일 상태
+  const [newImages, setNewImages] = useState([]); // 추가된 새 이미지들의 URL 상태
+  const [removeImages, setRemoveImages] = useState([]); // 삭제할 기존 이미지 S3 URL 상태
   const [productName, setProductName] = useState(""); // 상품 이름 상태
   const [description, setDescription] = useState(""); // 상세 설명 상태
   const [productCondition, setProductCondition] = useState(""); // 상품 상태
-  const [rareScore, setRareScore] = useState(null); // 레어 점수 (별점)
+  const [rareScore, setRareScore] = useState(0); // 레어 점수 (별점)
   const [startingBid, setStartingBid] = useState(""); // 시작가
   const [auctionEndDate, setAuctionEndDate] = useState(null); // 경매 종료일
   const [immediateBid, setImmediateBid] = useState(""); // 즉시 낙찰가
@@ -30,8 +32,36 @@ function RegistItem() {
   const maxFileSize = 2 * 1024 * 1024; // 2MB
   const maxFileCount = 9; // 최대 파일 개수
 
+  useEffect(() => {
+    console.log("컴포넌트 마운트");
 
+    const fetchData = async () => {
+      try {
+        // api 수정할 상품 정보 호출
+        const data = await getItemEdit(1);
+        console.log(data);
 
+        // 상품 데이터를 상태에 업데이트
+        setProductName(data.productName || "");
+        setDescription(data.description || "");
+        setProductCondition(data.productCondition || "");
+        setRareScore(data.rareScore || 0);
+        setStartingBid(data.startingBid || "");
+        setAuctionEndDate(data.auctionEndDate || null);
+        setImmediateBid(data.immediateBid || "");
+
+        // 이미지 배열 업데이트
+        if (data.images && Array.isArray(data.images)) {
+          setImages(data.images); // 초기 이미지 URL 설정
+        }
+
+      } catch (error) {
+        console.error("데이터를 가져오는 동안 오류가 발생했습니다.", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // 상품 상태 변경 관리
   const handleConditionChange = (event) => {
@@ -46,28 +76,42 @@ function RegistItem() {
 
   // 이미지 URL 업로드 관리
   const handleFileChange = (event) => {
-    const files = event.target.files;
+    const files = Array.from(event.target.files);
 
     // 이미지 파일 필터링 (유효성 검사)
-    const validImages = Array.from(files).filter((file) =>
+    const validImages = files.filter((file) =>
       validateImageFile(file, maxFileSize) // 유틸리티 함수 호출
     );
 
     // 총 이미지 개수가 9개를 초과하면 업로드 제한
     if (images.length + validImages.length > maxFileCount) {
-      alert("이미지는 최대 9장만 첨부할 수 있습니다.");
+      alert(`이미지는 최대 ${maxFileCount}장만 첨부할 수 있습니다.`);
       return;
     }
 
     // 유효한 이미지 파일의 URL 생성 및 상태 업데이트
     const newImages = validImages.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...prevImages, ...newImages]);
 
-    // 서버로 보낼 파일 객체 관리
-    setImageFiles((prevValidImages) => [...prevValidImages, ...validImages]);
+    // 상태 업데이트
+    setImages((prevNewImages) => [...prevNewImages, ...newImages]);
+    setNewImageFiles((prevNewImageFiles) => [...prevNewImageFiles, ...validImages]);
   };
-
+ 
   const handleRemoveImage = (index) => {
+    const imageToRemove = images[index];
+
+    if (index < images.length - newImageFiles.length) {
+      // 기존 이미지인 경우
+      setRemoveImages((prevRemoveImages) => [...prevRemoveImages, imageToRemove]);
+    } else {
+      // 새로 추가된 이미지인 경우
+      const newIndex = index - (images.length - newImageFiles.length);
+      setNewImageFiles((prevNewImageFiles) =>
+        prevNewImageFiles.filter((_, i) => i !== newIndex)
+      );
+    }
+
+    // 공통: 이미지 UI에서 제거
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
@@ -76,50 +120,60 @@ function RegistItem() {
   }
 
   const handleSubmitClick = async () => {
-    // 필수 값 체크
-    if (
-      imageFiles.length === 0 || // 이미지가 선택되지 않음
-      !productName.trim() || // 상품 이름이 비어있음
-      !description.trim() || // 상세 설명이 비어있음
-      !productCondition.trim() || // 상품 상태가 비어있음
-      rareScore === null || // 레어 점수가 설정되지 않음
-      !startingBid || // 시작가가 비어있음
-      !auctionEndDate // 경매 종료일이 선택되지 않음
-    ) {
-      alert("필수 값을 입력해주세요.");
-      return; // 조건을 만족하지 않으면 함수 종료
-    }
-
-    // 즉시 낙찰가가 시작가보다 낮은 경우 경고 표시
-    if (immediateBid && Number(immediateBid) < Number(startingBid)) {
-      alert("즉시 낙찰가는 시작가보다 낮게 입력할 수 없습니다.");
-      return;
-    }
-
-    const formData = new FormData();
-
-    // 이미지 파일 추가
-    imageFiles.forEach((file) => {
-      formData.append("imageFiles", file); // key 이름은 서버와 협의 필요
-    });
-    // 서버 업로드 API 로직 추가 필요
-    // 새 이미지의 S3 URL을 images 배열에 덮어쓰기 필요
-
-    // DTO 생성
-    const dto = {
-      productName,
-      imageFiles, // 이미지 파일 배열.
-      description,
-      productCondition,
-      rareScore,
-      startingBid,
-      auctionEndDate,
-      immediateBid,
-    };
-
     try {
+      console.log("필수 값 : ", images, productName, description, productCondition, rareScore, startingBid, auctionEndDate);
+
+      // 필수 값 체크
+      if (
+        images.length === 0 || // 이미지가 선택되지 않음
+        !productName.trim() || // 상품 이름이 비어있음
+        !description.trim() || // 상세 설명이 비어있음
+        !productCondition.trim() || // 상품 상태가 비어있음
+        rareScore === null || // 레어 점수가 설정되지 않음
+        !startingBid || // 시작가가 비어있음
+        !auctionEndDate // 경매 종료일이 선택되지 않음
+      ) {
+        alert("필수 값을 입력해주세요.");
+        return; // 조건을 만족하지 않으면 함수 종료
+      }
+
+      // 즉시 낙찰가가 시작가보다 낮은 경우 경고 표시
+      if (immediateBid && Number(immediateBid) < Number(startingBid)) {
+        alert("즉시 낙찰가는 시작가보다 낮게 입력할 수 없습니다.");
+        return;
+      }
+
+      // 1. 기존 이미지 삭제 요청
+      if (removeImages.length > 0) {
+        await Promise.all(removeImages.map((url) => deleteImage(url))); // 서버 요청 병렬 처리
+        // 서버에서 할 일
+        // 1. S3 에서 사진 업로드 삭제
+        // 2. 사진 url로  DB에서 삭제
+        console.log("삭제된 이미지:", removeImages);
+      }
+
+      // 2. 새 이미지 파일 업로드
+      const formData = new FormData();
+      newImageFiles.forEach((file) => {
+        formData.append("imageFiles", file);
+      });
+      // 서버 업로드 API 로직 추가 필요
+      // 3. 새 이미지의 S3 URL을  추가
+
+      // DTO 생성
+      const dto = {
+        productName,
+        images, // 이미지 URL 배열
+        description,
+        productCondition,
+        rareScore,
+        startingBid,
+        auctionEndDate,
+        immediateBid,
+      };
+
       // API POST 요청
-      const response = await postItem(dto);
+      const response = await putItemEdit(dto);
       console.log("성공적으로 등록되었습니다:", response.data);
 
       // 성공적으로 등록 후 페이지 이동
@@ -165,7 +219,7 @@ function RegistItem() {
 
   return (
     <div className="regist-item-container">
-      <GodoTitleLabel text={"출품 상품 등록"} />
+      <GodoTitleLabel text={"출품 상품 수정"} />
       <br />
       <PreTitleLabel text={"상품 정보"} />
       <hr className='divider-black' />
@@ -191,7 +245,7 @@ function RegistItem() {
         <PreSubTitleLabel text={"(최대 9장)"} />
       </div>
       <div className="image-container">
-        {/* 첫 번째 줄: 등록 버튼과 최대 3개의 이미지 */}
+        {/* 첫 번째 줄: 등록 버튼과 최대 4개의 이미지 */}
         <div className="image-row">
           {/* 이미지 등록 버튼 */}
           <div className="image-upload-wrapper" onClick={handleImageClick}>
@@ -304,9 +358,9 @@ function RegistItem() {
         <Calendar selected={auctionEndDate} onChange={(date) => setAuctionEndDate(date)} placeholderText='경매 종료일을 선택해주세요.' />
       </div>
 
+      <br />
+      <br />
 
-      <br />
-      <br />
 
       <div className="inline-container">
         <PreTitleLabel text={"추가 정보"} />
@@ -330,4 +384,4 @@ function RegistItem() {
   );
 }
 
-export default RegistItem;
+export default EditItem;
