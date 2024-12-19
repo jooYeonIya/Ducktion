@@ -62,8 +62,10 @@ export default function ViewBidPointHistoryList() {
 
       <div className="bidPointHistory_historyCard">
         <BidPointHistoryCard heldBid={state.heldBid} usableBid={state.usableBid} />
-        <RectangleButton text={'현금화 하기'} />
-        <RectangleButton text={'충전하기'} />
+        <div className='bidPointHistory_historyCard_buttons'>
+          <RectangleButton text={'현금화 하기'} />
+          <RectangleButton text={'충전하기'} />
+        </div>
       </div>
 
       <RoundButton options={sortOption} onChange={handleSortChange} />
@@ -83,8 +85,7 @@ export default function ViewBidPointHistoryList() {
               </div>
 
               <div
-                className={`bidPointHistory_historyList_item_right ${history.bidAmount > 0 ? 'plus' : 'minus'
-                  }`}
+                className={`bidPointHistory_historyList_item_right ${history.bidAmount > 0 ? 'plus' : 'minus'}`}
               >
                 <PreSubTitleLabel 
                   text={history.bidAmount > 0
