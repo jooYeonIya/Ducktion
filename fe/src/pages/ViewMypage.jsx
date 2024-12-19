@@ -67,7 +67,7 @@ export default function ViewMypage() {
 
 // 화면 이동 함수
 const navigateViewUserInfo = () => {
-  navigate('/viewUserInfo', { state: { userInfo: userInfo }})
+  navigate('/viewMyInfo', { state: { userInfo: userInfo }})
 }
 
 const navigateBidHistory = () => {
