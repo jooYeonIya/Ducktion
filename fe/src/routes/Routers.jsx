@@ -7,6 +7,7 @@ import ViewSearchResult from '../pages/ViewSearchResult'
 import ViewFavoriteItemList from '../pages/ViewFavoriteItemList'
 import ViewMypage from '../pages/ViewMypage'
 import ViewBiddedHistoryList from '../pages/ViewBiddedHistoryList'
+import ViewBiddingHistoryList from '../pages/ViewBiddingHistoryList'
 import RegistItem from '../pages/RegistItem';
 import EditItem from '../pages/EditItem'
 
@@ -21,6 +22,7 @@ export default function Routers() {
       <Route path='/viewFavoriteItemList' element={<ViewFavoriteItemList/>} />
       <Route path='/viewMypage' element={<ViewMypage/>} />
       <Route path='/viewBiddedHistoryList' element={<ViewBiddedHistoryList/>} />
+      <Route path='/viewBiddingHistoryList' element={<ViewBiddingHistoryList/>} />
       <Route path="/registItem" element={<RegistItem />} />
       <Route path="/editItem" element={<EditItem />} />
     </Routes>

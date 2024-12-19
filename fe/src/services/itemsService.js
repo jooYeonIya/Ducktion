@@ -127,7 +127,7 @@ export async function putItemEdit(dto) {
 // 통합 검색 페이지 - 출품 상품 검색 결과
 export async function getItemSearchResults(searchText) {
   try {
-    // const response = await api.get(`items/result/list/${searchText}`);
+    // const response = await api.get(`/items/result/list/${searchText}`);
     // return response.data;
     const data = [];
     for (let i = 0; i < 10; i++) {
@@ -148,6 +148,41 @@ export async function getItemSearchResults(searchText) {
   }
 }
 
+// 입찰 이력 페이지
+export async function getBiddingHistory(biddingHistoryRequest) {
+  try {
+    // const response = await api.get("/items/biddinghistory, biddingHistoryRequest");
+    // return response.data;
+    const data = [];
+    for (let i = 0; i < 10; i++) {
+      data.push({
+        info: {
+          communityId: 1,
+          image: "/src/assets/test_image.png",
+          favorited: true,
+          name: "1 검색어 상품",
+          biddingCount: "1111",
+          rareTier: "레어"
+        },
+        histories: [
+          {
+            date: "4444년 44월 323일",
+            price: "10000비드"
+          },
+          {
+            date: "1111년 22월 333일",
+            price: "120000비드"
+          }
+        ]
+      });
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error; 
+  }
+}
+
 // 출품 이력 페이지
 export async function getBiddedHistory(biddedHistoryRequest) {
   try {
@@ -160,7 +195,31 @@ export async function getBiddedHistory(biddedHistoryRequest) {
         image: "/src/assets/test_image.png",
         favorited: i % 2 == 0,
         name: `${biddedHistoryRequest.sortType} ${biddedHistoryRequest.date.year} 상품`,
-        priceInfo: { price: i * 10000, type: "" },
+        priceInfo: {price: i*10000, type: ""},
+        additionalInfo: "출품 일시: 오늘인지 어제인지 생각 안남",
+        overlayText: false
+      });
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error; 
+  }
+}
+
+// 관심 상품 페이지
+export async function getFavoriteItems() {
+  try {
+    // const response = await axios.get(`http://localhost:8080/api/items/favorite/${user_id}`);
+    // return response.data;
+    const data = [];
+    for (let i = 0; i < 20; i++) {
+      data.push({
+        communityId: i,
+        image: "/src/assets/test_image.png",
+        favorited: true,
+        name: `관심이 있어!!`,
+        priceInfo: {price: i*10000, type: ""},
         additionalInfo: null,
         overlayText: false
       });
@@ -169,5 +228,31 @@ export async function getBiddedHistory(biddedHistoryRequest) {
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;
+  }
+}
+
+// 입찰 이력, 출품 이력 횟수 불러오기 
+export async function getHistoriesCount() {
+  try {
+    // const response = await api.get(`/api/histories/count/${user_id}`);
+    // return response.data;
+    const data = {
+      bidded: {
+        all: 100,
+        bidding: 10,
+        bidded: 20,
+        biddedCancel: 70,
+      }, 
+      bidding: {
+        all: 200,
+        bidding: 20,
+        bidded: 30,
+        biddedFail: 150,
+      }
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error; 
   }
 }
