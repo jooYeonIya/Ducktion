@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "react-table";
 import { useNavigate } from 'react-router-dom'; 
-import { getPostList } from "../services/adminService";
+import { getViewAdmin } from "../services/adminService";
 import GodoTitleLabel from "./Labels/GodoTitleLabel";
 import RectangleButton from "./Button/RectangleButton"; 
 import RoundButton from "./Button/RoundButton"; 
 
-import '@styles/components/PostList.css';
+import '@styles/components/ViewAdminPage.css';
 
-function PostList() {
+function ViewAdminPage() {
   const [type, setType] = useState("요청");
   const [currentData, setCurrentData] = useState([]);
 
@@ -17,7 +17,7 @@ function PostList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getPostList();
+        const data = await getViewAdmin();
         setCurrentData(data);
       } catch (error) {
         console.error("Failed to fetch post list:", error);
@@ -27,15 +27,6 @@ function PostList() {
     fetchData();
   }, []);
 
-  const handleReject = (id) => {
-    setCurrentData(prevData => {
-      const updatedData = prevData.filter(item => item.id !== id);
-      return updatedData.map((item, index) => ({
-        ...item,
-        id: index + 1
-      }));
-    });
-  };
 
   const handleNavigate = (id) => {
     navigate(`/product/${id}`); // navigate를 사용하여 상세 페이지로 이동
@@ -95,10 +86,10 @@ function PostList() {
         {
           Header: "작업",
           accessor: "action",
-          Cell: ({ row }) => (
+          Cell: ({ }) => (
             <div className="button-action">
-              <RectangleButton text="반려" onClick={() => handleReject(row.original.id)} />
-              <RectangleButton text="검수완료" onClick={() => handleReviewComplete(row.original.id)} />
+              <RectangleButton text="반려" />
+              <RectangleButton text="검수완료" />
             </div>
           ),
         },
@@ -113,6 +104,11 @@ function PostList() {
         {
           Header: "제목",
           accessor: "anothertitle",
+          Cell: ({ row }) => (    
+            <span onClick={() => handleNavigate(row.original.id)} style={{ cursor: "pointer", color: "black" }}>
+              {row.original.anothertitle}
+            </span> //임시방편용 카테고리개설요청상세로 넘어가기위함임
+          ),
         },
         {
           Header: "요청자",
@@ -133,7 +129,7 @@ function PostList() {
   return (
     <div className="postlist-container">
       <GodoTitleLabel text={`${type} 목록`} />
-      <div className="button-group">
+      <div className="button-group-admin">
         <RoundButton
           options={[
             { value: '요청', title: '요청' },
@@ -175,4 +171,4 @@ function PostList() {
   );
 }
 
-export default PostList;
+export default ViewAdminPage;
