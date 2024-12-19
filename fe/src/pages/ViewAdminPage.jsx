@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useTable } from "react-table";
 import { useNavigate } from 'react-router-dom'; 
 import { getViewAdmin } from "../services/adminService";
-import GodoTitleLabel from "./Labels/GodoTitleLabel";
-import RectangleButton from "./Button/RectangleButton"; 
-import RoundButton from "./Button/RoundButton"; 
+import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
+import RectangleButton from "../components/Button/RectangleButton"; 
+import RoundButton from "../components/Button/RoundButton"; 
 
 import '@styles/components/ViewAdminPage.css';
 
