@@ -1,7 +1,7 @@
 // adminservice.js
 
 // 요청 목록 데이터 가져오기
-export async function getPostList() { // 함수 이름 변경
+export async function getViewAdmin() { // 함수 이름 변경
   try {
     // API 호출 예시 (주석 처리된 부분)
     // const response = await api.get("admin/posts");
