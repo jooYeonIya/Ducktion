@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "@styles/components/modal/DropdownInput.css";
 
-export default function DropdownInput({ dropList, title, placeholder }) {
+export default function DropdownInput({ dropList, title, placeholder, selectedList, inputed }) {
   const [selected, setSelected] = useState('');
   const [inputText, setInputText] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -9,10 +9,13 @@ export default function DropdownInput({ dropList, title, placeholder }) {
   const handleSelectedItem = (bank) => {
     setSelected(bank);
     setIsDropdownOpen(false);
+    if (selectedList) selectedList(bank);
   };
 
   const handleInputTextChange = (e) => {
-    setInputText(e.target.value);
+    const value = e.target.value;
+    setInputText(value);
+    if (inputed) inputed(value);
   };
 
   return (

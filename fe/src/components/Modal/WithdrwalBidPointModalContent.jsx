@@ -10,9 +10,19 @@ import '@styles/components/modal/BidPointModalContent.css'
 
 export default function WithdrwalBidPointModalContent({ heldBid = 0, usableBid = 0, onClose }) {
   const [bidPoint, setBidPoint] = useState('');
+  const [selectedBank, setSelectedBank] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
 
   const handleBidPointChange = (value) => {
     setBidPoint(value); 
+  };
+
+  const handleBankSelected = (value) => {
+    setSelectedBank(value);
+  };
+
+  const handleAccountNumberInputed = (value) => {
+    setAccountNumber(value);
   };
 
   const banks = ["하나은행", "신한은행", "우리은행", "농협", "카카오뱅크"];
@@ -33,9 +43,21 @@ export default function WithdrwalBidPointModalContent({ heldBid = 0, usableBid =
       return;
     }
 
+    if (!selectedBank) {
+      alert('은행을 선택해주세요.');
+      return;
+    }
+
+    if (!accountNumber) {
+      alert('계좌번호를 입력해주세요.');
+      return;
+    }
+
     try {
       const message = await postChargeBidPoint(bidPoint); 
       alert(message); 
+      alert(selectedBank); 
+      alert(accountNumber)
       onClose(); 
     } catch (error) {
       console.error('Failed', error);
@@ -51,6 +73,8 @@ export default function WithdrwalBidPointModalContent({ heldBid = 0, usableBid =
           dropList={banks}
           title={'은행 선택'}
           placeholder={'계좌 번호 - 없이 입력'}
+          selectedList={handleBankSelected}
+          inputed={handleAccountNumberInputed}
         />
       </div>
 
