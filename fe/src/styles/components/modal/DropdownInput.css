@@ -1,0 +1,36 @@
+.dropdownInput_container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative; /* 드롭다운 위치를 부모 기준으로 고정 */
+}
+
+.dropdownInput_selectDropdown {
+  position: absolute;
+  top: 100%; /* 선택 박스 바로 아래에 표시 */
+  left: 0;
+  width: 150px;
+  max-height: 150px; 
+  overflow-y: auto; 
+  border: 1px solid #bebebe;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.dropdownInput_option {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdownInput_option:hover {
+  background-color: yellowgreen;
+}
+
+.dropdownInput_input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #bebebe;
+  border-radius: 4px;
+}
