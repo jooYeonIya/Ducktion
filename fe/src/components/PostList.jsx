@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "react-table";
-import { Link } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 import { getPostList } from "../services/adminService";
 import GodoTitleLabel from "./Labels/GodoTitleLabel";
 import RectangleButton from "./Button/RectangleButton"; 
 import RoundButton from "./Button/RoundButton"; 
+
 import '@styles/components/PostList.css';
 
 function PostList() {
   const [type, setType] = useState("요청");
   const [currentData, setCurrentData] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +37,10 @@ function PostList() {
     });
   };
 
+  const handleNavigate = (id) => {
+    navigate(`/product/${id}`); // navigate를 사용하여 상세 페이지로 이동
+  };
+
   const columns = React.useMemo(() => {
     const commonColumns = [
       {
@@ -49,7 +56,9 @@ function PostList() {
           Header: "상품명",
           accessor: "title",
           Cell: ({ row }) => (
-            <Link to={`/product/${row.original.id}`}>{row.original.title}</Link>
+            <span onClick={() => handleNavigate(row.original.id)} style={{ cursor: "pointer", color: "black" }}>
+              {row.original.title}
+            </span>
           ),
         },
         {
@@ -59,9 +68,9 @@ function PostList() {
         {
           Header: "작업",
           accessor: "action",
-          Cell: ({ row }) => (
+          Cell: ({ }) => (
             <div className="button-action">
-              <RectangleButton text="반려" onClick={() => handleReject(row.original.id)} /> 
+              <RectangleButton text="반려" /> 
               <RectangleButton text="승인" />
             </div>
           ),
@@ -74,7 +83,9 @@ function PostList() {
           Header: "상품명",
           accessor: "title",
           Cell: ({ row }) => (
-            <Link to={`/product/${row.original.id}`}>{row.original.title}</Link>
+            <span onClick={() => handleNavigate(row.original.id)} style={{ cursor: "pointer", color: "black" }}>
+              {row.original.title}
+            </span>
           ),
         },
         {
