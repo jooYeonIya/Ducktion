@@ -30,3 +30,15 @@ export async function postChargeBidPoint(bidPoint) {
     throw error;
   }
 }
+
+// 비드 현금화하기
+export async function postWithdrwalBidPoint(bidPoint) {
+  try {
+    // const response = await api.post("api/bidpoint/withdrwal, bidPoint);
+    // return response.data; 
+    return `비드 현금화 성공 메세지 ${bidPoint}`;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error;
+  }
+}

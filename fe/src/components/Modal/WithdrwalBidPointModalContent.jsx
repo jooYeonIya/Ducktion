@@ -54,7 +54,7 @@ export default function WithdrwalBidPointModalContent({ heldBid = 0, usableBid =
     }
 
     try {
-      const message = await postChargeBidPoint(bidPoint); 
+      const message = await postWithdrwalBidPoint(bidPoint); 
       alert(message); 
       alert(selectedBank); 
       alert(accountNumber)
