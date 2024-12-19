@@ -1,91 +1,167 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useTable } from "react-table";
+import { Link } from 'react-router-dom'; 
+import { getPostList } from "../services/adminService";
 import GodoTitleLabel from "./Labels/GodoTitleLabel";
-import HorizontalRule from "./HorizontalRule"; // HorizontalRule 컴포넌트
-import PropertyDefaultWrapper from "./PropertyDefaultWrapper"; // 필요 시
+import RectangleButton from "./Button/RectangleButton"; 
+import RoundButton from "./Button/RoundButton"; 
+import '@styles/components/PostList.css';
 
-const PostList = () => {
-  const [type, setType] = useState("신고"); // 초기 타입 설정
+function PostList() {
+  const [type, setType] = useState("요청");
+  const [currentData, setCurrentData] = useState([]);
 
-  // 예시 데이터 (실제 데이터는 props로 받아올 수 있음)
-  const requestData = [
-    { id: 1, category: "개설", title: "닌텐도", nickname: "홍길동", date: "2024-12-19" },
-    { id: 2, category: "삭제", title: "해리포터", nickname: "김철수", date: "2024-12-18" },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getPostList();
+        setCurrentData(data);
+      } catch (error) {
+        console.error("Failed to fetch post list:", error);
+      }
+    };
 
-  const reportData = [
-    { id: 1, title: "닌텐도", reportCount: 100 },
-    { id: 2, title: "분노의 질주 DVD 한정판", reportCount: 20 },
-  ];
+    fetchData();
+  }, []);
 
-  const reviewData = [
-    { id: 1, title: "해리포터", date: "2024-12-19" },
-    { id: 2, title: "분노의 질주 DVD 한정판", date: "2024-12-18" },
-  ];
-
-  // 버튼 클릭 시 호출되는 함수
-  const handleButtonClick = (newType) => {
-    setType(newType);
+  const handleReject = (id) => {
+    setCurrentData(prevData => {
+      const updatedData = prevData.filter(item => item.id !== id);
+      return updatedData.map((item, index) => ({
+        ...item,
+        id: index + 1
+      }));
+    });
   };
 
-  // 현재 타입에 따라 표시할 데이터 결정
-  const currentPosts = type === "신고" ? reportData : type === "요청" ? requestData : reviewData;
+  const columns = React.useMemo(() => {
+    const commonColumns = [
+      {
+        Header: "No",
+        accessor: "id",
+      },
+    ];
+
+    if (type === "신고") {
+      return [
+        ...commonColumns,
+        {
+          Header: "상품명",
+          accessor: "title",
+          Cell: ({ row }) => (
+            <Link to={`/product/${row.original.id}`}>{row.original.title}</Link>
+          ),
+        },
+        {
+          Header: "신고 횟수",
+          accessor: "reportCount",
+        },
+        {
+          Header: "작업",
+          accessor: "action",
+          Cell: ({ row }) => (
+            <div className="button-action">
+              <RectangleButton text="반려" onClick={() => handleReject(row.original.id)} /> 
+              <RectangleButton text="승인" />
+            </div>
+          ),
+        },
+      ];
+    } else if (type === "검수") {
+      return [
+        ...commonColumns,
+        {
+          Header: "상품명",
+          accessor: "title",
+          Cell: ({ row }) => (
+            <Link to={`/product/${row.original.id}`}>{row.original.title}</Link>
+          ),
+        },
+        {
+          Header: "요청일시",
+          accessor: "date",
+        },
+        {
+          Header: "작업",
+          accessor: "action",
+          Cell: ({ row }) => (
+            <div className="button-action">
+              <RectangleButton text="반려" onClick={() => handleReject(row.original.id)} />
+              <RectangleButton text="검수완료" onClick={() => handleReviewComplete(row.original.id)} />
+            </div>
+          ),
+        },
+      ];
+    } else if (type === "요청") {
+      return [
+        ...commonColumns,
+        {
+          Header: "분류",
+          accessor: "status",
+        },
+        {
+          Header: "제목",
+          accessor: "anothertitle",
+        },
+        {
+          Header: "요청자",
+          accessor: "user",
+        },
+        {
+          Header: "요청일시",
+          accessor: "date",
+        },
+      ];
+    }
+  }, [type]);
+
+  const {
+    getTableProps, getTableBodyProps, headerGroups, rows, prepareRow,
+  } = useTable({ columns, data: currentData });
 
   return (
     <div className="postlist-container">
       <GodoTitleLabel text={`${type} 목록`} />
-
-      <div className="Buttons">
-        {["요청", "신고", "검수"].map((buttonType) => (
-          <button
-            key={buttonType}
-            className={type === buttonType ? "selected" : "default"}
-            onClick={() => handleButtonClick(buttonType)}
-          >
-            {buttonType}
-          </button>
-        ))}
+      <div className="button-group">
+        <RoundButton
+          options={[
+            { value: '요청', title: '요청' },
+            { value: '신고', title: '신고' },
+            { value: '검수', title: '검수' },
+          ]}
+          onChange={(value) => setType(value)}
+          selectedOption={type}
+        />
       </div>
-
-      <div className="text-wrapper-2">No</div>
-      <div className="text-wrapper-3">
-        {type === "신고" ? "상품명" : type === "요청" ? "분류" : "상품명"}
-      </div>
-      <div className="text-wrapper-4">
-        {type === "신고" ? "신고 횟수" : type === "요청" ? "제목" : "요청일시"}
-      </div>
-
-      {currentPosts.length === 0 ? (
-        <p>게시글이 없습니다.</p>
-      ) : (
-        currentPosts.map((post, index) => (
-          <div key={post.id} className="post-item">
-            <div className="text-wrapper-5">{index + 1}</div>
-            <div className="text-wrapper-6">
-              {type === "신고" ? post.title : type === "요청" ? post.title : post.title}
-            </div>
-            <div className="text-wrapper-7">
-              {type === "신고" ? `${post.reportCount}회` : type === "요청" ? post.nickname : post.date}
-            </div>
-            <HorizontalRule />
-          </div>
-        ))
-      )}
-
-      <PropertyDefaultWrapper
-        className="view-2"
-        divClassName="view-3"
-        property1="rect"
-        text1="반려"
-      />
-      <PropertyDefaultWrapper
-        className="view-4"
-        divClassName="view-3"
-        property1="rect"
-        text1="승낙"
-      />
-      {/* 추가적인 PropertyDefaultWrapper 컴포넌트들 */}
+      <table {...getTableProps()} style={{ width: "100%" }}>
+        <thead>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps()} style={{ padding: "10px", backgroundColor: "white", border: "1px solid white" }}>
+                  {column.render("Header")}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map(row => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => (
+                  <td {...cell.getCellProps()}>
+                    {cell.render("Cell")}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
-};
+}
 
 export default PostList;
