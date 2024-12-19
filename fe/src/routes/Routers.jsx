@@ -11,6 +11,7 @@ import ViewBiddingHistoryList from '../pages/ViewBiddingHistoryList'
 import RegistItem from '../pages/RegistItem';
 import EditItem from '../pages/EditItem'
 import ViewMyInfo from '../pages/ViewMyInfo';
+import ViewBidPointHistoryList from '../pages/viewBidPointHistoryList'
 
 export default function Routers() {
   return (
@@ -27,6 +28,7 @@ export default function Routers() {
       <Route path="/registItem" element={<RegistItem />} />
       <Route path="/editItem" element={<EditItem />} />
       <Route path="/viewMyInfo" element={<ViewMyInfo />} />
+      <Route path='viewBidPointHistoryList' element={<ViewBidPointHistoryList />} />
     </Routes>
   );
 }
