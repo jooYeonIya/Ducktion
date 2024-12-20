@@ -5,6 +5,7 @@ import IconPlusLabel from './Labels/IconPlusLabel'
 import SearchTextField from './SearchTextField'
 import CustomModal from './Modal/CustomModal'
 import LoginModalContent from './Modal/LoginModalContent'
+import LogoIconPlusLabel from './Labels/LogoIconPlusLabel'
 
 import '@styles/components/HeaderFooter.css'
 
@@ -67,7 +68,7 @@ export default function Header() {
     <div className='header_container'>
       <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
       <div className='header_container_logo'>
-        <IconPlusLabel icon={'/src/assets/duck.png'} text={'덕션'} onClick={navigateToHome}/>
+        <LogoIconPlusLabel onClick={navigateToHome}/>
       </div>
       <div className='header_container_searchField'>
         <SearchTextField placeholder={'검색어 입력하시든가 말든가'} onSearch={(searchText) => handleSearch(searchText)} />

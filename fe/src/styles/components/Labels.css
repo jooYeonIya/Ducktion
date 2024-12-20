@@ -39,12 +39,18 @@
 }
 
 /* 아이콘 라벨 */
-.iconPlusLabel {
+.iconPlusLabel, .logoIconPlusLabel {
   cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 4px;
+}
+
+.logoIconPlusLabel div {
+  font-family: 'Pretendard-Regular', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 /* 아이콘 라벨 row */
