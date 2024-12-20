@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import RectangleButton from '../components/Button/RectangleButton';
 import '../styles/pages/ViewMyInfo.css';
 import HorizontalRule from '../components/HorizontalRule';
@@ -11,6 +11,7 @@ import { validateImageFile } from '../utils/ImageFileValidators';
 import { putUserProfileImage, deleteUserProfileImage, putUserInfo, deleteUser } from '../services/uesrService';
 
 const ViewMyInfo = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   // 기본값 설정 (location.state가 비어 있을 경우 대비)
   const userInfo = location.state?.userInfo || {
@@ -156,7 +157,7 @@ const ViewMyInfo = () => {
       try {
         await deleteUser(userInfo.userId); // 회원 탈퇴 API 호출
         alert('회원 탈퇴가 완료되었습니다.');
-        window.location.href = '/'; // 탈퇴 후 메인 페이지로 이동
+        navigate('/'); // 탈퇴 후 메인 페이지로 이동
       } catch (error) {
         console.error('회원 탈퇴에 실패했습니다:', error);
         alert('회원 탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.');

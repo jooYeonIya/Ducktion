@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getBiddingHistory } from '../services/itemsService'
+import { getBiddingHistory } from '../services/itemService'
+import { useModal } from '../hooks/useModal'
 import RoundButton from '../components/Button/RoundButton'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import DateNavigator from '../components/DateNavigator'
 import ItemCardRow from '../components/ItemCard/ItemCardRow'
 import BiddingHistoryList from '../components/BiddingHistoryList'
 import RectangleButton from '../components/Button/RectangleButton'
+import CustomModal from '../components/Modal/CustomModal'
+import OutputInvoiceModalContent from '../components/Modal/OutputInvoiceModalContent'
+import UserRatingModalContent from '../components/Modal/UserRatingModalContent'
 
 import '@styles/pages/ViewBiddingHistory.css'
 
@@ -20,7 +24,7 @@ export default function ViewBiddingHistoryList() {
 
   const location = useLocation();
   const sortType = location.state.sortType;
-
+  const { isModalOpen, modalContent, openModal, closeModal } = useModal();
   const [selectedSortOption, setSelectedSortOption] = useState(sortType);
   const [biddingHistory, setBiddingHistory] = useState([]);
   const [selectedDate, setSelectedDate] = useState({
@@ -50,12 +54,22 @@ export default function ViewBiddingHistoryList() {
     setSelectedDate({ year, month });
   };
 
+  const openInvoiceModal = (item) => {
+    openModal(<OutputInvoiceModalContent itemId={item.itemId} itemName={item.itemName} onClose={closeModal} />);
+  };
+
+  const openUserRatiangModal = (item) => {
+    openModal(<UserRatingModalContent userId={item.userId} onClose={closeModal} />);
+  }
+
   useEffect(() => {
     fetchBiddingHisory();
   }, [selectedSortOption, selectedDate])
 
   return (
     <>
+      <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
+
       <div className='biddingHistoryList_title'>
         <GodoTitleLabel text={"입찰 이력"} />
       </div>
@@ -81,8 +95,8 @@ export default function ViewBiddingHistoryList() {
             <BiddingHistoryList histories={item.histories} />
           </div>
           <div className='biddingHistoryList_item_buttons'>
-            <RectangleButton text={"배송 번호 조회"} />
-            <RectangleButton text={"출품자 평가"} />
+            <RectangleButton text={"배송 번호 조회"} onClick={() => openInvoiceModal(item.info)} />
+            <RectangleButton text={"출품자 평가"} onClick={() => openUserRatiangModal(item.info)} />
           </div>
         </div>
       ))}

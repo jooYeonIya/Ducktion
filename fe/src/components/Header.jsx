@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useModal } from '../hooks/useModal'
 import IconPlusLabel from './Labels/IconPlusLabel'
 import SearchTextField from './SearchTextField'
+import CustomModal from './Modal/CustomModal'
+import LoginModalContent from './Modal/LoginModalContent'
 
 import '@styles/components/HeaderFooter.css'
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isModalOpen, modalContent, openModal, closeModal } = useModal();
 
   const navigate = useNavigate();
 
@@ -23,6 +27,7 @@ export default function Header() {
   }
 
   const openLoginModal = () => {
+    openModal(<LoginModalContent onClose={closeModal} />);
   };
 
   const handleSearch = (searchText) => {
@@ -60,6 +65,7 @@ export default function Header() {
 
   return(
     <div className='header_container'>
+      <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
       <div className='header_container_logo'>
         <IconPlusLabel icon={'/src/assets/duck.png'} text={'덕션'} onClick={navigateToHome}/>
       </div>

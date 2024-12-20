@@ -1,0 +1,259 @@
+/* 전체 컨테이너 스타일 */
+.view-myinfo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px; /* 요소 간 간격 */
+  padding: 20px;
+}
+
+/* community-header 스타일 */
+.community-header {
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #0056b3;
+  text-decoration: underline;
+  margin-bottom: 10px; /* 컨텐츠와 간격 */
+}
+
+.community-header:hover {
+  color: #004ba0;
+}
+
+/* 메인 컨텐츠 레이아웃 */
+.main-content {
+  display: flex;
+  gap: 20px; /* 이미지와 제품 정보 간 간격 */
+  align-items: flex-start;
+  width: 100%; /* 너비를 부모 요소에 맞춤 */
+}
+
+/* 이미지 슬라이더 */
+.image-slider {
+  position: relative; /* 화살표 배치의 기준 */
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  align-items: center;
+  justify-content: center;
+  /* overflow: hidden; 초과 부분 숨기기 */
+}
+
+/* 메인 이미지 래퍼 */
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #fff; /* 필요 시 배경색 지정 */
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down; /* 원본 비율 유지 */
+}
+
+/* 화살표 버튼 */
+.arrow {
+  position: absolute; /* 화살표 위치 고정 */
+  top: 40%; /* 세로 중앙 */
+  transform: translateY(-50%); /* 세로 정렬 */
+  width: 40px; /* 화살표 크기 */
+  height: 40px;
+  border: none;
+  background: none; /* 배경 제거 */
+  cursor: pointer;
+  z-index: 10;
+}
+
+.arrow img {
+  width: 100%; /* 이미지의 가로 크기 100% */
+  height: 100%; /* 이미지의 세로 크기 100% */
+  object-fit: contain; /* 화살표 비율 유지 */
+  opacity: 0.1; /* 기본 상태에서 10% 투명 */
+  transition: opacity 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.arrow:hover img {
+  opacity: 1; /* 호버 시 완전 불투명 */
+}
+
+/* 왼쪽 화살표 */
+.left-arrow {
+  left: 0px; /* 이미지 왼쪽 끝에 맞닿도록 설정 */
+}
+
+/* 오른쪽 화살표 */
+.right-arrow {
+  right: 0px; /* 이미지 오른쪽 끝에 맞닿도록 설정 */
+}
+
+
+/* 상품 정보 */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1; /* 남은 공간 채우기 */
+  /* gap: 10px; */
+}
+
+.product-info h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-info p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* 썸네일 리스트 */
+.thumbnail-container {
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  margin-top: 10px; /* 위쪽 여백 */
+  gap: 10px; /* 썸네일 간격 */
+  overflow: hidden; /* 초과 이미지 숨기기 */
+  width: 100%; /* 부모 영역 너비에 맞춤 */
+  position: relative; /* 스크롤 영역 제어 */
+}
+
+.thumbnail {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.3s ease; /* 선택된 썸네일 확대 효과 */
+}
+
+.thumbnail.active {
+  border-color: #007bff;
+  transform: scale(1.1); /* 선택된 썸네일 확대 */
+}
+
+
+.product-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.price-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.price-summary div {
+  text-align: center;
+}
+
+/* Item Details */
+.item-details {
+  display: flex;
+  flex-direction: column; /* 항목을 세로로 정렬 */
+  gap: 10px; /* 항목 간 간격 */
+  width: 100%; /* 부모 요소의 너비에 맞춤 */
+}
+
+/* 한 줄 스타일 */
+.detail-row {
+  display: flex;
+  justify-content: space-between; /* 라벨과 값을 양쪽에 배치 */
+  align-items: center; /* 세로 중앙 정렬 */
+  padding: 5px 0; /* 줄 간격 */
+}
+
+/* 라벨 스타일 */
+.label {
+  font-size: 14px;
+  color: #555;
+  flex: 1; /* 남는 공간을 차지 */
+}
+
+/* 값 스타일 */
+.value {
+  font-size: 16px;
+  font-weight: bold; /* 강조 */
+  color: #333;
+  text-align: right; /* 오른쪽 정렬 */
+  flex: 1; /* 남는 공간을 차지 */
+}
+
+/* 버튼 영역 */
+.slider-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.slider-buttons .RectangleButton {
+  flex: 1;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  border-radius: 8px;
+}
+
+.report-button {
+  background-color: #e74c3c; /* 빨간색 */
+}
+
+.report-button:hover {
+  background-color: #c0392b;
+}
+
+.bid-button {
+  background-color: #27ae60; /* 초록색 */
+}
+
+.bid-button:hover {
+  background-color: #1e8449;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+
+
+
+
+
+
+
+
+
+.item-description {
+  margin-top: 20px;
+}
+
+.seller-info {
+  margin-top: 20px;
+}
+
+.seller-info p {
+  margin: 5px 0;
+}
+
+.price-button-container {
+  display: flex; 
+  justify-content: space-between; 
+  margin: 4px 0;
+}
+
+.price-button-container button {
+  width: calc(635px / 2 - 20px); 
+  height: 48px;
+}

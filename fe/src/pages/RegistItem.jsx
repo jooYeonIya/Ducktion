@@ -9,7 +9,7 @@ import NumericInput from '../components/NumericInput';
 import RectangleButton from '../components/Button/RectangleButton';
 import Calendar from '../components/Calendar';
 import { validateImageFile } from "../utils/ImageFileValidators";
-import { postItem } from '../services/itemsService';
+import { postItem } from '../services/itemService';
 
 
 function RegistItem() {
@@ -17,9 +17,9 @@ function RegistItem() {
 
   const [images, setImages] = useState([]); // 이미지 URL 상태
   const [imageFiles, setImageFiles] = useState([]); // 이미지 파일 상태
-  const [productName, setProductName] = useState(""); // 상품 이름 상태
+  const [itemName, setItemName] = useState(""); // 상품 이름 상태
   const [description, setDescription] = useState(""); // 상세 설명 상태
-  const [productCondition, setProductCondition] = useState(""); // 상품 상태
+  const [itemCondition, setItemCondition] = useState(""); // 상품 상태
   const [rareScore, setRareScore] = useState(null); // 레어 점수 (별점)
   const [startingBid, setStartingBid] = useState(""); // 시작가
   const [auctionEndDate, setAuctionEndDate] = useState(null); // 경매 종료일
@@ -35,7 +35,7 @@ function RegistItem() {
 
   // 상품 상태 변경 관리
   const handleConditionChange = (event) => {
-    setProductCondition(event.target.value);
+    setItemCondition(event.target.value);
   };
 
   const handleImageClick = () => {
@@ -79,9 +79,9 @@ function RegistItem() {
     // 필수 값 체크
     if (
       imageFiles.length === 0 || // 이미지가 선택되지 않음
-      !productName.trim() || // 상품 이름이 비어있음
+      !itemName.trim() || // 상품 이름이 비어있음
       !description.trim() || // 상세 설명이 비어있음
-      !productCondition.trim() || // 상품 상태가 비어있음
+      !itemCondition.trim() || // 상품 상태가 비어있음
       rareScore === null || // 레어 점수가 설정되지 않음
       !startingBid || // 시작가가 비어있음
       !auctionEndDate // 경매 종료일이 선택되지 않음
@@ -107,10 +107,10 @@ function RegistItem() {
 
     // DTO 생성
     const dto = {
-      productName,
+      itemName,
       imageFiles, // 이미지 파일 배열.
       description,
-      productCondition,
+      itemCondition,
       rareScore,
       startingBid,
       auctionEndDate,
@@ -123,7 +123,7 @@ function RegistItem() {
       console.log("성공적으로 등록되었습니다:", response.data);
 
       // 성공적으로 등록 후 페이지 이동
-      navigate("/viewCommunityList");
+      navigate("/viewItem");
     } catch (error) {
       console.error("상품 등록에 실패했습니다:", error);
       alert("상품 등록 중 문제가 발생했습니다.");
@@ -147,9 +147,9 @@ function RegistItem() {
             <input
               type="radio"
               id={option.value}
-              name="productCondition"
+              name="itemCondition"
               value={option.value}
-              checked={productCondition === option.value} // 현재 상태와 비교
+              checked={itemCondition === option.value} // 현재 상태와 비교
               onChange={handleConditionChange} // 상태 변경 핸들러 사용
             />
             <label htmlFor={option.value}>
@@ -178,8 +178,8 @@ function RegistItem() {
           type="text"
           placeholder="출품 상품 이름을 입력해주세요.(150자)"
           maxLength="150"
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
+          value={itemName}
+          onChange={(e) => setItemName(e.target.value)}
         />
       </div>
 
