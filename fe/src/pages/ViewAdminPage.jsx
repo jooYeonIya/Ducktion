@@ -27,10 +27,16 @@ function ViewAdminPage() {
     fetchData();
   }, []);
 
+  const filteredData = currentData.filter(item => item.type === type);
 
-  const handleNavigate = (id) => {
-    navigate(`/product/${id}`); // navigate를 사용하여 상세 페이지로 이동
+  const handleNavigate = (id, type) => {
+    if (type === "요청") {
+      navigate(`/request/${id}`); // 요청 타입일 때
+    } else if (type === "신고" || type === "검수") {
+      navigate(`/product/${id}`); // 신고 및 검수 타입일 때
+    }
   };
+  
 
   const columns = React.useMemo(() => {
     const commonColumns = [
@@ -39,7 +45,7 @@ function ViewAdminPage() {
         accessor: "id",
       },
     ];
-
+  
     if (type === "신고") {
       return [
         ...commonColumns,
@@ -47,7 +53,7 @@ function ViewAdminPage() {
           Header: "상품명",
           accessor: "title",
           Cell: ({ row }) => (
-            <span onClick={() => handleNavigate(row.original.id)} style={{ cursor: "pointer", color: "black" }}>
+            <span onClick={() => handleNavigate(row.original.id, row.original.type)} style={{ cursor: "pointer", color: "black" }}>
               {row.original.title}
             </span>
           ),
@@ -59,7 +65,7 @@ function ViewAdminPage() {
         {
           Header: "작업",
           accessor: "action",
-          Cell: ({ }) => (
+          Cell: () => (
             <div className="button-action">
               <RectangleButton text="반려" /> 
               <RectangleButton text="승인" />
@@ -74,7 +80,7 @@ function ViewAdminPage() {
           Header: "상품명",
           accessor: "title",
           Cell: ({ row }) => (
-            <span onClick={() => handleNavigate(row.original.id)} style={{ cursor: "pointer", color: "black" }}>
+            <span onClick={() => handleNavigate(row.original.id, row.original.type)} style={{ cursor: "pointer", color: "black" }}>
               {row.original.title}
             </span>
           ),
@@ -86,7 +92,7 @@ function ViewAdminPage() {
         {
           Header: "작업",
           accessor: "action",
-          Cell: ({ }) => (
+          Cell: () => (
             <div className="button-action">
               <RectangleButton text="반려" />
               <RectangleButton text="검수완료" />
@@ -103,11 +109,11 @@ function ViewAdminPage() {
         },
         {
           Header: "제목",
-          accessor: "anothertitle",
-          Cell: ({ row }) => (    
-            <span onClick={() => handleNavigate(row.original.id)} style={{ cursor: "pointer", color: "black" }}>
-              {row.original.anothertitle}
-            </span> //임시방편용 카테고리개설요청상세로 넘어가기위함임
+          accessor: "communitytitle",
+          Cell: ({ row }) => (
+            <span onClick={() => handleNavigate(row.original.id, row.original.type)} style={{ cursor: "pointer", color: "black" }}>
+              {row.original.communitytitle}
+            </span>
           ),
         },
         {
@@ -121,10 +127,11 @@ function ViewAdminPage() {
       ];
     }
   }, [type]);
+  
 
   const {
     getTableProps, getTableBodyProps, headerGroups, rows, prepareRow,
-  } = useTable({ columns, data: currentData });
+  } = useTable({ columns, data: filteredData });
 
   return (
     <div className="postlist-container">
@@ -156,9 +163,9 @@ function ViewAdminPage() {
           {rows.map(row => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps(row.id)}>
                 {row.cells.map(cell => (
-                  <td {...cell.getCellProps()}>
+                  <td {...cell.getCellProps({ key: cell.column.id })}>
                     {cell.render("Cell")}
                   </td>
                 ))}
