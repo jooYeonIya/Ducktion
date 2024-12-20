@@ -10,22 +10,52 @@ import '@styles/components/modal/BidPointModalContent.css'
 
 export default function SubmitBidModalContent({ probs, onClose }) {
   const { itemName, startingBid, nowPrice, immediateBid } = probs
-  const [bidPoint, setCBidPoint] = useState(0);
+  const [currentBidPoint, setCurrentBidPoint] = useState(0);
   const [usableBid, setUsableBid] = useState(0);
 
+  const getBidIncrement = (bidPoint) => {
+    if (bidPoint >= 1000000) {
+      return 100000;
+    } else if (bidPoint >= 10000) {
+      return 10000;
+    }
+    return 1000;
+  };
+
+  const getMinBidPoint = () => {
+    const baseBidPoint = nowPrice || startingBid;
+    const plusBidPoint = getBidIncrement(baseBidPoint);
+    return baseBidPoint + plusBidPoint;
+  }
+
   const handlePlusIcon = () => {
-    const newBind = bidPoint + 1;
-    setCBidPoint(newBind);
+    const plusBidPoint = getBidIncrement(currentBidPoint);
+    const newBidPoint = currentBidPoint + plusBidPoint;
+    setCurrentBidPoint(newBidPoint);
   };
 
   const handleMinusIcon = () => {
-    const newBind = bidPoint > 0 ? bidPoint - 1 : 0;
-    setCBidPoint(newBind);
-  };
+    const plusBidPoint = getBidIncrement(currentBidPoint);
+    const minBidPoint = getMinBidPoint();
+    const newBidPoint = currentBidPoint - plusBidPoint < minBidPoint ? minBidPoint : currentBidPoint - plusBidPoint;
+    setCurrentBidPoint(newBidPoint);
+  }
 
   const handleChange = (e) => {
     const value = parseInt(e.target.value);
-    setCBidPoint(value);
+    setCurrentBidPoint(value);
+  };
+
+  const handleSubmit = () => {
+    if (immediateBid && currentBidPoint > immediateBid) {
+      alert(`입찰가는 즉시 낙찰가를 초과할 수 없습니다.`);
+      return;
+    }
+
+    if (currentBidPoint > usableBid) {
+      alert('사용 가능한 비드가 부족합니다.');
+      return;
+    }
   };
 
   const fetchUserBidPoint = async() => {
@@ -35,6 +65,8 @@ export default function SubmitBidModalContent({ probs, onClose }) {
 
   useEffect(() => {
     fetchUserBidPoint();  
+    const minBidPoint = getMinBidPoint();
+    setCurrentBidPoint(minBidPoint);
   }, [])
 
   return (
@@ -53,8 +85,9 @@ export default function SubmitBidModalContent({ probs, onClose }) {
         <input
           type='text'
           className='bidInput_field'
-          value={bidPoint}
+          value={currentBidPoint}
           onChange={handleChange}
+          disabled={true}
         />
         <button className='bidInput_button' onClick={handlePlusIcon}>
           <img src="/src/assets/plus.png" width={20} height={20}/>
@@ -63,7 +96,7 @@ export default function SubmitBidModalContent({ probs, onClose }) {
 
       <div className='bidPointModalContent_buttons'>
         <RectangleButton text="취소" onClick={onClose} />
-        <RectangleButton text="확인" />
+        <RectangleButton text="확인" onClick={handleSubmit}/>
       </div>
     </div>
   )

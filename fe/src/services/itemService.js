@@ -99,14 +99,14 @@ export async function getItemDetails(itemId) {
       description: "아아아 하기 싫다ㅏㅏㅏ\n저 대신 일 해주실 분 경매 하세욧!!\n지금 여기서 일할 수 있는 기회ㅣㅣㅣ \n놓치지 말고 사십시오!!!!!!!!!",
       itemCondition: "LESS_USE",
       rareGrade: "마스터컬렉션즈레어",
-      startingBid: 10000,
+      startingBid: 7000,
       auctionEndDate: "2025-01-07T23:59:59",
-      nowPrice: 10000,
+      nowPrice: 8000,
       tatalView: 10000,
       totalBidding: 10000,
       exhibitorNickName: "오쿠맨",
       exhibitorRate: 58,
-      immediateBid: '',
+      immediateBid: 20000,
     };
     return dto;
   } catch (error) {
