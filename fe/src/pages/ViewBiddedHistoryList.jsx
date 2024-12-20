@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { getBiddedHistory } from '../services/itemService'
+import { useModal } from '../hooks/useModal'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import RoundButton from '../components/Button/RoundButton'
 import DateNavigator from '../components/DateNavigator'
 import ItemCard from '../components/ItemCard/ItemCard'
+import RectangleButton from '../components/Button/RectangleButton'
+import InputInvoiceModalContent from '../components/Modal/InputInvoiceModalContent'
+import CustomModal from '../components/Modal/CustomModal'
 
 import '@styles/pages/ViewBiddedHistory.css'
-import RectangleButton from '../components/Button/RectangleButton'
 
 export default function ViewBiddedHistoryList() {
   const sortOptions = [
@@ -20,8 +23,10 @@ export default function ViewBiddedHistoryList() {
   const location = useLocation();
   const sortType = location.state.sortType;
 
+  const { isModalOpen, modalContent, openModal, closeModal } = useModal();
   const [selectedSortOption, setSelectedSortOption] = useState(sortType);
   const [biddedHistory, setBiddedHistory] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState('');
   const [selectedDate, setSelectedDate] = useState({
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
@@ -49,12 +54,18 @@ export default function ViewBiddedHistoryList() {
     setSelectedDate({ year, month });
   };
 
+ const openInvoiceModal = (itemId) => {
+    openModal(<InputInvoiceModalContent itemId={itemId} onClose={closeModal} />);
+  };
+
   useEffect(() => {
     fetchBiddedHisory();
   }, [selectedSortOption, selectedDate])
 
   return (
     <>
+      <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
+
       <div className='biddedHistoryList_title'>
         <GodoTitleLabel text={"출품 이력"} />
       </div>
@@ -78,7 +89,7 @@ export default function ViewBiddedHistoryList() {
               <RectangleButton text={"삭제"}/>
             </div>
             <div className='biddedHistoryList_cardItems_botton'>
-                <RectangleButton text={"배송 번호 입력"} />
+                <RectangleButton text={"배송 번호 입력"} onClick={() => openInvoiceModal(item.itemId)}/>
             </div>
           </div>
         ))}

@@ -98,14 +98,14 @@ export async function getItemDetails(itemId) {
       description: "아아아 하기 싫다ㅏㅏㅏ\n저 대신 일 해주실 분 경매 하세욧!!\n지금 여기서 일할 수 있는 기회ㅣㅣㅣ \n놓치지 말고 사십시오!!!!!!!!!",
       itemCondition: "사용감 적음",
       rareGrade: "마스터컬렉션즈레어",
-      startingBid: 10000,
-      auctionEndDate: "2024-12-20T15:29:59",
-      nowPrice: 10000,
-      totalView: 10000,
+      startingBid: 7000,
+      auctionEndDate: "2025-01-07T23:59:59",
+      nowPrice: 8000,
+      tatalView: 10000,
       totalBidding: 10000,
       exhibitorNickName: "오쿠맨",
       exhibitorRate: 58,
-      immediateBid: '',
+      immediateBid: 20000,
     };
     return dto;
   } catch (error) {
@@ -301,7 +301,9 @@ export async function getBiddingHistory(biddingHistoryRequest) {
           favorited: true,
           name: "1 검색어 상품",
           biddingCount: "1111",
-          rareTier: "레어"
+          rareTier: "레어",
+          itemId: `item id ${i}`,
+          userId: "출품자 id"
         },
         histories: [
           {
@@ -336,7 +338,8 @@ export async function getBiddedHistory(biddedHistoryRequest) {
         name: `${biddedHistoryRequest.sortType} ${biddedHistoryRequest.date.year} 상품`,
         priceInfo: { price: i * 10000, type: "" },
         additionalInfo: "출품 일시: 오늘인지 어제인지 생각 안남",
-        overlayText: false
+        overlayText: false,
+        itemId: `${i} item id`
       });
     }
     return data;

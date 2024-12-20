@@ -23,6 +23,18 @@ export async function getUserInfo() {
   }
 }
 
+// 출품자 평가하기
+export async function postRatingUser(ratingRequest) {
+  try {
+    // const response = await api.get("api/user/rating", ratingRequest);
+    // return response.data;
+    console.log(ratingRequest);
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error;
+  }
+}
+
 // 내 정보 수정하기
 export async function putUserInfo(dto) {
   try {
