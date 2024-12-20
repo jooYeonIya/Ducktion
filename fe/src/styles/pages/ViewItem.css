@@ -52,7 +52,7 @@
   background-color: #fff; /* 필요 시 배경색 지정 */
 }
 
-.product-image {
+.item-image {
   width: 100%;
   height: 100%;
   object-fit: scale-down; /* 원본 비율 유지 */
@@ -95,7 +95,7 @@
 
 
 /* 상품 정보 */
-.product-info {
+.item-info {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -103,13 +103,13 @@
   /* gap: 10px; */
 }
 
-.product-info h2 {
+.item-info h2 {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.product-info p {
+.item-info p {
   font-size: 16px;
   line-height: 1.5;
 }
@@ -141,19 +141,40 @@
 }
 
 
-.product-title {
+.item-title {
   font-size: 24px;
   font-weight: bold;
 }
 
 .price-summary {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: space-around; /* 항목 간의 간격 균등 배치 */
+  align-items: center; /* 수직 가운데 정렬 */
+  padding: 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-bottom: 16px;
 }
 
-.price-summary div {
-  text-align: center;
+.price-item {
+  display: flex;
+  flex-direction: column; /* 항목을 세로로 정렬 */
+  align-items: center; /* 가로 가운데 정렬 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  flex: 1; /* 모든 항목이 같은 넓이를 차지 */
+}
+
+.price-item .label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px; /* 라벨과 값 간의 간격 */
+}
+
+.price-item .value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
 }
 
 /* Item Details */
@@ -187,6 +208,33 @@
   text-align: right; /* 오른쪽 정렬 */
   flex: 1; /* 남는 공간을 차지 */
 }
+
+/* 남은 시간 텍스트 스타일 */
+.remaining-time-value {
+  font-size: 32px; /* 글씨 크기를 기존의 약 두 배로 키움 */
+  font-weight: bold; /* 강조 */
+  color: #333; /* 기본 검정색 */
+  line-height: 1.5; /* 줄 간격 */
+}
+
+/* 깜빡임 효과 */
+.remaining-time-value.blinking {
+  animation: color-blink 1s steps(1, start) infinite;
+}
+
+/* 색상 전환 깜빡임 애니메이션 */
+@keyframes color-blink {
+  0% {
+    color: red; /* 빨간색 */
+  }
+  50% {
+    color: black; /* 검은색 */
+  }
+  100% {
+    color: red; /* 다시 빨간색 */
+  }
+}
+
 
 /* 버튼 영역 */
 .slider-buttons {
@@ -226,27 +274,6 @@
   height: 24px;
 }
 
-
-
-
-
-
-
-
-
-
-.item-description {
-  margin-top: 20px;
-}
-
-.seller-info {
-  margin-top: 20px;
-}
-
-.seller-info p {
-  margin: 5px 0;
-}
-
 .price-button-container {
   display: flex; 
   justify-content: space-between; 
@@ -256,4 +283,60 @@
 .price-button-container button {
   width: calc(635px / 2 - 20px); 
   height: 48px;
+}
+
+/* 섹션 구분선 위아래로 추가 */
+.info-grid {
+  display: grid;
+  grid-template-columns: 65% 5% 30%;
+  gap: 20px;
+  align-items: start;
+  width: 100%;
+  border-top: 1px solid #ddd; /* 위쪽 구분선 */
+  padding: 20px 0; /* 구분선과 내용 사이 간격 */
+}
+
+/* 상세 설명 섹션 */
+.item-description {
+  padding-right: 20px; /* 세로 구분선과의 간격 */
+}
+
+.item-description h3 {
+  margin-bottom: 10px;
+}
+
+.item-description p {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+/* 세로 구분선 */
+.vertical-separator {
+  background-color: #ddd;
+  width: 1px;
+  height: 100%;
+  margin: 0 auto; /* 세로선 가운데 정렬 */
+}
+
+/* 출품자 정보 섹션 */
+.exhibitor-info {
+  padding-left: 10px; /* 세로 구분선과 더 가까이 위치 */
+}
+
+.exhibitor-info h3 {
+  margin-bottom: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-row .label {
+  font-weight: bold;
+}
+
+.detail-row .value {
+  font-size: 16px;
 }
