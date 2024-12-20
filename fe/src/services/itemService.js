@@ -101,7 +101,7 @@ export async function getItemDetails(itemId) {
       startingBid: 7000,
       auctionEndDate: "2025-01-07T23:59:59",
       nowPrice: 8000,
-      tatalView: 10000,
+      totalView: 10000,
       totalBidding: 10000,
       exhibitorNickName: "오쿠맨",
       exhibitorRate: 58,
