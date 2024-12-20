@@ -5,6 +5,7 @@ import IconPlusLabel from './Labels/IconPlusLabel'
 import SearchTextField from './SearchTextField'
 import CustomModal from './Modal/CustomModal'
 import LoginModalContent from './Modal/LoginModalContent'
+import SubmitBidModalContent from './Modal/SubmitBidModalContent'
 
 import '@styles/components/HeaderFooter.css'
 
@@ -27,7 +28,8 @@ export default function Header() {
   }
 
   const openLoginModal = () => {
-    openModal(<LoginModalContent onClose={closeModal} />);
+    // openModal(<LoginModalContent onClose={closeModal} />);
+    openModal(<SubmitBidModalContent onClose={closeModal} />);
   };
 
   const handleSearch = (searchText) => {
