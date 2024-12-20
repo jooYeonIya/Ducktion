@@ -48,7 +48,6 @@ export async function getMastersCollectorsRare() {
   }
 }
 
-
 // 출품 상품 목록
 export async function getItemsByCommunityId(acutionItemsRequest) {
   try {
@@ -97,12 +96,12 @@ export async function getItemDetails(itemId) {
         "https://mblogthumb-phinf.pstatic.net/MjAxODA0MDlfMTUy/MDAxNTIzMjQwNjYxMDcw.NUntdy9kjN5iiUuneXi71eg74XEAtAJ40QOGb1LhOewg.UyZCO_3r6zQUwbDJ9n5FXuX-yalD0bMAHFiy9v8NN1Mg.PNG.lifesaverclinic/%EC%A7%B1%EA%B5%AC-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B46.png?type=w800",
         "https://i.namu.wiki/i/G0dztHXufsO8bQs8dySSWVQplZXjOJ1mVhjbzHFGFgO7PXxMM-yt7wV9tNm9YVoLV-jnhK5l3JORzRMUkNN9Mw.webp",],
       description: "아아아 하기 싫다ㅏㅏㅏ\n저 대신 일 해주실 분 경매 하세욧!!\n지금 여기서 일할 수 있는 기회ㅣㅣㅣ \n놓치지 말고 사십시오!!!!!!!!!",
-      itemCondition: "LESS_USE",
+      itemCondition: "사용감 적음",
       rareGrade: "마스터컬렉션즈레어",
       startingBid: 10000,
-      auctionEndDate: "2025-01-07T23:59:59",
+      auctionEndDate: "2024-12-20T15:29:59",
       nowPrice: 10000,
-      tatalView: 10000,
+      totalView: 10000,
       totalBidding: 10000,
       exhibitorNickName: "오쿠맨",
       exhibitorRate: 58,
@@ -134,12 +133,30 @@ export async function postItemRareScore(dto) {
 }
 
 // 신고하기
+export async function putReport(itemId) {
+  try {
+    // const response = await api.put(`items/${itemId}/report`);
+    const response = {
+      ok: "ok",
+    }
+    if (response.ok) {
+      alert("신고되었습니다.");
+    } else {
+      alert("신고에 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("신고 오류:", error);
+    alert("예기치 못한 오류가 발생했습니다.");
+  }
+}
 
 // 입찰 포기
 export async function putBiddingGiveup(dto) {
   try {
-    const response = await api.post(`items/bidding_giveup`, dto);
-
+    // const response = await api.put(`items/bidding_giveup`, dto);
+    const response = {
+      ok: "ok",
+    }
     if (response.ok) {
       alert("입찰이 포기되었습니다.");
     } else {
@@ -151,6 +168,43 @@ export async function putBiddingGiveup(dto) {
   }
 }
 
+// 입찰
+export async function postBidding(bidRequest) {
+  try {
+    // const response = await api.post(`items/bidding`, bidRequest);
+    const response = {
+      ok: "ok",
+    }
+
+    if (response.ok) {
+      alert("입찰되었습니다.");
+    } else {
+      alert("입찰에 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("입찰 오류:", error);
+    alert("예기치 못한 오류가 발생했습니다.");
+  }
+}
+
+// 즉시 낙찰
+export async function postImmediateBidding(biddingGiveupRequest) {
+  try {
+    // const response = await api.post(`items/immediate_bidding`, biddingGiveupRequest);
+    const response = {
+      ok: "ok",
+    }
+
+    if (response.ok) {
+      alert("즉시 낙찰되었습니다.");
+    } else {
+      alert("즉시 낙찰에 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("즉시 낙찰 오류:", error);
+    alert("예기치 못한 오류가 발생했습니다.");
+  }
+}
 
 // 상품 등록 API 호출
 export async function postItem(dto) {
@@ -208,7 +262,6 @@ export async function putItemEdit(dto) {
     throw error; // 에러를 호출한 쪽으로 전달
   }
 }
-
 
 // 통합 검색 페이지 - 출품 상품 검색 결과
 export async function getItemSearchResults(searchText) {
