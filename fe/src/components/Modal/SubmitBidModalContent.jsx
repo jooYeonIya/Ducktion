@@ -1,13 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getUserBidPoint } from '../../services/bidService'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import PreTextLabel from '../Labels/PreTextLabel'
 import PreCaptionLabel from '../Labels/PreCaptionLabel'
 import RectangleButton from '../Button/RectangleButton'
 import RoundButton from '../Button/RoundButton'
+import PriceSummary from '../PriceSummary'
 import '@styles/components/modal/BidPointModalContent.css'
 
-export default function SubmitBidModalContent({ itemName, usableBid, onClose }) {
+export default function SubmitBidModalContent({ probs, onClose }) {
+  const { itemName, startingBid, nowPrice, immediateBid } = probs
   const [bidPoint, setCBidPoint] = useState(0);
+  const [usableBid, setUsableBid] = useState(0);
 
   const handlePlusIcon = () => {
     const newBind = bidPoint + 1;
@@ -24,13 +28,22 @@ export default function SubmitBidModalContent({ itemName, usableBid, onClose }) 
     setCBidPoint(value);
   };
 
+  const fetchUserBidPoint = async() => {
+    const data = await getUserBidPoint();
+    setUsableBid(data.usableBid);
+  };
+
+  useEffect(() => {
+    fetchUserBidPoint();  
+  }, [])
+
   return (
     <div className='modal_contaier'>
       <GodoTitleLabel text={'입찰하기'} />
       <PreTextLabel text={itemName} />
       <RoundButton options={[{vlaue: "", title: `사용 가능한 비드 ${usableBid}`}]} />
 
-      {/* 가격 부분 */}
+      <PriceSummary startingBid={startingBid} nowPrice={nowPrice} immediateBid={immediateBid} />
       <PreCaptionLabel text={"*즉시 낙찰가를 초과하는 입찰은 불가합니다."} style={{ color: "#bebebe" }} />
 
       <div className='bidInput_container'>

@@ -9,6 +9,9 @@ import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
 import { getItemDetails, postItemRareScore } from '../services/itemService';
 import PriceSummary from '../components/PriceSummary';
 import StarRating from '../components/Button/StarRating';
+import { useModal } from '../hooks/useModal'
+import SubmitBidModalContent from '../components/Modal/SubmitBidModalContent'
+import CustomModal from '../components/Modal/CustomModal'
 
 // const ViewItem = ({ itemId }) => {
 const ViewItem = () => {
@@ -39,8 +42,7 @@ const ViewItem = () => {
   const [images, setImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 보여지는 이미지 인덱스
   const [rareScore, setRareScore] = useState(null); // 레어 점수 (별점)
-
-
+  const { isModalOpen, modalContent, openModal, closeModal } = useModal();
 
   // 컴포넌트가 마운트될 때 get 요청
   useEffect(() => {
@@ -95,9 +97,14 @@ const ViewItem = () => {
   };
 
   const onBid = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === data.images.length - 1 ? 0 : prevIndex + 1
-    );
+    const probs = {
+      itemName: data.itemName, 
+      startingBid: data.startingBid, 
+      nowPrice: data.nowPrice, 
+      immediateBid: data.immediateBid, 
+    };
+
+    openModal(<SubmitBidModalContent probs={probs} onClose={closeModal} />);
   };
 
   const onImmediateBid = () => {
@@ -132,6 +139,8 @@ const ViewItem = () => {
 
   return (
     <div className="view-myinfo-container">
+      <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
+      
       {/* 화면 왼쪽 최상단에 communityName 표시 */}
       <div className="community-header" onClick={handleCommunityClick}>
         <GodoTitleLabel text={data.communityName || "커뮤니티 이름 없음"} />
