@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { getFavoriteItems } from "../services/itemsService";
+import { getFavoriteItems } from "../services/itemService";
 import { useEffect, useState } from "react";
 import { getUserInfo } from "../services/uesrService";
-import { getHistoriesCount } from "../services/itemsService";
+import { getHistoriesCount } from "../services/itemService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel"
 import RectangleButton from "../components/Button/RectangleButton"
 import GodoSubTitleLabel from "../components/Labels/GodoSubTitleLabel"
@@ -67,7 +67,7 @@ export default function ViewMypage() {
 
 // 화면 이동 함수
 const navigateViewUserInfo = () => {
-  navigate('/viewUserInfo', { state: { userInfo: userInfo }})
+  navigate('/viewMyInfo', { state: { userInfo: userInfo }})
 }
 
 const navigateBidPointHistoryList = () => {
