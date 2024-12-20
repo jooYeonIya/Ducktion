@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getCommunityInfo } from '../services/communityService'
-import { getItemsByCommunityId } from '../services/itemsService'
+import { getItemsByCommunityId } from '../services/itemService'
 import GodoTitleLabe from '../components/Labels/GodoTitleLabel'
 import CardItemsList from '../components/ItemCard/ItemCardList'
 import RoundButton from '../components/Button/RoundButton'

@@ -1,0 +1,57 @@
+.dropdownInput_container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative; /* 드롭다운 위치를 부모 기준으로 고정 */
+}
+
+.dropdownInput_select {
+  width: 150px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+  font-family: 'Pretendard-Regular', 'sans-serif';
+  font-size: 16px;
+}
+
+.dropdownInput_selectDropdown {
+  position: absolute;
+  top: 100%; /* 선택 박스 바로 아래에 표시 */
+  left: 0;
+  width: 150px;
+  max-height: 62px; 
+  overflow-y: auto; 
+  border: 1px solid #bebebe;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  padding: 8px;
+}
+
+.dropdownInput_option {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdownInput_option:hover {
+  background-color: yellowgreen;
+}
+
+.dropdownInput_input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #bebebe;
+  border-radius: 4px;
+  font-family: 'Pretendard-Regular', 'sans-serif';
+  font-size: 16px;
+  width: 300px;;
+}
+
+.dropdownInput_select.disabled {
+  cursor: not-allowed;
+  background-color: #f0f0f0;
+  color: #bdbdbd;
+}

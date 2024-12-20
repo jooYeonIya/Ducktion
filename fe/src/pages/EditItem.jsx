@@ -9,7 +9,7 @@ import NumericInput from '../components/NumericInput';
 import RectangleButton from '../components/Button/RectangleButton';
 import Calendar from '../components/Calendar';
 import { validateImageFile } from "../utils/ImageFileValidators";
-import { putItemEdit, getItemEdit } from '../services/itemsService';
+import { putItemEdit, getItemEdit } from '../services/itemService';
 
 
 function EditItem() {
@@ -19,9 +19,9 @@ function EditItem() {
   const [newImageFiles, setNewImageFiles] = useState([]); // 추가된 새 이미지 파일들의 파일 상태
   const [newImages, setNewImages] = useState([]); // 추가된 새 이미지들의 URL 상태
   const [removeImages, setRemoveImages] = useState([]); // 삭제할 기존 이미지 S3 URL 상태
-  const [productName, setProductName] = useState(""); // 상품 이름 상태
+  const [itemName, setItemName] = useState(""); // 상품 이름 상태
   const [description, setDescription] = useState(""); // 상세 설명 상태
-  const [productCondition, setProductCondition] = useState(""); // 상품 상태
+  const [itemCondition, setItemCondition] = useState(""); // 상품 상태
   const [rareScore, setRareScore] = useState(0); // 레어 점수 (별점)
   const [startingBid, setStartingBid] = useState(""); // 시작가
   const [auctionEndDate, setAuctionEndDate] = useState(null); // 경매 종료일
@@ -42,9 +42,9 @@ function EditItem() {
         console.log(data);
 
         // 상품 데이터를 상태에 업데이트
-        setProductName(data.productName || "");
+        setItemName(data.itemName || "");
         setDescription(data.description || "");
-        setProductCondition(data.productCondition || "");
+        setItemCondition(data.itemCondition || "");
         setRareScore(data.rareScore || 0);
         setStartingBid(data.startingBid || "");
         setAuctionEndDate(data.auctionEndDate || null);
@@ -65,7 +65,7 @@ function EditItem() {
 
   // 상품 상태 변경 관리
   const handleConditionChange = (event) => {
-    setProductCondition(event.target.value);
+    setItemCondition(event.target.value);
   };
 
   const handleImageClick = () => {
@@ -121,14 +121,14 @@ function EditItem() {
 
   const handleSubmitClick = async () => {
     try {
-      console.log("필수 값 : ", images, productName, description, productCondition, rareScore, startingBid, auctionEndDate);
+      console.log("필수 값 : ", images, itemName, description, itemCondition, rareScore, startingBid, auctionEndDate);
 
       // 필수 값 체크
       if (
         images.length === 0 || // 이미지가 선택되지 않음
-        !productName.trim() || // 상품 이름이 비어있음
+        !itemName.trim() || // 상품 이름이 비어있음
         !description.trim() || // 상세 설명이 비어있음
-        !productCondition.trim() || // 상품 상태가 비어있음
+        !itemCondition.trim() || // 상품 상태가 비어있음
         rareScore === null || // 레어 점수가 설정되지 않음
         !startingBid || // 시작가가 비어있음
         !auctionEndDate // 경매 종료일이 선택되지 않음
@@ -145,7 +145,7 @@ function EditItem() {
 
       // 1. 기존 이미지 삭제 요청
       if (removeImages.length > 0) {
-        await Promise.all(removeImages.map((url) => deleteImage(url))); // 서버 요청 병렬 처리
+        // await Promise.all(removeImages.map((url) => deleteImage(url))); // 서버 요청 병렬 처리
         // 서버에서 할 일
         // 1. S3 에서 사진 업로드 삭제
         // 2. 사진 url로  DB에서 삭제
@@ -162,22 +162,21 @@ function EditItem() {
 
       // DTO 생성
       const dto = {
-        productName,
+        itemName,
         images, // 이미지 URL 배열
         description,
-        productCondition,
+        itemCondition,
         rareScore,
         startingBid,
         auctionEndDate,
         immediateBid,
       };
-
       // API POST 요청
       const response = await putItemEdit(dto);
       console.log("성공적으로 등록되었습니다:", response.data);
 
       // 성공적으로 등록 후 페이지 이동
-      navigate("/viewCommunityList");
+      navigate("/viewItem");
     } catch (error) {
       console.error("상품 등록에 실패했습니다:", error);
       alert("상품 등록 중 문제가 발생했습니다.");
@@ -201,9 +200,9 @@ function EditItem() {
             <input
               type="radio"
               id={option.value}
-              name="productCondition"
+              name="itemCondition"
               value={option.value}
-              checked={productCondition === option.value} // 현재 상태와 비교
+              checked={itemCondition === option.value} // 현재 상태와 비교
               onChange={handleConditionChange} // 상태 변경 핸들러 사용
             />
             <label htmlFor={option.value}>
@@ -232,8 +231,8 @@ function EditItem() {
           type="text"
           placeholder="출품 상품 이름을 입력해주세요.(150자)"
           maxLength="150"
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
+          value={itemName}
+          onChange={(e) => setItemName(e.target.value)}
         />
       </div>
 

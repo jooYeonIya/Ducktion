@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getClosingSoonItems, getMastersCollectorsRare } from '../services/itemsService'
+import { getClosingSoonItems, getMastersCollectorsRare } from '../services/itemService'
 import { getPopularCommunities } from '../services/communityService'
 import CommunityList from '../components/CommunityList'
 import CardItemsList from '../components/ItemCard/ItemCardList'
