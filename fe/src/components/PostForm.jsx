@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import '../styles/PostForm.css'; // CSS 파일 임포트
 import GodoTitleLabel from './Labels/GodoTitleLabel';
+import RectangleButton from './Button/RectangleButton'
+import PreSubTitleLabel from './Labels/PreSubTitleLabel';
 
-const PostForm = ({ 
-  onSubmit, 
+import '@styles/components/PostForm.css'; // CSS 파일 임포트
+
+const PostForm = ({
+  onSubmit,
   titleName,
-  titlePlaceholder, 
-  contentPlaceholder, 
-  titleLabel, 
+  titlePlaceholder,
+  contentPlaceholder,
+  titleLabel,
   contentLabel
 }) => {
+
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
 
@@ -33,41 +37,43 @@ const PostForm = ({
   };
 
   return (
-    <div className="post-form-container">
+    <div className='postForm_container'>
       <GodoTitleLabel text={titleName} />
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <div className='title-container'>
-            <label htmlFor="title">{titleLabel}</label>
-            <input
-              type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder={titlePlaceholder} 
-              required
-              maxLength={30} // 최대 글자 수 제한
-            />
-          </div>
+
+      <div className='postForm_title_container'>
+        <PreSubTitleLabel text={titleLabel} />
+        <div className='postForm_title'>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder={titlePlaceholder}
+            className="searchTextField_input"
+            required
+            maxLength={30}
+          />
         </div>
-        <div className="form-group">
-          <label htmlFor="content">{contentLabel}</label>
+      </div>
+
+      <div className='postForm_textarea_container'>
+        <PreSubTitleLabel text={contentLabel} />
+        <div className='postForm_textarea'>
           <textarea
-            id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder={contentPlaceholder} 
+            placeholder={contentPlaceholder}
             required
           />
         </div>
-        <div className="button-group">
-          <button type="button" onClick={handleCancel}>취소</button>
-          <button type="submit">확인</button>
-        </div>
-      </form>
+      </div>
+
+      <div className="bidPointModalContent_buttons">
+        <RectangleButton text={"취소"} onClick={handleCancel} />
+        <RectangleButton text={"확인"} onClick={handleSubmit} />
+      </div>
+
     </div>
   );
-};  
+};
 
 export default PostForm;
-

@@ -32,7 +32,7 @@ function ViewCommunityList() {
 
   function handleRoundButtonClick() {
     // "커뮤니티 개설 요청" 버튼 클릭 시 페이지 이동
-    navigate('/community-request'); // 이동할 경로
+    navigate('/requestAddCommunity'); // 이동할 경로
   }
 
   const renderButtons = () => {
@@ -324,7 +324,7 @@ function ViewCommunityList() {
       {/* 전체 ㄱ,ㄴ,ㄷ ... 커뮤니티 개설 요청 */}
       <div>
         {renderButtons()}
-        <RoundButton onClick={handleRoundButtonClick} options={[{value: "", title: "커뮤니티 개설 요청"}]} />
+        <RoundButton onChange={handleRoundButtonClick} options={[{value: "", title: "커뮤니티 개설 요청"}]} />
       </div>
       <div>
         {alphabetCommunity(nowAlpha)}
