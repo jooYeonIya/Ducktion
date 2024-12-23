@@ -307,12 +307,20 @@ export async function getBiddingHistory(biddingHistoryRequest) {
         },
         histories: [
           {
-            date: "4444년 44월 323일",
-            price: "10000비드"
+            date: "4444년 44월 23일",
+            price: "10000"
           },
           {
-            date: "1111년 22월 333일",
-            price: "120000비드"
+            date: "1111년 22월 33일",
+            price: "120000"
+          },
+          {
+            date: "1111년 22월 33일",
+            price: "120000"
+          },
+          {
+            date: "1111년 22월 33일",
+            price: "120000"
           }
         ]
       });

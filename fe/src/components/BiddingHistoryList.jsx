@@ -9,7 +9,7 @@ export default function BiddingHistoryList({ histories }) {
         histories.map((history, index) => (
           <div key={index} className='historyItem'>
             <PreTextLabel text={history.date} />
-            <PreTextLabel text={history.price} />
+            <PreTextLabel text={`${history.price} 비드`}/>
           </div>
         ))
       ) : (

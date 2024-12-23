@@ -6,7 +6,7 @@ export default function ItemCardRow({image, texts}) {
   return (
     <div className='itemCardRow_contaier'>
       <div className='itemCardRow_leftSection'>
-        <img src={image} width={"120px"} height={"120px"}/>
+        <img src={image}/>
       </div>
       <div className='itemCardRow_rightSection'>
         {texts.map((text) =>(
