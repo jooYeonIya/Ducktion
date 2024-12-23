@@ -64,3 +64,11 @@
     transform: translateX(0); 
   }
 }
+
+.home_popularCommunitie {
+  padding-top: 40px;
+}
+
+.home_cardItems {
+  padding-top: 60px;
+}
