@@ -16,7 +16,9 @@ export default function BidInputTextField({ probs }) {
 
   return (
     <div className='bidInputTextField'>
-      <BidPointHistoryCard heldBid={heldBid} usableBid={usableBid} />
+      <div className='bidInputTextField_info'>
+        <BidPointHistoryCard heldBid={heldBid} usableBid={usableBid} />
+      </div>
       <div className='bidInputTextField_input'>
         <PreSubTitleLabel text={leftTitle} />
         <input type="text" value={bidPoint} onChange={handleChange} placeholder={placeholder} />
