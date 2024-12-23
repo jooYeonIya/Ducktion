@@ -15,6 +15,7 @@ import ViewMyInfo from '../pages/ViewMyInfo';
 import ViewBidPointHistoryList from '../pages/viewBidPointHistoryList'
 import ViewRequestAddCommunity from '../pages/ViewRequestAddCommunity'
 import ViewItem from '../pages/ViewItem'
+import RequestDeleteItem from '../pages/RequestDeleteItem'
 
 export default function Routers() {
   return (
@@ -35,6 +36,7 @@ export default function Routers() {
       <Route path='viewBidPointHistoryList' element={<ViewBidPointHistoryList />} />
       <Route path="/request/:id" element={<ViewRequestAddCommunity />} /> {/* 요청 상세 페이지 */}
       <Route path='/viewItem' element={<ViewItem />} />
+      <Route path='/requestDeleteItem' element={<RequestDeleteItem />} />
     </Routes>
   );
 }

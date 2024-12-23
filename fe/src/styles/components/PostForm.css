@@ -1,7 +1,7 @@
 .postForm_container {
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
+  padding-top: 12px;
 }
 
 .postForm_title_container,
@@ -10,6 +10,14 @@
   flex-direction: row;
   justify-content: space-between;
   padding-top: 20px;
+}
+
+.postForm_item {
+  display: flex; 
+  height: 32px; 
+  width: 100%; 
+  max-width: 800px;
+  padding-right: 20px;
 }
 
 .postForm_title {

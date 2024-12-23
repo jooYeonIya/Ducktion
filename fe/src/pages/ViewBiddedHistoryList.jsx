@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getBiddedHistory } from '../services/itemService'
 import { useModal } from '../hooks/useModal'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
@@ -20,6 +20,7 @@ export default function ViewBiddedHistoryList() {
     { value: "biddedCancel", title: "유찰" },
   ];
 
+  const navigate = useNavigate();
   const location = useLocation();
   const sortType = location.state.sortType;
 
@@ -54,7 +55,11 @@ export default function ViewBiddedHistoryList() {
     setSelectedDate({ year, month });
   };
 
- const openInvoiceModal = (itemId) => {
+  const navigateToDeletePage = (item) => {
+    navigate("/requestDeleteItem", {state: {item: item}})
+  }
+
+  const openInvoiceModal = (itemId) => {
     openModal(<InputInvoiceModalContent itemId={itemId} onClose={closeModal} />);
   };
 
@@ -86,7 +91,7 @@ export default function ViewBiddedHistoryList() {
             <ItemCard key={index} data={item} />
             <div className='biddedHistoryList_cardItems_bottons'>
               <RectangleButton text={"수정"}/>
-              <RectangleButton text={"삭제"}/>
+              <RectangleButton text={"삭제"} onClick={() => navigateToDeletePage(item)}/>
             </div>
             <div className='biddedHistoryList_cardItems_botton'>
                 <RectangleButton text={"배송 번호 입력"} onClick={() => openInvoiceModal(item.itemId)}/>
