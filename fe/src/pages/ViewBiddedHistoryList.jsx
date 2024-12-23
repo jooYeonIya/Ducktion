@@ -70,14 +70,14 @@ export default function ViewBiddedHistoryList() {
         <GodoTitleLabel text={"출품 이력"} />
       </div>
 
-      <div className='biddedHistoryList_date'>
-        <DateNavigator onDateChange={handleDateChange} />
-      </div>
-
       <div className='biddedHistoryList_sortOption_container'>
         <div className='biddedHistoryList_sortOption'>
           <RoundButton options={sortOptions} onChange={handleSortChange} selectedOption={selectedSortOption} />
         </div>
+      </div>
+
+      <div className='biddedHistoryList_date'>
+        <DateNavigator onDateChange={handleDateChange} />
       </div>
 
       <div className='biddedHistoryList_cardItems'>
