@@ -10,14 +10,23 @@
   padding-bottom: 20px;
 }
 
-.footer_container {
-  background-color: #bebebe;
-  height: 80px;
-}
-
 .header_container_searchField {
   width: 500px;
 }
+
+.footer_container {
+  background-color: #eeeeee;
+  height: 80px;
+}
+
+.footer_container_logo {
+  padding-left: 20px;
+}
+
+.footer_container_links {
+  padding-right: 20px;
+}
+
 
 .header_container_options, 
 .footer_container_links {
