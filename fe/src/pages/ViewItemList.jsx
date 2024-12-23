@@ -133,7 +133,7 @@ export default function ViewItemList() {
       </div>
 
       <div className='auctionItems_searchTextField'>
-        <SearchTextField placeholder={"검색어를 입력하지 않았으면.."} onSearch={handleSearch} />
+        <SearchTextField placeholder={"상품 이름을 입력해 주세요"} onSearch={handleSearch} />
       </div>
     </>
   )

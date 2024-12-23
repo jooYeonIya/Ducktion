@@ -1,12 +1,10 @@
+@import '../Color.css';
+
 .searchTextField_container {
   display: flex;
   align-items: center;
-  border: 1px solid #bebebe;
+  border: 2px solid var(--gold-deep);
   padding: 8px;
-}
-
-.searchTextField_container.focused {
-  border-color: yellowgreen
 }
 
 .searchTextField_input {
@@ -24,6 +22,6 @@
 }
 
 .searchTextField_button img {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
