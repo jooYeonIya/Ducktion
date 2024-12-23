@@ -94,8 +94,10 @@ export default function ViewBidPointHistoryList() {
         </div>
       </div>
 
-      <RoundButton options={sortOption} onChange={handleSortChange} />
-      <DateNavigator onDateChange={handleDateChange} />
+      <div className='bidPointHistory_options_date'>
+        <RoundButton options={sortOption} onChange={handleSortChange} />
+        <DateNavigator onDateChange={handleDateChange} />
+      </div>
 
       <div className="bidPointHistory_historyList">
         {histories &&

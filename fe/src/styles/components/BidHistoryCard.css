@@ -1,16 +1,22 @@
-/* 카드 스타일 */
+@import '../Color.css';
+
 .bidHistoryCard {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+}
+
+.bidHistoryCard_heldBid {
+  font-weight: bold;
 }
 
 /* 사용 가능 비드 스타일 */
 .bidHistoryCard_usableBid {
-  background-color: white;
   border-radius: 24px;
-  border: 1px solid yellowgreen;
+  border: 1px solid var(--green-deep);
   padding: 10px 20px;
   text-align: center;
+  background-color: rgba(0, 0, 0, .15);
 }
