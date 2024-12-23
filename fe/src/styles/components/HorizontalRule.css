@@ -1,6 +1,5 @@
 .custom-hr {
   border: none;
-  margin: 20px 0; /* 위아래 여백 조정 */
 }
 
 .hr1 {
@@ -8,7 +7,7 @@
   height: 2px; 
   background: #000; 
   border: none; /* 기본 테두리 제거 */
-  margin: 20px auto; /* 위아래 여백 및 중앙 정렬 */
+  margin-top: 4px;
 }
 
 

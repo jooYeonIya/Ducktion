@@ -9,6 +9,7 @@ import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
 import defaultProfileImage from '../assets/test_image.png';
 import { validateImageFile } from '../utils/ImageFileValidators';
 import { putUserProfileImage, deleteUserProfileImage, putUserInfo, deleteUser } from '../services/uesrService';
+import ProfileImage from '../components/ProfileImage';
 
 const ViewMyInfo = () => {
   const navigate = useNavigate();
@@ -31,7 +32,6 @@ const ViewMyInfo = () => {
   const fileInputRef = useRef(null);
 
   const maxFileSize = 2 * 1024 * 1024; // 2MB
-  const maxFileCount = 9; // 최대 파일 개수
 
   // 컴포넌트가 마운트될 때 userInfo.profileImage 값 확인 및 초기화
   useEffect(() => {
@@ -168,21 +168,21 @@ const ViewMyInfo = () => {
   return (
     <div className="view-myinfo-container">
       <GodoTitleLabel text="마이페이지" />
-      <div>
+      <div className='view-myinfo-title'>
         <PreTitleLabel text="내 정보" />
         <HorizontalRule type="hr1" />
       </div>
 
       {/* 프로필 사진 */}
       <div>
-        <PreSubTitleLabel text="프로필 사진" />
         <div className="profile-section">
+          <PreSubTitleLabel text="프로필 사진" />
           <div className="profile-image-container">
-            <img src={profileImageNew} alt="프로필 사진" className="profile-image" />
-          </div>
-          <div className="profile-buttons-container">
-            <button onClick={handleImageClick} className="profile-button edit-button">사진 변경</button>
-            <button onClick={handleDeleteImage} className="profile-button delete-button">사진 삭제</button>
+            <ProfileImage imageUrl={profileImageNew} />
+            <div className="profile-buttons-container">
+              <RectangleButton text={"사진 변경"} onClick={handleImageClick} />
+              <RectangleButton text={"사진 삭제"} onClick={handleDeleteImage} />
+            </div>
           </div>
         </div>
       </div>
@@ -199,13 +199,13 @@ const ViewMyInfo = () => {
       {/* 닉네임 */}
       <div className="nickname-wrapper">
         <PreSubTitleLabel text="닉네임" />
-        <div className="TextField_container">
+        <div className={`textField_container ${isEditing ? '' : 'disabled'}`}>
           {isEditing ? (
             <input
               type="text"
               value={nicknameNew}
               onChange={(e) => setNicknameNew(e.target.value)}
-              className="searchTextField_input"
+              className={"searchTextField_input"}
             />
           ) : (
             <span>{nicknameNew}</span>
@@ -217,7 +217,7 @@ const ViewMyInfo = () => {
       {/* 휴대폰 번호 */}
       <div className="phone-wrapper">
         <PreSubTitleLabel text="휴대폰 번호" />
-        <div className="TextField_container">
+        <div className={`textField_container ${isEditing ? '' : 'disabled'}`}>
           {isEditing ? (
             <input
               type="text" // 여전히 type="text"를 사용 (number는 음수나 소수 입력 가능성을 배제하기 위해)
@@ -238,7 +238,7 @@ const ViewMyInfo = () => {
       {/* 주소 */}
       <div className="address-wrapper">
         <PreSubTitleLabel text="주소" />
-        <div className="TextField_container">
+        <div className={`textField_container ${isEditing ? '' : 'disabled'}`}>
           {isEditing ? (
             <input
               type="text"
@@ -251,18 +251,15 @@ const ViewMyInfo = () => {
           )}
         </div>
       </div>
-      <HorizontalRule type="hr2" />
 
-      {/* 저장 버튼 */}
-      <div className="button-container">
-        <RectangleButton text={isEditing ? "저장" : "변경"} onClick={isEditing ? handleSave : handleEditToggle} />
-      </div>
+      <HorizontalRule type="hr2" />
 
       {/* 회원 탈퇴 */}
       <div className="leave-account-container">
         <span className="leave-account-text" onClick={handleLeaveAccount}>
           회원 탈퇴
         </span>
+        <RectangleButton text={isEditing ? "저장" : "변경"} onClick={isEditing ? handleSave : handleEditToggle} />
       </div>
     </div>
   );
