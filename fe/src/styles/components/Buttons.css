@@ -1,3 +1,5 @@
+@import '../Color.css';
+
 .buttonBase {
   font-size: 16px;
   font-family: 'Pretendard-Regular', sans-serif;
@@ -6,10 +8,12 @@
 
 /*네모 버튼*/
 .rectangleButton {
-  background-color: green;
+  background-color: var(--green-deep);
   color: white;
   border: none;
   padding: auto;
+  padding: 12px 20px;
+  border-radius: 8px;
 }
 
 /*라운드 버튼*/
