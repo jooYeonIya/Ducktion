@@ -6,7 +6,7 @@ import { getHistoriesCount } from "../services/itemService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel"
 import RectangleButton from "../components/Button/RectangleButton"
 import GodoSubTitleLabel from "../components/Labels/GodoSubTitleLabel"
-import PreTitleLabel from "../components/Labels/PreTitleLabel"
+import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel"
 import IconPlusLabelColumn from "../components/Labels/IconPlusLabelColumn"
 import CardItemsList from '../components/ItemCard/ItemCardList'
 import ProfileImage from "../components/ProfileImage";
@@ -14,6 +14,7 @@ import Historybox from "../components/Historybox";
 import PreCaptionLabel from "../components/Labels/PreCaptionLabel"
 
 import '@styles/pages/ViewMypage.css'
+import PreTextLabel from "../components/Labels/PreTextLabel";
 
 export default function ViewMypage() {
   const [biddedSortOptions, setBiddedSortOptions] = useState([
@@ -113,17 +114,17 @@ return (
       <div className='rate_items'>
         <div className='rate_item'>
           <IconPlusLabelColumn icon={"src/assets/rate.png"} text={"내 점수"} />
-          <PreTitleLabel text={`${userInfo.rate} 점`} />
+          <PreSubTitleLabel text={`${userInfo.rate} 점`} />
         </div>
         <hr />
         <div className='rate_item' onClick={navigateBidPointHistoryList}>
           <IconPlusLabelColumn icon={"src/assets/heldBid.png"} text={"보유 비드"} />
-          <PreTitleLabel text={`${userInfo.heldBid} 비드`} />
+          <PreSubTitleLabel text={`${userInfo.heldBid} 비드`} />
         </div>
         <hr />
         <div className='rate_item' onClick={navigateBidPointHistoryList}>
           <IconPlusLabelColumn icon={"src/assets/usableBiid.png"} text={"사용 가능 비드"} />
-          <PreTitleLabel text={`${userInfo.usableBid} 비드`} />
+          <PreSubTitleLabel text={`${userInfo.usableBid} 비드`} />
         </div>
       </div>
     </div>
@@ -150,7 +151,9 @@ return (
         <GodoTitleLabel text={"관심 상품"} />
         <button onClick={navigateFavoriteItems}><PreCaptionLabel text={"더보기"} /></button>
       </div>
-      <CardItemsList itemList={tenFavoriteItems} />
+      {tenFavoriteItems 
+      ? <CardItemsList itemList={tenFavoriteItems} />
+      : <PreTextLabel text={"관심 상품을 등록해 주세요"} />}
     </div>
   </>
 )
