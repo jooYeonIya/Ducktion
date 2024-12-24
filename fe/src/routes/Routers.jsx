@@ -13,7 +13,7 @@ import EditItem from '../pages/EditItem'
 import ViewAdminPage from '../pages/ViewAdminPage'
 import ViewMyInfo from '../pages/ViewMyInfo';
 import ViewBidPointHistoryList from '../pages/viewBidPointHistoryList'
-import ViewRequestAddCommunity from '../pages/ViewRequestAddCommunity'
+import ViewAdminDetailPage from '../pages/ViewAdminDetailPage'
 import ViewItem from '../pages/ViewItem'
 import RequestDeleteItem from '../pages/RequestDeleteItem'
 
@@ -34,7 +34,7 @@ export default function Routers() {
       <Route path="/viewAdminPage" element={<ViewAdminPage />} />
       <Route path="/viewMyInfo" element={<ViewMyInfo />} />
       <Route path='viewBidPointHistoryList' element={<ViewBidPointHistoryList />} />
-      <Route path="/request/:id" element={<ViewRequestAddCommunity />} /> {/* 요청 상세 페이지 */}
+      <Route path="/viewAdminDetailPage/:id" element={<ViewAdminDetailPage />} /> 
       <Route path='/viewItem' element={<ViewItem />} />
       <Route path='/requestDeleteItem' element={<RequestDeleteItem />} />
     </Routes>

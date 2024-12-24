@@ -4,7 +4,7 @@ import { getViewAdmin } from "../services/adminService"; // 기존 함수 사용
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
 
-function ViewRequestAddCommunity() {
+function ViewAdminDetailPage() {
   const { id } = useParams();
   console.log("Request ID from URL:", id); // ID 확인  
   const [requestDetail, setRequestDetail] = useState(null);
@@ -59,4 +59,4 @@ function ViewRequestAddCommunity() {
   );
 }
 
-export default ViewRequestAddCommunity;
+export default ViewAdminDetailPage;

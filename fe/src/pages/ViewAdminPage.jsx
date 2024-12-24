@@ -31,9 +31,9 @@ function ViewAdminPage() {
 
   const handleNavigate = (id, type) => {
     if (type === "요청") {
-      navigate(`/request/${id}`); // 요청 타입일 때
+      navigate(`/viewAdminDetailPage/${id}`); // 요청 타입일 때
     } else if (type === "신고" || type === "검수") {
-      navigate(`/product/${id}`); // 신고 및 검수 타입일 때
+      navigate('/viewItem', {state: {itemId: id}}); // 신고 및 검수 타입일 때
     }
   };
 
