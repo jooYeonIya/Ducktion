@@ -5,7 +5,6 @@ import IconPlusLabel from './Labels/IconPlusLabel'
 import SearchTextField from './SearchTextField'
 import CustomModal from './Modal/CustomModal'
 import LoginModalContent from './Modal/LoginModalContent'
-import LogoIconPlusLabel from './Labels/LogoIconPlusLabel'
 
 import '@styles/components/HeaderFooter.css'
 
@@ -37,7 +36,7 @@ export default function Header() {
  
   const options = [
     {
-      icon: "/src/assets/comunity.png",
+      icon: "/src/assets/community.png",
       text: "커뮤니티", 
       onClick: navigateToCommunityList,
     }, 
@@ -67,8 +66,8 @@ export default function Header() {
   return(
     <div className='header_container'>
       <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
-      <div className='header_container_logo'>
-        <LogoIconPlusLabel onClick={navigateToHome}/>
+      <div className='loginModal_container_top'>
+        <img src="/src/assets/ducktion_logo.png" onClick={navigateToHome}/>
       </div>
       <div className='header_container_searchField'>
         <SearchTextField placeholder={'커뮤니티 이름, 상품 이름을 입력해 주세요'} onSearch={(searchText) => handleSearch(searchText)} />
