@@ -11,13 +11,11 @@
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  color: #0056b3;
-  text-decoration: underline;
   margin-bottom: 10px; /* 컨텐츠와 간격 */
 }
 
 .community-header:hover {
-  color: #004ba0;
+  color: var(--blue-deep)
 }
 
 /* 메인 컨텐츠 레이아웃 */
@@ -284,26 +282,15 @@
   height: 48px;
 }
 
-/* 섹션 구분선 위아래로 추가 */
+/* 상세 설명, 출품자 정보 */
 .info-grid {
   display: grid;
   grid-template-columns: 65% 5% 30%;
-  gap: 20px;
   align-items: start;
   width: 100%;
-  border-top: 1px solid #ddd; /* 위쪽 구분선 */
-  padding: 20px 0; /* 구분선과 내용 사이 간격 */
 }
 
 /* 상세 설명 섹션 */
-.item-description {
-  padding-right: 20px; /* 세로 구분선과의 간격 */
-}
-
-.item-description h3 {
-  margin-bottom: 10px;
-}
-
 .item-description p {
   white-space: pre-wrap;
   line-height: 1.6;
@@ -318,24 +305,9 @@
 }
 
 /* 출품자 정보 섹션 */
-.exhibitor-info {
-  padding-left: 10px; /* 세로 구분선과 더 가까이 위치 */
-}
-
-.exhibitor-info h3 {
-  margin-bottom: 10px;
-}
-
 .detail-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-}
-
-.detail-row .label {
-  font-weight: bold;
-}
-
-.detail-row .value {
-  font-size: 16px;
+  margin-top: 16px;
 }

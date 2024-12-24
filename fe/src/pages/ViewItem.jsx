@@ -12,6 +12,7 @@ import StarRating from '../components/Button/StarRating';
 import { useModal } from '../hooks/useModal'
 import SubmitBidModalContent from '../components/Modal/SubmitBidModalContent'
 import CustomModal from '../components/Modal/CustomModal'
+import PreTextLabel from '../components/Labels/PreTextLabel';
 
 // const ViewItem = ({ itemId }) => {
 const ViewItem = () => {
@@ -364,7 +365,7 @@ const ViewItem = () => {
 
         {/* 상품 정보 */}
         <div className="item-info">
-          <h2 className="item-title">{data.itemName}</h2>
+          <PreTitleLabel text={data.itemName} />
           <PriceSummary startingBid={data.startingBid} nowPrice={data.nowPrice} immediateBid={data.immediateBid} />
 
           {/* 버튼 영역 */}
@@ -375,28 +376,28 @@ const ViewItem = () => {
 
           <div className="item-details">
             <div className="detail-row">
-              <span className="label">남은 시간: </span>
+              <PreTextLabel text={"남은 시간"} />
               <span className={`remaining-time-value ${isBlinking ? "blinking" : ""}`} key={remainingTime} // key 속성을 이용한 재렌더링 트리거
               > {remainingTime}</span>
             </div>
             <div className="detail-row">
-              <span className="label">조회수: </span>
+              <PreTextLabel text={"조회수"} />
               <span className="value"> {data.totalView.toLocaleString()}회</span>
             </div>
             <div className="detail-row">
-              <span className="label">입찰 건수: </span>
+              <PreTextLabel text={"입찰 건수"} />
               <span className="value">{data.totalBidding.toLocaleString()}건</span>
             </div>
             <div className="detail-row">
-              <span className="label">상태: </span>
+              <PreTextLabel text={"상태"} />
               <span className="value">{data.itemCondition}</span>
             </div>
             <div className="detail-row">
-              <span className="label">레어 등급: </span>
+              <PreTextLabel text={"레어 등급"} />
               <span className="value">{data.rareGrade}</span>
             </div>
             <div className="detail-row">
-              <span className="label">레어 등급 평가:</span>
+              <PreTextLabel text={"레어 등급 평가"} />
               <div className="rating-wrapper">
                 <StarRating rating={rareScore} onChange={handleRareScoreChange} />
               </div>
@@ -406,10 +407,12 @@ const ViewItem = () => {
       </div>
 
       {/* 상세 설명, 출품자 정보 */}
+      <HorizontalRule type={"hr2"} />
       <div className="info-grid">
+
         {/* 왼쪽: 상세 설명 */}
         <div className="item-description">
-          <h3>상세 설명</h3>
+          <PreTitleLabel text={"상세 설명"} />
           <p>{data.description}</p>
         </div>
 
@@ -417,15 +420,15 @@ const ViewItem = () => {
         <div className="vertical-separator"></div>
 
         {/* 오른쪽: 출품자 정보 */}
-        <div className="exhibitor-info">
-          <h3>출품자 정보</h3>
+        <div className="item-description">
+          <PreTitleLabel text={"출품자 정보"} />
           <div className="detail-row">
-            <span className="label">출품자:</span>
-            <span className="value">{data.exhibitorNickName}</span>
+            <PreTextLabel text={"출품자"} />
+            <PreTextLabel text={data.exhibitorNickName} />
           </div>
           <div className="detail-row">
-            <span className="label">평점:</span>
-            <span className="value">{data.exhibitorRate} 점</span>
+            <PreTextLabel text={"평점"} />
+            <PreTextLabel text={`${data.exhibitorRate} 점`} />
           </div>
         </div>
       </div>
