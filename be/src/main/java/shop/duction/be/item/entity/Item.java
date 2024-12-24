@@ -31,7 +31,7 @@ public class Item {
     @Column(length = 1000)
     private String description;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "item_condition", nullable = false, length = 20)
     private String condition;
 
     @Column(nullable = false, length = 20)
