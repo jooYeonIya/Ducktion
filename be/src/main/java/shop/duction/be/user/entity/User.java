@@ -10,6 +10,8 @@ import shop.duction.be.community.entity.FavoriteCommunity;
 import shop.duction.be.item.entity.FavoriteItem;
 import shop.duction.be.ship.entity.BidderShip;
 import shop.duction.be.ship.entity.ExhibitorShip;
+import shop.duction.be.user.enums.IsActive;
+import shop.duction.be.user.enums.Role;
 
 @Entity
 @Getter @Setter
@@ -32,11 +34,12 @@ public class User {
     private String profileImage; // 프로필 사진
 
     @Column(nullable = false, length = 20)
-    private String isActive; // 상태 (ACTIVE, INACTIVE, SUSPENDED)
+    private IsActive isActive; // 상태 (ACTIVE, INACTIVE, SUSPENDED)
 
     @Column(nullable = false, length = 20)
-    private String role; // 역할 (USER, ADMIN)
+    private Role role; // 역할 (USER, ADMIN)
 
+    @Column(nullable = false)
     private String phone; // 휴대폰 번호
 
     private String address; // 주소
@@ -46,6 +49,9 @@ public class User {
 
     @Column(nullable = false)
     private Integer usableBid = 0; // 사용 가능 비드
+
+    @Column(nullable = false)
+    private Float rate = 50f;
 
     @Column(nullable = false)
     private Integer penaltyCount = 0; // 패널티 횟수
