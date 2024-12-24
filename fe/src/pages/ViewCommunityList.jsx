@@ -16,6 +16,9 @@ function ViewCommunityList() {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
   ];
 
+  const navigateToItemList = () => {
+    navigate('/viewItemList', {state: {communityId: "1"}});
+  }
 
   function abcOnClick(value) {
     setAbc(value);
@@ -32,7 +35,7 @@ function ViewCommunityList() {
 
   function handleRoundButtonClick() {
     // "커뮤니티 개설 요청" 버튼 클릭 시 페이지 이동
-    navigate('/community-request'); // 이동할 경로
+    navigate('/requestAddCommunity'); // 이동할 경로
   }
 
   const renderButtons = () => {
@@ -130,7 +133,7 @@ function ViewCommunityList() {
         <GodoTitleLabel text={word} />
         {filteredCommunities.length > 0 ? (
           filteredCommunities.map((community, index) => (
-            <div key={index}>
+            <div key={index} onClick={navigateToItemList}>
               <img alt="communityImage" />
               <PreSubTitleLabel text={community.name} />
             </div>
@@ -324,7 +327,7 @@ function ViewCommunityList() {
       {/* 전체 ㄱ,ㄴ,ㄷ ... 커뮤니티 개설 요청 */}
       <div>
         {renderButtons()}
-        <RoundButton onClick={handleRoundButtonClick} options={[{value: "", title: "커뮤니티 개설 요청"}]} />
+        <RoundButton onChange={handleRoundButtonClick} options={[{value: "", title: "커뮤니티 개설 요청"}]} />
       </div>
       <div>
         {alphabetCommunity(nowAlpha)}

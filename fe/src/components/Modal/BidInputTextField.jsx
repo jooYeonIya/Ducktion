@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import BidPointHistoryCard from '../BidPointHistoryCard'
-import PreSubTitleLabel from '../Labels/PreSubTitleLabel'
+import PreTextLabel from '../Labels/PreTextLabel'
 
 import '@styles/components/modal/BidInputTextField.css'
 
@@ -16,11 +16,17 @@ export default function BidInputTextField({ probs }) {
 
   return (
     <div className='bidInputTextField'>
-      <BidPointHistoryCard heldBid={heldBid} usableBid={usableBid} />
+      <div className='bidInputTextField_info'>
+        <BidPointHistoryCard heldBid={heldBid} usableBid={usableBid} />
+      </div>
       <div className='bidInputTextField_input'>
-        <PreSubTitleLabel text={leftTitle} />
-        <input type="text" value={bidPoint} onChange={handleChange} placeholder={placeholder} />
-        <PreSubTitleLabel text={rightTitle} />
+        <PreTextLabel text={leftTitle} />
+        <input type="text" 
+          value={bidPoint} 
+          onChange={handleChange} 
+          placeholder={placeholder} 
+        />
+        <PreTextLabel text={rightTitle} />
       </div>
     </div>
   )

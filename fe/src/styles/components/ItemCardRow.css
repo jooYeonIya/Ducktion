@@ -3,8 +3,21 @@
   flex-direction: row;
   position: relative; 
   border: 1px solid #bebebe; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+  border-radius: 12px;
   width: 100%;
+}
+
+.itemCardRow_leftSection {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.itemCardRow_leftSection img {
+  width: 80%;
+  height: 80%;
 }
 
 .itemCardRow_rightSection {

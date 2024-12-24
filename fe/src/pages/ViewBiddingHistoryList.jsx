@@ -74,29 +74,35 @@ export default function ViewBiddingHistoryList() {
         <GodoTitleLabel text={"입찰 이력"} />
       </div>
 
-      <div className='biddingHistoryList_date'>
-        <DateNavigator onDateChange={handleDateChange} />
-      </div>
-
       <div className='biddingHistoryList_sortOption_container'>
         <div className='biddingHistoryList_sortOption'>
           <RoundButton options={sortOptions} onChange={handleSortChange} selectedOption={selectedSortOption} />
         </div>
       </div>
 
+      <div className='biddingHistoryList_date'>
+        <DateNavigator onDateChange={handleDateChange} />
+      </div>
+
       {biddingHistory.map((item, index) => (
         <div className='biddingHistoryList_item_container'>
-          <div className='biddingHistoryList_item_info'>
-            <ItemCardRow
-              image={item.info.image}
-              texts={[item.info.name, item.info.biddingCount, item.info.rareTier]} />
+          <div className='biddingHistoryList_item_container_top'>
+            <div className='biddingHistoryList_item_info'>
+              <ItemCardRow
+                image={item.info.image}
+                texts={[item.info.name, item.info.biddingCount, item.info.rareTier]}
+                itemId={item.info.itemId}
+              />
+              <div className='biddingHistoryList_item_buttons'>
+                <RectangleButton text={"배송 번호 조회"} onClick={() => openInvoiceModal(item.info)} />
+                <RectangleButton text={"출품자 평가"} onClick={() => openUserRatiangModal(item.info)} />
+              </div>
+            </div>
           </div>
-          <div className='biddingHistoryList_item_histories'>
-            <BiddingHistoryList histories={item.histories} />
-          </div>
-          <div className='biddingHistoryList_item_buttons'>
-            <RectangleButton text={"배송 번호 조회"} onClick={() => openInvoiceModal(item.info)} />
-            <RectangleButton text={"출품자 평가"} onClick={() => openUserRatiangModal(item.info)} />
+          <div className='biddingHistoryList_item_container_top'>
+            <div className='biddingHistoryList_item_histories'>
+              <BiddingHistoryList histories={item.histories} />
+            </div>
           </div>
         </div>
       ))}

@@ -13,7 +13,7 @@ export default function LoginModalContent({ onClose }) {
   return (
     <div className='loginModal_container'>
       <div className='loginModal_container_top'>
-        <IconPlusLabel icon={"/src/assets/duck.png"} text={"덕션"} />
+        <img src="/src/assets/ducktion_logo.png" />
         <PreTextLabel text={"로그인이 필요한 서비스입니다."} />
       </div>
       <div className='loginModal_container_bottom'>

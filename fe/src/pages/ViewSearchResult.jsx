@@ -42,7 +42,7 @@ export default function ViewSearchResult() {
   }, [searchText])
 
   return (
-    <>
+    <div className='viewSearchResult'>
       <div className='viewSearchResult_title'>
         <GodoTitleLabel text={"검색 결과"} />
       </div>
@@ -64,6 +64,6 @@ export default function ViewSearchResult() {
           <CardItemsList title={"출품 상품"} itemList={items} />
         </div>
       )}
-    </>
+    </div>
   )
 }

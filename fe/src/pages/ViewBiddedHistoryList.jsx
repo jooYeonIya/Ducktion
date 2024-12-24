@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getBiddedHistory } from '../services/itemService'
 import { useModal } from '../hooks/useModal'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
@@ -20,6 +20,7 @@ export default function ViewBiddedHistoryList() {
     { value: "biddedCancel", title: "유찰" },
   ];
 
+  const navigate = useNavigate();
   const location = useLocation();
   const sortType = location.state.sortType;
 
@@ -54,7 +55,15 @@ export default function ViewBiddedHistoryList() {
     setSelectedDate({ year, month });
   };
 
- const openInvoiceModal = (itemId) => {
+  const navigateToDeletePage = (item) => {
+    navigate("/requestDeleteItem", {state: {item: item}})
+  }
+
+  const navigateToModifyPage = (item) => {
+    navigate("/editItem", {state: {item: item}})
+  }
+
+  const openInvoiceModal = (itemId) => {
     openModal(<InputInvoiceModalContent itemId={itemId} onClose={closeModal} />);
   };
 
@@ -70,14 +79,14 @@ export default function ViewBiddedHistoryList() {
         <GodoTitleLabel text={"출품 이력"} />
       </div>
 
-      <div className='biddedHistoryList_date'>
-        <DateNavigator onDateChange={handleDateChange} />
-      </div>
-
       <div className='biddedHistoryList_sortOption_container'>
         <div className='biddedHistoryList_sortOption'>
           <RoundButton options={sortOptions} onChange={handleSortChange} selectedOption={selectedSortOption} />
         </div>
+      </div>
+
+      <div className='biddedHistoryList_date'>
+        <DateNavigator onDateChange={handleDateChange} />
       </div>
 
       <div className='biddedHistoryList_cardItems'>
@@ -85,8 +94,8 @@ export default function ViewBiddedHistoryList() {
           <div className='biddedHistoryList_cardItems_item' key={index}>
             <ItemCard key={index} data={item} />
             <div className='biddedHistoryList_cardItems_bottons'>
-              <RectangleButton text={"수정"}/>
-              <RectangleButton text={"삭제"}/>
+              <RectangleButton text={"수정"} onClick={() => navigateToModifyPage(item)}/>
+              <RectangleButton text={"삭제"} onClick={() => navigateToDeletePage(item)}/>
             </div>
             <div className='biddedHistoryList_cardItems_botton'>
                 <RectangleButton text={"배송 번호 입력"} onClick={() => openInvoiceModal(item.itemId)}/>

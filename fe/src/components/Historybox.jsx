@@ -1,5 +1,5 @@
-import PreTextLabel from './Labels/PreTextLabel'
-import PreTitleLabel from './Labels/PreTitleLabel';
+import PreCaptionLabel from './Labels/PreCaptionLabel'
+import PreSubTitleLabel from './Labels/PreSubTitleLabel'
 
 import '@styles/components/Historybox.css'
 
@@ -12,8 +12,8 @@ export default function Historybox({ items, onClick }) {
           onClick={() => onClick(item.value)}
           className={`historybox_item ${index !== items.length - 1 ? 'withBorder' : ''}`}
         >
-          <PreTextLabel text={item.title} />
-          <PreTitleLabel text={item.count} />
+          <PreCaptionLabel text={item.title} style={{paddingBottom: "4px"}}/>
+          <PreSubTitleLabel text={item.count} />
         </div>
       ))}
     </div>

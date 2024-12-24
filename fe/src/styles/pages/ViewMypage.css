@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   border: 1px solid #bebebe;
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 24px 52px;
   margin-top: 20px;
 }
@@ -30,8 +30,8 @@
 .rate_items {
   display: flex; 
   border: 1px solid #bebebe;
-  border-radius: 20px;
-  padding: 32px 54px;
+  border-radius: 12px;
+  padding: 20px;
   width: 100%;
 }
 
@@ -53,7 +53,7 @@
 
 /* 입찰 이력 & 출품 이력 */
 .biddingItem_container, .biddedItem_container {
-  margin: 40px 0;
+  margin: 60px 0;
 }
 
 .biddingItem_container_title, .biddedItem_container_title {

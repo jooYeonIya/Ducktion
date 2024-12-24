@@ -1,3 +1,4 @@
+import PreTextLabel from '../Labels/PreTextLabel'
 import '@styles/components/Labels.css'
 
 export default function IconPlusLabel({icon, text, onClick}) {
@@ -7,10 +8,10 @@ export default function IconPlusLabel({icon, text, onClick}) {
         className='iconPlusLabel_icon'
         src={icon} 
         alt={text} 
-        width={40}
-        height={40}
+        width={16}
+        height={16}
       />
-      <span className='iconPlusLabel_text'>{text}</span>
+      <PreTextLabel text ={text} />
     </div>
   )
 }

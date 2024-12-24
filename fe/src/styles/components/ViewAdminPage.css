@@ -1,9 +1,0 @@
-.button-action {
-  display: flex; /* Flexbox로 설정 */
-  gap: 10px; /* 버튼 간의 간격 */
-}
-
-.button-group-admin {
-  gap: 20px;
-  display: flex;
-}

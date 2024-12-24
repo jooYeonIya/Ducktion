@@ -36,7 +36,7 @@ export default function Header() {
  
   const options = [
     {
-      icon: "/src/assets/comunity.png",
+      icon: "/src/assets/community.png",
       text: "커뮤니티", 
       onClick: navigateToCommunityList,
     }, 
@@ -54,7 +54,7 @@ export default function Header() {
     },
   ];
 
-    // 토큰 확인
+  // 토큰 확인
   // 나중에 좀 변경해야할 수 있음 
   useEffect(() => {
     // 토큰 체크 하고
@@ -66,11 +66,11 @@ export default function Header() {
   return(
     <div className='header_container'>
       <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
-      <div className='header_container_logo'>
-        <IconPlusLabel icon={'/src/assets/duck.png'} text={'덕션'} onClick={navigateToHome}/>
+      <div className='loginModal_container_top'>
+        <img src="/src/assets/ducktion_logo.png" onClick={navigateToHome}/>
       </div>
       <div className='header_container_searchField'>
-        <SearchTextField placeholder={'검색어 입력하시든가 말든가'} onSearch={(searchText) => handleSearch(searchText)} />
+        <SearchTextField placeholder={'커뮤니티 이름, 상품 이름을 입력해 주세요'} onSearch={(searchText) => handleSearch(searchText)} />
       </div>
       <div className='header_container_options'>
         {options.map((item, index) => (

@@ -70,14 +70,19 @@ export default function SubmitBidModalContent({ probs, onClose }) {
   }, [])
 
   return (
-    <div className='modal_contaier'>
+    <div className='submit_modal_contaier'>
       <GodoTitleLabel text={'입찰하기'} />
       <PreTextLabel text={itemName} />
-      <RoundButton options={[{vlaue: "", title: `사용 가능한 비드 ${usableBid}`}]} />
 
-      <PriceSummary startingBid={startingBid} nowPrice={nowPrice} immediateBid={immediateBid} />
-      <PreCaptionLabel text={"*즉시 낙찰가를 초과하는 입찰은 불가합니다."} style={{ color: "#bebebe" }} />
+      <div className='submit_modal_button'>
+        <RoundButton options={[{vlaue: "", title: `사용 가능한 비드 ${usableBid}`}]} />
+      </div>
 
+      <div className='submit_modal_price'>
+        <PriceSummary startingBid={startingBid} nowPrice={nowPrice} immediateBid={immediateBid} />
+        <PreCaptionLabel text={"*즉시 낙찰가를 초과하는 입찰은 불가합니다."} style={{ color: "#bebebe" }} />
+      </div>
+      
       <div className='bidInput_container'>
         <button className='bidInput_button' onClick={handleMinusIcon}>
         <img src="/src/assets/minus.png" width={20} height={20}/>

@@ -1,0 +1,42 @@
+@import '../Color.css';
+
+.button-group-admin {
+  padding: 20px 0;
+}
+
+.button-action {
+  display: flex; /* Flexbox로 설정 */
+  gap: 10px; /* 버튼 간의 간격 */
+  justify-content: center;
+}
+
+.button-action button {
+  width: 80px;
+  height: 20px;
+  padding: 0;
+}
+
+/* 전체 테이블 스타일 */
+table {
+  width: 100%;
+  border-collapse: collapse; 
+  text-align: center; 
+}
+
+/* 테이블 헤더 스타일 */
+thead th {
+  padding: 12px; 
+  background-color: #f1f1f1; 
+  border-bottom: 2px solid #dddddd; 
+  font-weight: bold; 
+}
+
+/* 테이블 본문 스타일 */
+tbody td {
+  padding: 20px 0; 
+  border-bottom: 1px solid #bebebe; 
+}
+
+tbody tr:hover {
+  background-color: #f0f8ff; 
+}

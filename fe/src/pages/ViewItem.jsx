@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import RectangleButton from '../components/Button/RectangleButton';
 import "../styles/pages/ViewItem.css"
 import HorizontalRule from '../components/HorizontalRule';
@@ -12,10 +12,14 @@ import StarRating from '../components/Button/StarRating';
 import { useModal } from '../hooks/useModal'
 import SubmitBidModalContent from '../components/Modal/SubmitBidModalContent'
 import CustomModal from '../components/Modal/CustomModal'
+import PreTextLabel from '../components/Labels/PreTextLabel';
+import IconPlusLabel from '../components/Labels/IconPlusLabel'
 
 // const ViewItem = ({ itemId }) => {
 const ViewItem = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const itemId = location.state.itemId;
   const fileInputRef = useRef(null);
 
   const maxFileSize = 2 * 1024 * 1024; // 2MB
@@ -49,8 +53,7 @@ const ViewItem = () => {
 
   // 컴포넌트가 마운트될 때 get 요청
   useEffect(() => {
-    const itemId = 1;
-
+    console.log(itemId);
     if (!itemId) {
       console.error("itemId가 전달되지 않았습니다.");
       return;
@@ -349,21 +352,15 @@ const ViewItem = () => {
 
           {/* 버튼 추가 */}
           <div className="slider-buttons">
-            <button className="icon-button report-button" onClick={onReport}>
-              <img src="/src/assets/report.png" alt="신고하기" className="icon" />
-              <span>신고하기</span>
-            </button>
-            <button className="icon-button bid-button" onClick={onGiveup}>
-              <img src="/src/assets/give_up.png" alt="입찰 포기" className="icon" />
-              <span>입찰 포기</span>
-            </button>
+            <IconPlusLabel icon="/src/assets/report.png" text={"신고하기"} onClick={onReport}/>
+            <IconPlusLabel icon="/src/assets/give_up.png" text={"입찰포기"} onClick={onGiveup}/>
+            <IconPlusLabel icon="/src/assets/duck.png" text={"관심등록"}/>
           </div>
         </div>
 
-
         {/* 상품 정보 */}
         <div className="item-info">
-          <h2 className="item-title">{data.itemName}</h2>
+          <PreTitleLabel text={data.itemName} />
           <PriceSummary startingBid={data.startingBid} nowPrice={data.nowPrice} immediateBid={data.immediateBid} />
 
           {/* 버튼 영역 */}
@@ -372,30 +369,31 @@ const ViewItem = () => {
             <RectangleButton text={"즉시 낙찰"} onClick={onImmediateBid} />
           </div>
 
+          {/* 상품 상세 정보 */}
           <div className="item-details">
-            <div className="detail-row">
-              <span className="label">남은 시간: </span>
+            <div className="item-info-detail-row">
+              <PreTextLabel text={"남은 시간"} />
               <span className={`remaining-time-value ${isBlinking ? "blinking" : ""}`} key={remainingTime} // key 속성을 이용한 재렌더링 트리거
               > {remainingTime}</span>
             </div>
-            <div className="detail-row">
-              <span className="label">조회수: </span>
-              <span className="value"> {data.totalView.toLocaleString()}회</span>
+            <div className="item-info-detail-row">
+              <PreTextLabel text={"조회수"} />
+              <PreTextLabel text={`${data.totalView.toLocaleString()}회`}/>
             </div>
-            <div className="detail-row">
-              <span className="label">입찰 건수: </span>
-              <span className="value">{data.totalBidding.toLocaleString()}건</span>
+            <div className="item-info-detail-row">
+              <PreTextLabel text={"입찰 건수"} />
+              <PreTextLabel text={`${data.totalBidding.toLocaleString()}건`}/>
             </div>
-            <div className="detail-row">
-              <span className="label">상태: </span>
-              <span className="value">{data.itemCondition}</span>
+            <div className="item-info-detail-row">
+              <PreTextLabel text={"상태"} />
+              <PreTextLabel text={data.itemCondition} />
             </div>
-            <div className="detail-row">
-              <span className="label">레어 등급: </span>
-              <span className="value">{data.rareGrade}</span>
+            <div className="item-info-detail-row">
+              <PreTextLabel text={"레어 등급"} />
+              <PreTextLabel text={data.rareGrade} style={{fontFamily: "HakgyoansimByeolbichhaneulTTF-B"}}/>
             </div>
-            <div className="detail-row">
-              <span className="label">레어 등급 평가:</span>
+            <div className="item-info-detail-row">
+              <PreTextLabel text={"레어 등급 평가"} />
               <div className="rating-wrapper">
                 <StarRating rating={rareScore} onChange={handleRareScoreChange} />
               </div>
@@ -404,11 +402,15 @@ const ViewItem = () => {
         </div>
       </div>
 
+      <HorizontalRule type={"hr1"} />
+      
       {/* 상세 설명, 출품자 정보 */}
       <div className="info-grid">
+
         {/* 왼쪽: 상세 설명 */}
         <div className="item-description">
-          <h3>상세 설명</h3>
+          <PreTitleLabel text={"상세 설명"} />
+          <HorizontalRule type={"hr2"} />
           <p>{data.description}</p>
         </div>
 
@@ -416,15 +418,16 @@ const ViewItem = () => {
         <div className="vertical-separator"></div>
 
         {/* 오른쪽: 출품자 정보 */}
-        <div className="exhibitor-info">
-          <h3>출품자 정보</h3>
+        <div className="item-description">
+          <PreTitleLabel text={"출품자 정보"} />
+          <HorizontalRule type={"hr2"} />
           <div className="detail-row">
-            <span className="label">출품자:</span>
-            <span className="value">{data.exhibitorNickName}</span>
+            <PreTextLabel text={"출품자"} />
+            <PreSubTitleLabel text={data.exhibitorNickName} style={{ fontWeight: "bold" }}/>
           </div>
           <div className="detail-row">
-            <span className="label">평점:</span>
-            <span className="value">{data.exhibitorRate} 점</span>
+            <PreTextLabel text={"평점"} />
+            <PreSubTitleLabel text={`${data.exhibitorRate} 점`} style={{ fontWeight: "bold" }}/>
           </div>
         </div>
       </div>

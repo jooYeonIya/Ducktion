@@ -7,7 +7,7 @@ import PreCaptionLabel from '../Labels/PreCaptionLabel'
 import '@styles/components/ItemCard.css'
 
 function ItemCard({ data, badgeClick }) {
-  const {communityId, image, favorited, name, priceInfo, additionalInfo, overlayText} = data
+  const {itemId, image, favorited, name, priceInfo, additionalInfo, overlayText} = data
   const [isFavorited, setIsFavorited] = useState(favorited);
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ function ItemCard({ data, badgeClick }) {
   };
 
   const cardOnClick = () => {
-    navigate("/viewItemList", { state: {communityId: communityId} });
+    navigate("/viewItem", { state: {itemId: itemId} });
   };
 
   return (

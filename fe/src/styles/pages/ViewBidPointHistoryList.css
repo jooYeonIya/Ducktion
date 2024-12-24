@@ -1,9 +1,11 @@
 .bidPointHistory_historyCard {
-  background-color: antiquewhite;
+  background: rgba(150, 177, 172, 0.5);
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 20px 0;
+  padding: 40px 0;
+  border-radius: 8px;
+  margin: 20px 0;
 }
 
 .bidPointHistory_historyCard_buttons {
@@ -13,8 +15,16 @@
 }
 
 .bidPointHistory_historyCard_buttons button {
-  width: 200px;
-  height: 48px;
+  width: 100px;
+  height: 32px;
+  padding: 0;
+}
+
+.bidPointHistory_options_date {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px 0;
 }
 
 .bidPointHistory_historyList {
@@ -44,7 +54,7 @@
 }
 
 .bidPointHistory_historyList_item_right.plus {
-  color: yellowgreen;
+  color: var(--gold-deep);
 }
 
 .bidPointHistory_historyList_item_right.minus {

@@ -12,9 +12,32 @@
   gap: 32px;
 }
 
+/* 입찰하기 css */
+.submit_modal_contaier {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 400px;
+}
+
+.submit_modal_button button {
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Pretendard-Bold';
+}
+
+.submit_modal_price {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+}
+
+
 .bidInput_container {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 

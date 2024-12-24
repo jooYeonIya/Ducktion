@@ -10,7 +10,8 @@ import RectangleButton from '../components/Button/RectangleButton';
 import Calendar from '../components/Calendar';
 import { validateImageFile } from "../utils/ImageFileValidators";
 import { putItemEdit, getItemEdit } from '../services/itemService';
-
+import HorizontalRule from '../components/HorizontalRule';
+import PreCaptionLabel from '../components/Labels/PreCaptionLabel';
 
 function EditItem() {
   const navigate = useNavigate();
@@ -96,7 +97,7 @@ function EditItem() {
     setImages((prevNewImages) => [...prevNewImages, ...newImages]);
     setNewImageFiles((prevNewImageFiles) => [...prevNewImageFiles, ...validImages]);
   };
- 
+
   const handleRemoveImage = (index) => {
     const imageToRemove = images[index];
 
@@ -116,7 +117,7 @@ function EditItem() {
   };
 
   const handleCancleClick = () => {
-    navigate('/ViewCommunityList'); // 이동할 경로
+    window.history.back();
   }
 
   const handleSubmitClick = async () => {
@@ -219,163 +220,180 @@ function EditItem() {
   return (
     <div className="regist-item-container">
       <GodoTitleLabel text={"출품 상품 수정"} />
-      <br />
-      <PreTitleLabel text={"상품 정보"} />
-      <hr className='divider-black' />
-      <br />
+
+      <div className='regist_item_title'>
+        <PreTitleLabel text={"상품 정보"} />
+      </div>
+
+      <HorizontalRule type="hr1" />
 
       {/* 상품 이름 */}
-      <div className="inline-container">
+      <div className="inline_container">
         <PreSubTitleLabel text={"상품 이름"} />
-        <input
-          type="text"
-          placeholder="출품 상품 이름을 입력해주세요.(150자)"
-          maxLength="150"
-          value={itemName}
-          onChange={(e) => setItemName(e.target.value)}
-        />
+        <div className='postForm_title'>
+          <input
+            type="text"
+            placeholder="출품 상품 이름을 입력해주세요 (150자)"
+            maxLength="150"
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
+            className="searchTextField_input"
+          />
+        </div>
       </div>
+
+      <HorizontalRule type="hr2" />
 
       {/* 사진 */}
-      <hr className='divider-gray' />
-      <br />
-      <div className="inline-container">
-        <PreSubTitleLabel text={"사진"} />
-        <PreSubTitleLabel text={"(최대 9장)"} />
-      </div>
-      <div className="image-container">
-        {/* 첫 번째 줄: 등록 버튼과 최대 4개의 이미지 */}
-        <div className="image-row">
-          {/* 이미지 등록 버튼 */}
-          <div className="image-upload-wrapper" onClick={handleImageClick}>
-            <div className="upload-icon">
-              <img src="/src/assets/camera.png" alt="카메라 아이콘" />
-              <div>이미지 등록</div>
+      <div className="inline_container">
+        <PreSubTitleLabel text={"사진 (최대 9장)"} />
+
+        <div className="image-container">
+          {/* 첫 번째 줄: 등록 버튼과 최대 3개의 이미지 */}
+          <div className="image-row">
+            {/* 이미지 등록 버튼 */}
+            <div className="image-upload-wrapper" onClick={handleImageClick}>
+              <div className="upload-icon">
+                <img src="/src/assets/camera.png" alt="카메라 아이콘" />
+                <div>이미지 등록</div>
+              </div>
             </div>
+
+            {/* 첫 번째 줄 이미지 */}
+            {images.slice(0, 4).map((image, index) => (
+              <div key={index} className="image-wrapper">
+                <img
+                  src={image}
+                  alt={`첨부된 이미지 ${index + 1}`}
+                  className="preview-image"
+                />
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => handleRemoveImage(index)}
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
           </div>
 
-          {/* 첫 번째 줄 이미지 */}
-          {images.slice(0, 4).map((image, index) => (
-            <div key={index} className="image-wrapper">
-              <img
-                src={image}
-                alt={`첨부된 이미지 ${index + 1}`}
-                className="preview-image"
-              />
-              <button
-                type="button"
-                className="remove-button"
-                onClick={() => handleRemoveImage(index)}
-              >
-                &times;
-              </button>
-            </div>
-          ))}
+          {/* 두 번째 줄: 최대 5개의 이미지 */}
+          <div className="image-row">
+            {images.slice(4).map((image, index) => (
+              <div key={index} className="image-wrapper">
+                <img
+                  src={image}
+                  alt={`첨부된 이미지 ${index + 5}`}
+                  className="preview-image"
+                />
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => handleRemoveImage(index + 4)}
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-
-        {/* 두 번째 줄: 최대 5개의 이미지 */}
-        <div className="image-row">
-          {images.slice(4).map((image, index) => (
-            <div key={index} className="image-wrapper">
-              <img
-                src={image}
-                alt={`첨부된 이미지 ${index + 5}`}
-                className="preview-image"
-              />
-              <button
-                type="button"
-                className="remove-button"
-                onClick={() => handleRemoveImage(index + 4)}
-              >
-                &times;
-              </button>
-            </div>
-          ))}
-        </div>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          multiple
+          style={{ display: 'none' }}
+        />
       </div>
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        multiple
-        style={{ display: 'none' }}
-      />
+
+      <HorizontalRule type="hr2" />
 
       {/* 상세 설명 */}
-      <hr className='divider-gray' />
-      <br />
-      <div className="inline-container">
+      <div className="inline_container">
         <PreSubTitleLabel text={"상세 설명"} />
-        <textarea
-          name="상세 설명"
-          id="detailed_description"
-          cols="120"
-          rows="5"
-          placeholder='출품 상품의 상세 설명을 입력해주세요.'
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        <div className='inline_container_textarea postForm_textarea'>
+          <textarea
+            placeholder='출품 상품의 상세 설명을 입력해주세요'
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* 상품 상태 */}
-      <hr className="divider-gray" />
-      <br />
-      <div className="inline-container">
+      <div className="inline_container">
         <PreSubTitleLabel text={"상품 상태"} />
-        <RadioButtonGroup />
-      </div>
-
-      {/* 레어 점수 평가 */}
-      <hr className="divider-gray" />
-      <br />
-      <div className="inline-container">
-        <PreSubTitleLabel text={"레어 점수 평가"} />
-        <div className="star-rating-wrapper">
-          <StarRating rating={rareScore} onChange={(rating) => setRareScore(rating)} />
+        <div className='inline_content'>
+          <RadioButtonGroup />
         </div>
       </div>
-      <p>현재 선택한 레어 점수: {rareScore}</p>
 
-      <br />
-      <br />
+      <HorizontalRule type="hr2" />
 
-      <PreTitleLabel text={"경매 정보"} />
-      <hr className='divider-black' />
-      <br />
+      {/* 레어 점수 평가 */}
+      <div className="inline_container">
+        <PreSubTitleLabel text={"레어 점수 평가"} />
+        <div className='inline_content'>
+          <div className="star-rating-wrapper">
+            <StarRating rating={rareScore} onChange={(rating) => setRareScore(rating)} />
+            <span>{rareScore || 0} 점</span>
+          </div>
+        </div>
+      </div>
 
-      <div className="inline-container">
+      <div className='regist_item_title'>
+        <PreTitleLabel text={"경매 정보"} />
+      </div>
+
+      <HorizontalRule type="hr1" />
+
+      <div className="inline_container">
         <PreSubTitleLabel text={"시작가"} />
-        <NumericInput value={startingBid} onChange={(value) => setStartingBid(value)} placeholder="시작가를 입력해주세요." />
-        <span>비드</span>
+        <div className='postForm_title'>
+          <NumericInput
+            value={startingBid}
+            onChange={(value) => setStartingBid(value)}
+            placeholder="시작가를 입력해주세요."
+          />
+        </div>
       </div>
 
-      <hr className="divider-gray" />
-      <br />
-      <div className="inline-container">
+      <HorizontalRule type="hr2" />
+
+      {/* 경매 종료일 */}
+      <div className="inline_container">
         <PreSubTitleLabel text={"경매 종료일"} />
-        <Calendar selected={auctionEndDate} onChange={(date) => setAuctionEndDate(date)} placeholderText='경매 종료일을 선택해주세요.' />
+        <div className='inline_content'>
+          <Calendar
+            selected={auctionEndDate}
+            onChange={(date) => setAuctionEndDate(date)}
+            placeholderText='경매 종료일을 선택해주세요' />
+        </div>
       </div>
 
-      <br />
-      <br />
-
-
-      <div className="inline-container">
+      <div className='regist_item_title'>
         <PreTitleLabel text={"추가 정보"} />
-        <PreSubTitleLabel text={"선택 사항"} />
+        <PreCaptionLabel text={"선택 사항"} style={{ color: "#bebebe" }} />
       </div>
-      <hr className='divider-black' />
-      <div className="inline-container">
+
+      <HorizontalRule type="hr1" />
+
+      <div className="inline_container">
         <PreSubTitleLabel text={"즉시 낙찰가"} />
-        <NumericInput value={immediateBid} onChange={(value) => setImmediateBid(value)} placeholder="즉시 낙찰가를 입력해주세요." />
-        <span>비드</span>
+        <div className='postForm_title'>
+          <NumericInput
+            value={immediateBid}
+            onChange={(value) => setImmediateBid(value)}
+            placeholder="즉시 낙찰가를 입력해주세요" />
+        </div>
       </div>
 
-      <br />
-      <br />
+      <HorizontalRule type="hr2" />
 
-      <div className="button-container">
+      {/* 버튼 */}
+      <div className="bidPointModalContent_buttons">
         <RectangleButton text={"취소"} onClick={handleCancleClick} />
         <RectangleButton text={"확인"} onClick={handleSubmitClick} />
       </div>

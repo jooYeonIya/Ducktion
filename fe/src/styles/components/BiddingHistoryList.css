@@ -1,4 +1,8 @@
 .historyItem {
   display: flex;
   justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  border-bottom: 1px solid #bebebe;
+  padding-bottom: 8px;
 }
