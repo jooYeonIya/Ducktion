@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "react-table";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from "react-router-dom";
 import { getViewAdmin } from "../services/adminService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
-import RectangleButton from "../components/Button/RectangleButton"; 
-import RoundButton from "../components/Button/RoundButton"; 
+import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
+import RectangleButton from "../components/Button/RectangleButton";
+import RoundButton from "../components/Button/RoundButton";
 
-import '@styles/pages/ViewAdminPage.css';
+import "@styles/pages/ViewAdminPage.css";
 
 function ViewAdminPage() {
-  const [type, setType] = useState("요청");
+  const [type, setType] = useState("개설 요청");
   const [currentData, setCurrentData] = useState([]);
 
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function ViewAdminPage() {
     const fetchData = async () => {
       try {
         const data = await getViewAdmin();
-        setCurrentData(data);
+        setCurrentData(data || []);
       } catch (error) {
         console.error("Failed to fetch post list:", error);
       }
@@ -30,10 +31,10 @@ function ViewAdminPage() {
   const filteredData = currentData.filter(item => item.type === type);
 
   const handleNavigate = (id, type) => {
-    if (type === "요청") {
-      navigate(`/viewAdminDetailPage/${id}`); // 요청 타입일 때
+    if (type === "개설 요청" || type === "삭제 요청") {
+      navigate("/viewAdminDetailPage", { state: { requestId: id, requestType: type } });
     } else if (type === "신고" || type === "검수") {
-      navigate('/viewItem', {state: {itemId: id}}); // 신고 및 검수 타입일 때
+      navigate("/viewItem", { state: { itemId: id } });
     }
   };
 
@@ -44,7 +45,7 @@ function ViewAdminPage() {
         accessor: "id",
       },
     ];
-  
+
     if (type === "신고") {
       return [
         ...commonColumns,
@@ -52,7 +53,10 @@ function ViewAdminPage() {
           Header: "상품명",
           accessor: "title",
           Cell: ({ row }) => (
-            <span onClick={() => handleNavigate(row.original.id, row.original.type)} style={{ cursor: "pointer", color: "black" }}>
+            <span
+              onClick={() => handleNavigate(row.original.id, row.original.type)}
+              style={{ cursor: "pointer", color: "black" }}
+            >
               {row.original.title}
             </span>
           ),
@@ -60,16 +64,13 @@ function ViewAdminPage() {
         {
           Header: "신고 횟수",
           accessor: "reportCount",
-          Cell: ({ row }) => (
-            <span>{row.original.count}</span>
-          )
         },
         {
           Header: "작업",
           accessor: "action",
           Cell: () => (
             <div className="button-action">
-              <RectangleButton text="반려" /> 
+              <RectangleButton text="반려" />
               <RectangleButton text="승인" />
             </div>
           ),
@@ -82,7 +83,10 @@ function ViewAdminPage() {
           Header: "상품명",
           accessor: "title",
           Cell: ({ row }) => (
-            <span onClick={() => handleNavigate(row.original.id, row.original.type)} style={{ cursor: "pointer", color: "black" }}>
+            <span
+              onClick={() => handleNavigate(row.original.id, row.original.type)}
+              style={{ cursor: "pointer", color: "black" }}
+            >
               {row.original.title}
             </span>
           ),
@@ -102,7 +106,7 @@ function ViewAdminPage() {
           ),
         },
       ];
-    } else if (type === "요청") {
+    } else {
       return [
         ...commonColumns,
         {
@@ -113,7 +117,10 @@ function ViewAdminPage() {
           Header: "제목",
           accessor: "communitytitle",
           Cell: ({ row }) => (
-            <span onClick={() => handleNavigate(row.original.id, row.original.type)} style={{ cursor: "pointer", color: "black" }}>
+            <span
+              onClick={() => handleNavigate(row.original.id, row.original.type)}
+              style={{ cursor: "pointer", color: "black" }}
+            >
               {row.original.communitytitle}
             </span>
           ),
@@ -129,10 +136,13 @@ function ViewAdminPage() {
       ];
     }
   }, [type]);
-  
 
   const {
-    getTableProps, getTableBodyProps, headerGroups, rows, prepareRow,
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
   } = useTable({ columns, data: filteredData });
 
   return (
@@ -141,41 +151,45 @@ function ViewAdminPage() {
       <div className="button-group-admin">
         <RoundButton
           options={[
-            { value: '요청', title: '요청' },
-            { value: '신고', title: '신고' },
-            { value: '검수', title: '검수' },
+            { value: "개설 요청", title: "개설 요청" },
+            { value: "삭제 요청", title: "삭제 요청" },
+            { value: "신고", title: "신고" },
+            { value: "검수", title: "검수" },
           ]}
           onChange={(value) => setType(value)}
           selectedOption={type}
         />
       </div>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps(row.id)}>
-                {row.cells.map(cell => (
-                  <td {...cell.getCellProps({ key: cell.column.id })}>
-                    {cell.render("Cell")}
-                  </td>
+
+      {filteredData.length === 0 ? (
+        <PreSubTitleLabel text="표시할 데이터가 없습니다." />
+      ) : (
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

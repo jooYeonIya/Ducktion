@@ -127,7 +127,20 @@ export async function getViewAdmin() {
         requestdetailstory: requestdetailstories[i % requestdetailstories.length], // 요청 사유
         date: new Date().toISOString(), // 요청 날짜
         status: "개설", // 상태
-        type: "요청", // 타입
+        type: "개설 요청", // 타입
+      });
+    }
+
+    for (let i = 1; i <= 30; i++) {
+      data.push({
+        id: `request-${i}`, // 요청 ID
+        user: users[i % users.length], // 사용자
+        title: titles[i % titles.length], // 제목
+        communitytitle: communitytitles[i % communitytitles.length], // 커뮤니티 제목
+        requestdetailstory: requestdetailstories[i % requestdetailstories.length], // 요청 사유
+        date: new Date().toISOString(), // 요청 날짜
+        status: "삭제", // 상태
+        type: "삭제 요청", // 타입
       });
     }
 
@@ -140,7 +153,7 @@ export async function getViewAdmin() {
         requestdetailstory: requestdetailstories[i % requestdetailstories.length], // 요청 사유
         date: new Date().toISOString(), // 요청 날짜
         status: "신고", // 상태
-        count: 100,
+        reportCount: 50,
         type: "신고", // 타입
       });
     }
