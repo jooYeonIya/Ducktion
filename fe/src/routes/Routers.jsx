@@ -34,7 +34,7 @@ export default function Routers() {
       <Route path="/viewAdminPage" element={<ViewAdminPage />} />
       <Route path="/viewMyInfo" element={<ViewMyInfo />} />
       <Route path='viewBidPointHistoryList' element={<ViewBidPointHistoryList />} />
-      <Route path="/viewAdminDetailPage/:id" element={<ViewAdminDetailPage />} /> 
+      <Route path="/viewAdminDetailPage" element={<ViewAdminDetailPage />} /> 
       <Route path='/viewItem' element={<ViewItem />} />
       <Route path='/requestDeleteItem' element={<RequestDeleteItem />} />
     </Routes>
