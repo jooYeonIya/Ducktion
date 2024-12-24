@@ -1,8 +1,8 @@
 import '@styles/components/Labels.css'
 
-export default function PreTextLabel({text}) {
+export default function PreTextLabel({text, style}) {
   return (
   <>
-    <div className='textLabelPre'>{text}</div>
+    <div className='textLabelPre' style={style}>{text}</div>
   </>)
 }

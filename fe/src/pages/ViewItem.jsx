@@ -374,29 +374,30 @@ const ViewItem = () => {
             <RectangleButton text={"즉시 낙찰"} onClick={onImmediateBid} />
           </div>
 
+          {/* 상품 상세 정보 */}
           <div className="item-details">
-            <div className="detail-row">
+            <div className="item-info-detail-row">
               <PreTextLabel text={"남은 시간"} />
               <span className={`remaining-time-value ${isBlinking ? "blinking" : ""}`} key={remainingTime} // key 속성을 이용한 재렌더링 트리거
               > {remainingTime}</span>
             </div>
-            <div className="detail-row">
+            <div className="item-info-detail-row">
               <PreTextLabel text={"조회수"} />
-              <span className="value"> {data.totalView.toLocaleString()}회</span>
+              <PreTextLabel text={`${data.totalView.toLocaleString()}회`}/>
             </div>
-            <div className="detail-row">
+            <div className="item-info-detail-row">
               <PreTextLabel text={"입찰 건수"} />
-              <span className="value">{data.totalBidding.toLocaleString()}건</span>
+              <PreTextLabel text={`${data.totalBidding.toLocaleString()}건`}/>
             </div>
-            <div className="detail-row">
+            <div className="item-info-detail-row">
               <PreTextLabel text={"상태"} />
-              <span className="value">{data.itemCondition}</span>
+              <PreTextLabel text={data.itemCondition} />
             </div>
-            <div className="detail-row">
+            <div className="item-info-detail-row">
               <PreTextLabel text={"레어 등급"} />
-              <span className="value">{data.rareGrade}</span>
+              <PreTextLabel text={data.rareGrade} style={{fontFamily: "HakgyoansimByeolbichhaneulTTF-B"}}/>
             </div>
-            <div className="detail-row">
+            <div className="item-info-detail-row">
               <PreTextLabel text={"레어 등급 평가"} />
               <div className="rating-wrapper">
                 <StarRating rating={rareScore} onChange={handleRareScoreChange} />
@@ -406,8 +407,9 @@ const ViewItem = () => {
         </div>
       </div>
 
+      <HorizontalRule type={"hr"} />
+      
       {/* 상세 설명, 출품자 정보 */}
-      <HorizontalRule type={"hr2"} />
       <div className="info-grid">
 
         {/* 왼쪽: 상세 설명 */}
@@ -424,11 +426,11 @@ const ViewItem = () => {
           <PreTitleLabel text={"출품자 정보"} />
           <div className="detail-row">
             <PreTextLabel text={"출품자"} />
-            <PreTextLabel text={data.exhibitorNickName} />
+            <PreSubTitleLabel text={data.exhibitorNickName} style={{ fontWeight: "bold" }}/>
           </div>
           <div className="detail-row">
             <PreTextLabel text={"평점"} />
-            <PreTextLabel text={`${data.exhibitorRate} 점`} />
+            <PreSubTitleLabel text={`${data.exhibitorRate} 점`} style={{ fontWeight: "bold" }}/>
           </div>
         </div>
       </div>

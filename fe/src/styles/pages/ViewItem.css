@@ -90,27 +90,6 @@
   right: 0px; /* 이미지 오른쪽 끝에 맞닿도록 설정 */
 }
 
-
-/* 상품 정보 */
-.item-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1; /* 남은 공간 채우기 */
-  /* gap: 10px; */
-}
-
-.item-info h2 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.item-info p {
-  font-size: 16px;
-  line-height: 1.5;
-}
-
 /* 썸네일 리스트 */
 .thumbnail-container {
   display: flex;
@@ -143,52 +122,10 @@
   font-weight: bold;
 }
 
-.price-summary {
-  display: flex;
-  justify-content: space-around; /* 항목 간의 간격 균등 배치 */
-  align-items: center; /* 수직 가운데 정렬 */
-  padding: 16px;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  margin-bottom: 16px;
-}
 
-.price-item {
-  display: flex;
-  flex-direction: column; /* 항목을 세로로 정렬 */
-  align-items: center; /* 가로 가운데 정렬 */
-  text-align: center; /* 텍스트 가운데 정렬 */
-  flex: 1; /* 모든 항목이 같은 넓이를 차지 */
-}
-
-.price-item .label {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 6px; /* 라벨과 값 간의 간격 */
-}
-
-.price-item .value {
-  font-size: 18px;
-  font-weight: bold;
-  color: #000;
-}
-
-/* Item Details */
-.item-details {
-  display: flex;
-  flex-direction: column; /* 항목을 세로로 정렬 */
-  gap: 10px; /* 항목 간 간격 */
-  width: 100%; /* 부모 요소의 너비에 맞춤 */
-}
 
 /* 한 줄 스타일 */
-.detail-row {
-  display: flex;
-  justify-content: space-between; /* 라벨과 값을 양쪽에 배치 */
-  align-items: center; /* 세로 중앙 정렬 */
-  padding: 5px 0; /* 줄 간격 */
-}
+
 
 /* 라벨 스타일 */
 .label {
@@ -205,33 +142,6 @@
   text-align: right; /* 오른쪽 정렬 */
   flex: 1; /* 남는 공간을 차지 */
 }
-
-/* 남은 시간 텍스트 스타일 */
-.remaining-time-value {
-  font-size: 32px; /* 글씨 크기를 기존의 약 두 배로 키움 */
-  font-weight: bold; /* 강조 */
-  color: #333; /* 기본 검정색 */
-  line-height: 1.5; /* 줄 간격 */
-}
-
-/* 깜빡임 효과 */
-.remaining-time-value.blinking {
-  animation: color-blink 1s steps(1, start) infinite;
-}
-
-/* 색상 전환 깜빡임 애니메이션 */
-@keyframes color-blink {
-  0% {
-    color: red; /* 빨간색 */
-  }
-  50% {
-    color: black; /* 검은색 */
-  }
-  100% {
-    color: red; /* 다시 빨간색 */
-  }
-}
-
 
 /* 버튼 영역 */
 .slider-buttons {
@@ -271,17 +181,64 @@
   height: 24px;
 }
 
+/* */
+/* 상품 정보 */
+.item-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* 남은 공간 채우기 */
+  gap: 20px;
+}
+
+/* 입찰, 즉시 낙찰 버튼 영역 */
 .price-button-container {
   display: flex; 
   justify-content: space-between; 
-  margin: 4px 0;
 }
 
 .price-button-container button {
   width: calc(635px / 2 - 20px); 
-  height: 48px;
+  height: 32px;
+  padding: 0;
 }
 
+/* 상품 상세 정보 */
+.item-details {
+  display: flex;
+  flex-direction: column; /* 항목을 세로로 정렬 */
+  gap: 12px; /* 항목 간 간격 */
+  width: 100%; /* 부모 요소의 너비에 맞춤 */
+}
+
+.item-info-detail-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 남은 시간 텍스트 스타일 */
+.remaining-time-value {
+  font-family: 'Pretendard-Bold';
+}
+
+/* 깜빡임 효과 */
+.remaining-time-value.blinking {
+  animation: color-blink 1s steps(1, start) infinite;
+}
+
+/* 색상 전환 깜빡임 애니메이션 */
+@keyframes color-blink {
+  0% {
+    color: red; /* 빨간색 */
+  }
+  50% {
+    color: black; /* 검은색 */
+  }
+  100% {
+    color: red; /* 다시 빨간색 */
+  }
+}
+
+/* */
 /* 상세 설명, 출품자 정보 */
 .info-grid {
   display: grid;
