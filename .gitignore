@@ -29,6 +29,9 @@ dist-ssr
 # HELP 파일
 be/HELP.md
 
+### application.yml ###
+**/application.yml
+
 # Gradle 관련
 be/.gradle
 be/build/
