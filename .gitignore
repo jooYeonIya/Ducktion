@@ -1,3 +1,6 @@
+### Root ###
+**/.env
+
 ### FrontEnd ###
 # Logs
 logs
@@ -28,9 +31,6 @@ dist-ssr
 ### BackEnd ###
 # HELP 파일
 be/HELP.md
-
-### application.yml ###
-**/application.yml
 
 # Gradle 관련
 be/.gradle
