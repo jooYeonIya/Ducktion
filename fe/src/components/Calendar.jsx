@@ -27,6 +27,7 @@ function Calendar({ selected, timeIntervals = 5, onChange, placeholderText = "�
       placeholderText={placeholderText} // 부모로부터 전달받은 placeholder
       minDate={now} // 현재 날짜 이후만 선택 가능
       filterTime={filterPassedTime} // 시간 필터링 적용
+      className="datePicker"
     />
   );
 }

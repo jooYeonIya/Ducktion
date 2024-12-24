@@ -18,6 +18,7 @@ function NumericInput({ value, onChange, placeholder = "숫자만 입력하세�
       value={value} // 부모 컴포넌트로부터 전달받은 value 사용
       onChange={handleChange}
       placeholder= {placeholder} // props로 전달된 placeholder 사용
+      className="searchTextField_input"
     />
   );
 }
