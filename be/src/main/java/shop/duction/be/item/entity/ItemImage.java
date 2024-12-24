@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "ItemImage")
 public class ItemImage {
 
     @Id
@@ -19,7 +18,6 @@ public class ItemImage {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    @Column(nullable = false)
-    private String imageUrl;
+    private String url;
 }
 
