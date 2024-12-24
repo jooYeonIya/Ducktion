@@ -2,6 +2,8 @@ package shop.duction.be.admin.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import shop.duction.be.item.entity.Item;
+import shop.duction.be.user.entity.User;
 
 @Entity
 @Table(name = "item_delete_request")
@@ -18,12 +20,12 @@ public class ItemDeleteRequest {
     @Column(name = "request_date", nullable = false)
     private LocalDateTime requestDate;
 
-    @Column(name = "item_id", nullable = false)
-    private int itemId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;
 
-    @Column(name = "user_id", nullable = false)
-    private int userId;
-
-    // Getters and Setters
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User userId;
 }
 
