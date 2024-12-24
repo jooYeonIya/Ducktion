@@ -206,7 +206,7 @@
 .item-details {
   display: flex;
   flex-direction: column; /* 항목을 세로로 정렬 */
-  gap: 12px; /* 항목 간 간격 */
+  gap: 20px; /* 항목 간 간격 */
   width: 100%; /* 부모 요소의 너비에 맞춤 */
 }
 
