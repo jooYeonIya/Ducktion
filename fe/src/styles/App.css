@@ -1,8 +1,20 @@
 .app_container {
   width: 1024px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+.app_header {
+  flex-shrink: 0; 
 }
 
 .app_main {
   padding-top: 20px;
+  flex: 1;
+}
+
+.app_footer {
+  flex-shrink: 0; /* Footer 크기 고정 */
 }

@@ -27,10 +27,13 @@
   padding-right: 20px;
 }
 
-
 .header_container_options, 
 .footer_container_links {
   display: flex;
   gap: 20px;
+}
+
+.footer_container {
+  flex: 1;
 }
 

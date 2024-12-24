@@ -1,7 +1,7 @@
 import '@styles/components/HeaderFooter.css'
 import IconPlusLabel from './Labels/IconPlusLabel'
 import PreCaptionLabel from './Labels/PreCaptionLabel'
-import LogoIconPlusLabel from './Labels/LogoIconPlusLabel'
+import PreTextLabel from './Labels/PreTextLabel';
 
 export default function Footer() {
   const openWeb = (url) => {
@@ -11,7 +11,7 @@ export default function Footer() {
   return (
     <div className='footer_container'>
       <div className='footer_container_logo'>
-        <LogoIconPlusLabel />
+        <PreTextLabel text="덕션"/>
       </div>
       <div className='footer_container_center'>
         <PreCaptionLabel text={'Duck-Family @ 2024-2025. All rights reserved.'} />
