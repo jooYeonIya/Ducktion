@@ -29,6 +29,7 @@ export async function getPopularCommunities() {
       data.push({
         title: "디즈니랜드 마븖히어로즈 스파이더맨",
         isFavorited: i % 2 == 0 ? true : false,
+        communityId: "1"
       });
     }
     return data;

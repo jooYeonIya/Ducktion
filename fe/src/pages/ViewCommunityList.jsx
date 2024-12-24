@@ -16,6 +16,9 @@ function ViewCommunityList() {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
   ];
 
+  const navigateToItemList = () => {
+    navigate('/viewItemList', {state: {communityId: "1"}});
+  }
 
   function abcOnClick(value) {
     setAbc(value);
@@ -130,7 +133,7 @@ function ViewCommunityList() {
         <GodoTitleLabel text={word} />
         {filteredCommunities.length > 0 ? (
           filteredCommunities.map((community, index) => (
-            <div key={index}>
+            <div key={index} onClick={navigateToItemList}>
               <img alt="communityImage" />
               <PreSubTitleLabel text={community.name} />
             </div>
