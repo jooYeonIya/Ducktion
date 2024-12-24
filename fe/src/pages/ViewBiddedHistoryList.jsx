@@ -59,6 +59,10 @@ export default function ViewBiddedHistoryList() {
     navigate("/requestDeleteItem", {state: {item: item}})
   }
 
+  const navigateToModifyPage = (item) => {
+    navigate("/editItem", {state: {item: item}})
+  }
+
   const openInvoiceModal = (itemId) => {
     openModal(<InputInvoiceModalContent itemId={itemId} onClose={closeModal} />);
   };
@@ -90,7 +94,7 @@ export default function ViewBiddedHistoryList() {
           <div className='biddedHistoryList_cardItems_item' key={index}>
             <ItemCard key={index} data={item} />
             <div className='biddedHistoryList_cardItems_bottons'>
-              <RectangleButton text={"수정"}/>
+              <RectangleButton text={"수정"} onClick={() => navigateToModifyPage(item)}/>
               <RectangleButton text={"삭제"} onClick={() => navigateToDeletePage(item)}/>
             </div>
             <div className='biddedHistoryList_cardItems_botton'>

@@ -32,9 +32,6 @@ function RegistItem() {
   const maxFileSize = 2 * 1024 * 1024; // 2MB
   const maxFileCount = 9; // 최대 파일 개수
 
-
-
-
   // 상품 상태 변경 관리
   const handleConditionChange = (event) => {
     setItemCondition(event.target.value);
