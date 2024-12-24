@@ -2,8 +2,8 @@
 .view-myinfo-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 20px; /* 요소 간 간격 */
+  width: 100%;
 }
 
 /* community-header 스타일 */
@@ -21,21 +21,22 @@
 /* 메인 컨텐츠 레이아웃 */
 .main-content {
   display: flex;
-  gap: 20px; /* 이미지와 제품 정보 간 간격 */
-  align-items: flex-start;
   width: 100%; /* 너비를 부모 요소에 맞춤 */
+  padding-bottom: 40px;
+  gap: 40px;
 }
 
 /* 이미지 슬라이더 */
 .image-slider {
   position: relative; /* 화살표 배치의 기준 */
-  width: 400px;
-  height: 400px;
+  width: 360px;
+  height: 360px;
   display: flex;
   flex-direction: column; /* 세로 정렬 */
   align-items: center;
   justify-content: center;
   /* overflow: hidden; 초과 부분 숨기기 */
+  gap: 16px;
 }
 
 /* 메인 이미지 래퍼 */
@@ -94,11 +95,11 @@
 .thumbnail-container {
   display: flex;
   justify-content: center; /* 가운데 정렬 */
-  margin-top: 10px; /* 위쪽 여백 */
-  gap: 10px; /* 썸네일 간격 */
   overflow: hidden; /* 초과 이미지 숨기기 */
   width: 100%; /* 부모 영역 너비에 맞춤 */
   position: relative; /* 스크롤 영역 제어 */
+  gap: 16px; /* 썸네일 간격 증가 */
+  margin-top: 20px; /* 위쪽 여백 증가 */
 }
 
 .thumbnail {
@@ -107,7 +108,6 @@
   object-fit: cover;
   border-radius: 4px;
   cursor: pointer;
-  border: 2px solid transparent;
   transition: transform 0.3s ease; /* 선택된 썸네일 확대 효과 */
 }
 
@@ -116,69 +116,12 @@
   transform: scale(1.1); /* 선택된 썸네일 확대 */
 }
 
-
-.item-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-
-
-/* 한 줄 스타일 */
-
-
-/* 라벨 스타일 */
-.label {
-  font-size: 14px;
-  color: #555;
-  flex: 1; /* 남는 공간을 차지 */
-}
-
-/* 값 스타일 */
-.value {
-  font-size: 16px;
-  font-weight: bold; /* 강조 */
-  color: #333;
-  text-align: right; /* 오른쪽 정렬 */
-  flex: 1; /* 남는 공간을 차지 */
-}
-
-/* 버튼 영역 */
+/* 이미지 아래 버튼 영역 */
 .slider-buttons {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.slider-buttons .RectangleButton {
-  flex: 1;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  border-radius: 8px;
-}
-
-.report-button {
-  background-color: #e74c3c; /* 빨간색 */
-}
-
-.report-button:hover {
-  background-color: #c0392b;
-}
-
-.bid-button {
-  background-color: #27ae60; /* 초록색 */
-}
-
-.bid-button:hover {
-  background-color: #1e8449;
-}
-
-.icon {
-  width: 24px;
-  height: 24px;
+  gap: 16px;
+  margin-top: 20px;
 }
 
 /* */
@@ -186,7 +129,7 @@
 .item-info {
   display: flex;
   flex-direction: column;
-  flex: 1; /* 남은 공간 채우기 */
+  width: 100%;
   gap: 20px;
 }
 
@@ -194,6 +137,7 @@
 .price-button-container {
   display: flex; 
   justify-content: space-between; 
+  gap: 12px;
 }
 
 .price-button-container button {
@@ -206,7 +150,7 @@
 .item-details {
   display: flex;
   flex-direction: column; /* 항목을 세로로 정렬 */
-  gap: 20px; /* 항목 간 간격 */
+  gap: 16px; /* 항목 간 간격 */
   width: 100%; /* 부모 요소의 너비에 맞춤 */
 }
 

@@ -13,6 +13,7 @@ import { useModal } from '../hooks/useModal'
 import SubmitBidModalContent from '../components/Modal/SubmitBidModalContent'
 import CustomModal from '../components/Modal/CustomModal'
 import PreTextLabel from '../components/Labels/PreTextLabel';
+import IconPlusLabel from '../components/Labels/IconPlusLabel'
 
 // const ViewItem = ({ itemId }) => {
 const ViewItem = () => {
@@ -351,17 +352,11 @@ const ViewItem = () => {
 
           {/* 버튼 추가 */}
           <div className="slider-buttons">
-            <button className="icon-button report-button" onClick={onReport}>
-              <img src="/src/assets/report.png" alt="신고하기" className="icon" />
-              <span>신고하기</span>
-            </button>
-            <button className="icon-button bid-button" onClick={onGiveup}>
-              <img src="/src/assets/give_up.png" alt="입찰 포기" className="icon" />
-              <span>입찰 포기</span>
-            </button>
+            <IconPlusLabel icon="/src/assets/report.png" text={"신고하기"} onClick={onReport}/>
+            <IconPlusLabel icon="/src/assets/give_up.png" text={"입찰포기"} onClick={onGiveup}/>
+            <IconPlusLabel icon="/src/assets/duck.png" text={"관심등록"}/>
           </div>
         </div>
-
 
         {/* 상품 정보 */}
         <div className="item-info">
@@ -407,7 +402,7 @@ const ViewItem = () => {
         </div>
       </div>
 
-      <HorizontalRule type={"hr"} />
+      <HorizontalRule type={"hr1"} />
       
       {/* 상세 설명, 출품자 정보 */}
       <div className="info-grid">
@@ -415,6 +410,7 @@ const ViewItem = () => {
         {/* 왼쪽: 상세 설명 */}
         <div className="item-description">
           <PreTitleLabel text={"상세 설명"} />
+          <HorizontalRule type={"hr2"} />
           <p>{data.description}</p>
         </div>
 
@@ -424,6 +420,7 @@ const ViewItem = () => {
         {/* 오른쪽: 출품자 정보 */}
         <div className="item-description">
           <PreTitleLabel text={"출품자 정보"} />
+          <HorizontalRule type={"hr2"} />
           <div className="detail-row">
             <PreTextLabel text={"출품자"} />
             <PreSubTitleLabel text={data.exhibitorNickName} style={{ fontWeight: "bold" }}/>
