@@ -193,68 +193,68 @@ function RegistItem() {
       <HorizontalRule type="hr2" />
 
       {/* 사진 */}
-      <div className="inline-container">
-        <PreSubTitleLabel text={"사진"} />
-        <PreSubTitleLabel text={"(최대 9장)"} />
-      </div>
-      <div className="image-container">
-        {/* 첫 번째 줄: 등록 버튼과 최대 3개의 이미지 */}
-        <div className="image-row">
-          {/* 이미지 등록 버튼 */}
-          <div className="image-upload-wrapper" onClick={handleImageClick}>
-            <div className="upload-icon">
-              <img src="/src/assets/camera.png" alt="카메라 아이콘" />
-              <div>이미지 등록</div>
+      <div className="inline_container">
+        <PreSubTitleLabel text={"사진 (최대 9장)"} />
+
+        <div className="image-container">
+          {/* 첫 번째 줄: 등록 버튼과 최대 3개의 이미지 */}
+          <div className="image-row">
+            {/* 이미지 등록 버튼 */}
+            <div className="image-upload-wrapper" onClick={handleImageClick}>
+              <div className="upload-icon">
+                <img src="/src/assets/camera.png" alt="카메라 아이콘" />
+                <div>이미지 등록</div>
+              </div>
             </div>
+
+            {/* 첫 번째 줄 이미지 */}
+            {images.slice(0, 4).map((image, index) => (
+              <div key={index} className="image-wrapper">
+                <img
+                  src={image}
+                  alt={`첨부된 이미지 ${index + 1}`}
+                  className="preview-image"
+                />
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => handleRemoveImage(index)}
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
           </div>
 
-          {/* 첫 번째 줄 이미지 */}
-          {images.slice(0, 4).map((image, index) => (
-            <div key={index} className="image-wrapper">
-              <img
-                src={image}
-                alt={`첨부된 이미지 ${index + 1}`}
-                className="preview-image"
-              />
-              <button
-                type="button"
-                className="remove-button"
-                onClick={() => handleRemoveImage(index)}
-              >
-                &times;
-              </button>
-            </div>
-          ))}
+          {/* 두 번째 줄: 최대 5개의 이미지 */}
+          <div className="image-row">
+            {images.slice(4).map((image, index) => (
+              <div key={index} className="image-wrapper">
+                <img
+                  src={image}
+                  alt={`첨부된 이미지 ${index + 5}`}
+                  className="preview-image"
+                />
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => handleRemoveImage(index + 4)}
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-
-        {/* 두 번째 줄: 최대 5개의 이미지 */}
-        <div className="image-row">
-          {images.slice(4).map((image, index) => (
-            <div key={index} className="image-wrapper">
-              <img
-                src={image}
-                alt={`첨부된 이미지 ${index + 5}`}
-                className="preview-image"
-              />
-              <button
-                type="button"
-                className="remove-button"
-                onClick={() => handleRemoveImage(index + 4)}
-              >
-                &times;
-              </button>
-            </div>
-          ))}
-        </div>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          multiple
+          style={{ display: 'none' }}
+        />
       </div>
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        multiple
-        style={{ display: 'none' }}
-      />
 
       <HorizontalRule type="hr2" />
 
@@ -303,11 +303,11 @@ function RegistItem() {
       <div className="inline_container">
         <PreSubTitleLabel text={"시작가"} />
         <div className='postForm_title'>
-        <NumericInput 
-          value={startingBid} 
-          onChange={(value) => setStartingBid(value)} 
-          placeholder="시작가를 입력해주세요." 
-        />
+          <NumericInput
+            value={startingBid}
+            onChange={(value) => setStartingBid(value)}
+            placeholder="시작가를 입력해주세요."
+          />
         </div>
       </div>
 
@@ -315,18 +315,18 @@ function RegistItem() {
 
       {/* 경매 종료일 */}
       <div className="inline_container">
-      <PreSubTitleLabel text={"경매 종료일"} />
+        <PreSubTitleLabel text={"경매 종료일"} />
         <div className='inline_content'>
-        <Calendar 
-          selected={auctionEndDate} 
-          onChange={(date) => setAuctionEndDate(date)} 
-          placeholderText='경매 종료일을 선택해주세요' />
+          <Calendar
+            selected={auctionEndDate}
+            onChange={(date) => setAuctionEndDate(date)}
+            placeholderText='경매 종료일을 선택해주세요' />
         </div>
       </div>
 
       <div className='regist_item_title'>
         <PreTitleLabel text={"추가 정보"} />
-        <PreCaptionLabel text={"선택 사항"} style={{color: "#bebebe"}}/>
+        <PreCaptionLabel text={"선택 사항"} style={{ color: "#bebebe" }} />
       </div>
 
       <HorizontalRule type="hr1" />
@@ -334,10 +334,10 @@ function RegistItem() {
       <div className="inline_container">
         <PreSubTitleLabel text={"즉시 낙찰가"} />
         <div className='postForm_title'>
-        <NumericInput 
-          value={immediateBid} 
-          onChange={(value) => setImmediateBid(value)}
-          placeholder="즉시 낙찰가를 입력해주세요" />
+          <NumericInput
+            value={immediateBid}
+            onChange={(value) => setImmediateBid(value)}
+            placeholder="즉시 낙찰가를 입력해주세요" />
         </div>
       </div>
 
