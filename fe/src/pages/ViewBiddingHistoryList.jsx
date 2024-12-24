@@ -91,6 +91,7 @@ export default function ViewBiddingHistoryList() {
               <ItemCardRow
                 image={item.info.image}
                 texts={[item.info.name, item.info.biddingCount, item.info.rareTier]}
+                itemId={item.info.itemId}
               />
               <div className='biddingHistoryList_item_buttons'>
                 <RectangleButton text={"배송 번호 조회"} onClick={() => openInvoiceModal(item.info)} />

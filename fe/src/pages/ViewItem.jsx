@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import RectangleButton from '../components/Button/RectangleButton';
 import "../styles/pages/ViewItem.css"
 import HorizontalRule from '../components/HorizontalRule';
@@ -16,6 +16,8 @@ import CustomModal from '../components/Modal/CustomModal'
 // const ViewItem = ({ itemId }) => {
 const ViewItem = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const itemId = location.state.itemId;
   const fileInputRef = useRef(null);
 
   const maxFileSize = 2 * 1024 * 1024; // 2MB
@@ -49,8 +51,7 @@ const ViewItem = () => {
 
   // 컴포넌트가 마운트될 때 get 요청
   useEffect(() => {
-    const itemId = 1;
-
+    console.log(itemId);
     if (!itemId) {
       console.error("itemId가 전달되지 않았습니다.");
       return;

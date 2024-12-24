@@ -14,7 +14,8 @@ export async function getClosingSoonItems() {
         name: "으아아아악!!!!!! 리액트 고수 어디 없나!!!!!!",
         priceInfo: { price: i * 10000, type: "" },
         additionalInfo: null,
-        overlayText: false
+        overlayText: false,
+        itemId: "mamaamam"
       });
     }
     return data;
@@ -38,7 +39,8 @@ export async function getMastersCollectorsRare() {
         name: "이거슨 마스터 컬렉션즈 레어 상품이다 이놈들아",
         priceInfo: { price: i * 10000, type: "" },
         additionalInfo: null,
-        overlayText: false
+        overlayText: false,
+        itemId: "master"
       });
     }
     return data;
@@ -64,7 +66,8 @@ export async function getItemsByCommunityId(acutionItemsRequest) {
         name: "아 갑자기 스타벅스 마시고 싶어졌어!",
         priceInfo: { price: i * 10000, type: "" },
         additionalInfo: { bids: i, days: i },
-        overlayText: i % 2 == 0 ? "판매 완료" : ""
+        overlayText: i % 2 == 0 ? "판매 완료" : "",
+        itemId: "item item item"
       });
     }
     return data;
@@ -277,7 +280,8 @@ export async function getItemSearchResults(searchText) {
         name: `${i} ${searchText} 상품`,
         priceInfo: { price: i * 10000, type: "" },
         additionalInfo: null,
-        overlayText: false
+        overlayText: false,
+        itemId: "result"
       });
     }
     return data;
@@ -371,7 +375,8 @@ export async function getFavoriteItems() {
         name: `관심이 있어!!`,
         priceInfo: { price: i * 10000, type: "" },
         additionalInfo: null,
-        overlayText: false
+        overlayText: false,
+        itemId: "ffffff"
       });
     }
     return data;
