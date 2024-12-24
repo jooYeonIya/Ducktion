@@ -9,6 +9,7 @@ export default function CommunityList({ title, communityList }) {
   const navigate = useNavigate();
 
   const navigateToItemList = (communityId) => {
+    alert(communityId);
     navigate('/viewItemList', {state: {communityId: communityId}});
   }
 
@@ -20,7 +21,7 @@ export default function CommunityList({ title, communityList }) {
           communityList.map((item, index) => (
             <div key={index} className='communityList_item' onClick={() => navigateToItemList(item.communityId)}>
               <IconPlusLabel
-                text={item.title}
+                text={item.name}
                 icon={
                   item.isFavorited
                     ? '/src/assets/duck_selected.png'
