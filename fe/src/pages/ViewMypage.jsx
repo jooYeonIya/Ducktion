@@ -34,6 +34,7 @@ export default function ViewMypage() {
   const [userInfo, setUserInfo] = useState({});
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [tenFavoriteItems, setTenFavoriteItems] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   const navigate = useNavigate();
 
@@ -66,95 +67,102 @@ export default function ViewMypage() {
     }
   }
 
-// 화면 이동 함수
-const navigateViewUserInfo = () => {
-  navigate('/viewMyInfo', { state: { userInfo: userInfo }})
-}
+  // 화면 이동 함수
+  const navigateViewUserInfo = () => {
+    navigate('/viewMyInfo', { state: { userInfo: userInfo } })
+  }
 
-const navigateBidPointHistoryList = () => {
-  navigate('/viewBidPointHistoryList', { state: { heldBid: userInfo.heldBid, usableBid: userInfo.usableBid }})
-}
+  const navigateBidPointHistoryList = () => {
+    navigate('/viewBidPointHistoryList', { state: { heldBid: userInfo.heldBid, usableBid: userInfo.usableBid } })
+  }
 
-const navigateBiddedHistoryList = (option) => {
-  navigate('/viewBiddedHistoryList', { state: { sortType: option } })
-}
+  const navigateBiddedHistoryList = (option) => {
+    navigate('/viewBiddedHistoryList', { state: { sortType: option } })
+  }
 
-const navigateBiddingHistoryList = (option) => {
-  navigate('/viewBiddingHistoryList', { state: { sortType: option } })
-}
+  const navigateBiddingHistoryList = (option) => {
+    navigate('/viewBiddingHistoryList', { state: { sortType: option } })
+  }
 
-const navigateFavoriteItems = () => {
-  navigate('/viewFavoriteItemList', { state: { items: favoriteItems } })
-}
+  const navigateFavoriteItems = () => {
+    navigate('/viewFavoriteItemList', { state: { items: favoriteItems } })
+  }
 
-useEffect(() => {
-  fetchUserInfo();
-}, [])
+  const navigateAdminPage = () => {
+    navigate('/viewAdminPage')
+  }
 
-return (
-  <>
-    <GodoTitleLabel text={"마이페이지"} />
+  useEffect(() => {
+    fetchUserInfo();
+  }, [])
 
-    {/* 사용자 정보 */}
-    <div className='profile_container'>
-      <div className='profile_info_section'>
-        <div className='profile_image'>
-          <ProfileImage imageUrl={userInfo.profileImage} />
+  return (
+    <>
+      <GodoTitleLabel text={"마이페이지"} />
+
+      {/* 운영자 페이지 이동*/}
+      {isAdmin ? <RectangleButton text="운영자" onClick={navigateAdminPage} /> : <></>}
+
+      {/* 사용자 정보 */}
+      <div className='profile_container'>
+        <div className='profile_info_section'>
+          <div className='profile_image'>
+            <ProfileImage imageUrl={userInfo.profileImage} />
+          </div>
+          <div className='profile_info'>
+            <GodoSubTitleLabel text={userInfo.nickname} />
+            <GodoSubTitleLabel text={userInfo.email} />
+          </div>
         </div>
-        <div className='profile_info'>
-          <GodoSubTitleLabel text={userInfo.nickname} />
-          <GodoSubTitleLabel text={userInfo.email} />
+        <RectangleButton text='프로필 관리' onClick={navigateViewUserInfo} />
+      </div>
+
+      {/* 내 점수, 비드 정보 */}
+      <div className='rate_container'>
+        <div className='rate_items'>
+          <div className='rate_item'>
+            <IconPlusLabelColumn icon={"src/assets/rate.png"} text={"내 점수"} />
+            <PreSubTitleLabel text={`${userInfo.rate} 점`} />
+          </div>
+          <hr />
+          <div className='rate_item' onClick={navigateBidPointHistoryList}>
+            <IconPlusLabelColumn icon={"src/assets/heldBid.png"} text={"보유 비드"} />
+            <PreSubTitleLabel text={`${userInfo.heldBid} 비드`} />
+          </div>
+          <hr />
+          <div className='rate_item' onClick={navigateBidPointHistoryList}>
+            <IconPlusLabelColumn icon={"src/assets/usableBiid.png"} text={"사용 가능 비드"} />
+            <PreSubTitleLabel text={`${userInfo.usableBid} 비드`} />
+          </div>
         </div>
       </div>
-      <RectangleButton text='프로필 관리' onClick={navigateViewUserInfo}/>
-    </div>
 
-    {/* 내 점수, 비드 정보 */}
-    <div className='rate_container'>
-      <div className='rate_items'>
-        <div className='rate_item'>
-          <IconPlusLabelColumn icon={"src/assets/rate.png"} text={"내 점수"} />
-          <PreSubTitleLabel text={`${userInfo.rate} 점`} />
+      {/* 입찰 이력 */}
+      <div className='biddingItem_container'>
+        <div className='biddingItem_container_title'>
+          <GodoTitleLabel text={"입찰 이력"} />
         </div>
-        <hr />
-        <div className='rate_item' onClick={navigateBidPointHistoryList}>
-          <IconPlusLabelColumn icon={"src/assets/heldBid.png"} text={"보유 비드"} />
-          <PreSubTitleLabel text={`${userInfo.heldBid} 비드`} />
+        <Historybox items={biddingSortOptions} onClick={navigateBiddingHistoryList} />
+      </div>
+
+      {/* 출품 이력 */}
+      <div className='biddedItem_container'>
+        <div className='biddedItem_container_title'>
+          <GodoTitleLabel text={"출품 이력"} />
         </div>
-        <hr />
-        <div className='rate_item' onClick={navigateBidPointHistoryList}>
-          <IconPlusLabelColumn icon={"src/assets/usableBiid.png"} text={"사용 가능 비드"} />
-          <PreSubTitleLabel text={`${userInfo.usableBid} 비드`} />
+        <Historybox items={biddedSortOptions} onClick={navigateBiddedHistoryList} />
+      </div>
+
+      {/* 관심 상품 */}
+      <div className='favoriteItem_container'>
+        <div className='favoriteItem_container_title'>
+          <GodoTitleLabel text={"관심 상품"} />
+          <button onClick={navigateFavoriteItems}><PreCaptionLabel text={"더보기"} /></button>
         </div>
+        {tenFavoriteItems
+          ? <CardItemsList itemList={tenFavoriteItems} />
+          : <PreTextLabel text={"관심 상품을 등록해 주세요"} />}
       </div>
-    </div>
-
-    {/* 입찰 이력 */}
-    <div className='biddingItem_container'>
-      <div className='biddingItem_container_title'>
-        <GodoTitleLabel text={"입찰 이력"} />
-      </div>
-      <Historybox items={biddingSortOptions} onClick={navigateBiddingHistoryList}/>
-    </div>
-
-    {/* 출품 이력 */}
-    <div className='biddedItem_container'>
-      <div className='biddedItem_container_title'>
-        <GodoTitleLabel text={"출품 이력"} />
-      </div>
-      <Historybox items={biddedSortOptions} onClick={navigateBiddedHistoryList} />
-    </div>
-
-    {/* 관심 상품 */}
-    <div className='favoriteItem_container'>
-      <div className='favoriteItem_container_title'>
-        <GodoTitleLabel text={"관심 상품"} />
-        <button onClick={navigateFavoriteItems}><PreCaptionLabel text={"더보기"} /></button>
-      </div>
-      {tenFavoriteItems 
-      ? <CardItemsList itemList={tenFavoriteItems} />
-      : <PreTextLabel text={"관심 상품을 등록해 주세요"} />}
-    </div>
-  </>
-)
+    </>
+  )
 }

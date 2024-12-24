@@ -6,7 +6,7 @@ import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import RectangleButton from "../components/Button/RectangleButton"; 
 import RoundButton from "../components/Button/RoundButton"; 
 
-import '@styles/components/ViewAdminPage.css';
+import '@styles/pages/ViewAdminPage.css';
 
 function ViewAdminPage() {
   const [type, setType] = useState("요청");
@@ -36,7 +36,6 @@ function ViewAdminPage() {
       navigate(`/product/${id}`); // 신고 및 검수 타입일 때
     }
   };
-  
 
   const columns = React.useMemo(() => {
     const commonColumns = [
@@ -61,6 +60,9 @@ function ViewAdminPage() {
         {
           Header: "신고 횟수",
           accessor: "reportCount",
+          Cell: ({ row }) => (
+            <span>{row.original.count}</span>
+          )
         },
         {
           Header: "작업",
@@ -147,12 +149,12 @@ function ViewAdminPage() {
           selectedOption={type}
         />
       </div>
-      <table {...getTableProps()} style={{ width: "100%" }}>
+      <table {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()} style={{ padding: "10px", backgroundColor: "white", border: "1px solid white" }}>
+                <th {...column.getHeaderProps()}>
                   {column.render("Header")}
                 </th>
               ))}

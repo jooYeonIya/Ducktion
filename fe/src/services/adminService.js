@@ -140,6 +140,7 @@ export async function getViewAdmin() {
         requestdetailstory: requestdetailstories[i % requestdetailstories.length], // 요청 사유
         date: new Date().toISOString(), // 요청 날짜
         status: "신고", // 상태
+        count: 100,
         type: "신고", // 타입
       });
     }
