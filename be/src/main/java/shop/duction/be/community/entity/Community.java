@@ -21,10 +21,16 @@ public class Community {
     @Column(nullable = false, length = 40)
     private String name;
 
+    @Column(nullable = false, length = 10)
+    private String firstWord;
+
     @Column(nullable = false)
     private LocalDateTime registTime;
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items;
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteCommunity> favoriteCommunities;
 }
 
