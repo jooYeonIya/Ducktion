@@ -117,7 +117,7 @@ function EditItem() {
   };
 
   const handleCancleClick = () => {
-    navigate('/ViewCommunityList'); // 이동할 경로
+    window.history.back();
   }
 
   const handleSubmitClick = async () => {
