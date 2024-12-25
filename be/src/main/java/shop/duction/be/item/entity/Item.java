@@ -32,7 +32,7 @@ public class Item {
     private Integer immediatePrice;
 
     @Column(nullable = false)
-    private LocalDateTime end_time;
+    private LocalDateTime endTime;
 
     @Column(name = "item_condition", nullable = false, length = 20)
     private String condition;
