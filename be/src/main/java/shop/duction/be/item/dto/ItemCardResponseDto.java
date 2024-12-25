@@ -14,7 +14,7 @@ public class ItemCardResponseDto {
   private String image;
   private PriceInfo priceInfo;
   private String additionalInfo;
-  private boolean overlayText;
+  private String overlayText;
   private boolean isFavorite;
 
   @Data

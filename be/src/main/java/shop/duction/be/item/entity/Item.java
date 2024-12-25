@@ -41,6 +41,7 @@ public class Item {
     private String description;
 
     @Column(nullable = false, length = 20)
+    @Enumerated(EnumType.ORDINAL)
     private BiddingStatus biddingStatus;
 
     private Float rareScore;

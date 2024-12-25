@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.duction.be.item.dto.ItemCardResponseDto;
 import shop.duction.be.item.entity.Item;
+import shop.duction.be.item.enums.BiddingStatus;
 import shop.duction.be.item.repository.FavoriteItemRepository;
 import shop.duction.be.item.repository.ItemRepository;
 
@@ -42,7 +43,7 @@ public class ItemService {
             item.getItemImages().get(0).getUrl(),
             calculatePriceInfo(item),
             null,
-            false,
+            item.getBiddingStatus().getBiddingStatusMessage(),
             isFavorite);
   }
 

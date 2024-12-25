@@ -4,7 +4,6 @@ import api from "./api";
 export async function getClosingSoonItems() {
   try {
     const response = await api.get("items/closingsoon");
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
