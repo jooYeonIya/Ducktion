@@ -18,4 +18,9 @@ public class FavoriteItemController {
   public void addFavoriteItem(@PathVariable int itemId) {
     favoriteItemService.addFavoriteItem(itemId, userId);
   }
+
+  @DeleteMapping("/delete/{itemId}")
+  public void deleteFavoriteItem(@PathVariable int itemId) {
+    favoriteItemService.deleteFavoriteItem(itemId, userId);
+  }
 }

@@ -394,3 +394,13 @@ export async function postFavoriteItem(itemId) {
     throw error;
   }
 }
+
+// 상품 해제 등록
+export async function deleteFavoriteItem(itemId) {
+  try {
+    await api.delete(`items/favorites/delete/${itemId}`)
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+}

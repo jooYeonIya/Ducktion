@@ -30,4 +30,9 @@ public class FavoriteItemService {
     favoriteItem.setRegistDate(LocalDateTime.now());
     favoriteItemRepository.save(favoriteItem);
   }
+
+  public void deleteFavoriteItem(int itemId, int userId) {
+    UserItemKey userItemKey = new UserItemKey(itemId, userId);
+    favoriteItemRepository.deleteById(userItemKey);
+  }
 }

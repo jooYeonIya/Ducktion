@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import shop.duction.be.item.entity.FavoriteItem;
 import shop.duction.be.item.entity.UserItemKey;
-import shop.duction.be.user.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FavoriteItemRepository extends JpaRepository<FavoriteItem, UserItemKey> {
   @Query("""
@@ -16,6 +16,5 @@ public interface FavoriteItemRepository extends JpaRepository<FavoriteItem, User
             WHERE fi.id.userId = :userId AND fi.id.itemId IN :itemIds
         """)
   List<Integer> findeFavoriteItemsByUserAndItemIds(@Param("userId") Integer userId, @Param("itemIds") List<Integer> itemIds);
-
-  Integer user(User user);
+  void deleteById(UserItemKey id);
 }

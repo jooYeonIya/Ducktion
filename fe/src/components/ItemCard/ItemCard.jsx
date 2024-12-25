@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { postFavoriteItem } from '../../services/itemService'
+import { deleteFavoriteItem, postFavoriteItem } from '../../services/itemService'
 import { checkLogin } from '../../utils/CheckLogin'
 import GodoTextLabel from '../Labels/GodoTextLabel'
 import PreTextLabel from '../Labels/PreTextLabel'
@@ -26,7 +26,7 @@ function ItemCard({ data }) {
   const toggleBadge = async() => {
     try {
       if (isFavorited) {
-
+        await deleteFavoriteItem(itemId);
       } else {
         await postFavoriteItem(itemId);
       }
