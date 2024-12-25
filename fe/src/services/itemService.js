@@ -384,3 +384,13 @@ export async function getHistoriesCount() {
     throw error;
   }
 }
+
+// 상품 관심 등록
+export async function postFavoriteItem(itemId) {
+  try {
+    await api.post(`items/favorites/add/${itemId}`)
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+}
