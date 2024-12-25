@@ -1,12 +1,10 @@
 package shop.duction.be.community.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import shop.duction.be.community.dto.PopularCommunitiesResponseDto;
 import shop.duction.be.community.service.CommunityService;
+import shop.duction.be.community.service.FavoriteCommunityService;
 
 import java.util.List;
 
@@ -17,6 +15,7 @@ import java.util.List;
 public class CommunityController {
 
   private final CommunityService communityService;
+  private final FavoriteCommunityService favoriteCommunityService;
 
   // 일단 하드코딩
   private Integer userId = 1;
@@ -24,5 +23,10 @@ public class CommunityController {
   @GetMapping("/popular")
   public List<PopularCommunitiesResponseDto> getPopularCommunities() {
     return communityService.getPopularCommunitiesByViews(userId);
+  }
+
+  @PostMapping("/favorites/add/{communityId}")
+  public void addFavoriteCommunity(@PathVariable("communityId") int communityId) {
+    favoriteCommunityService.addFavoriteCommunity(communityId, userId);
   }
 }

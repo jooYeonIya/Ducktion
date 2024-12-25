@@ -81,3 +81,12 @@ export async function getCommunitySearchResults(searchText) {
     throw error; 
   }
 }
+
+export async function postFavoriteCommunity(communityId) {
+  try {
+    await api.post(`communities/favorites/add/${communityId}`)
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+}

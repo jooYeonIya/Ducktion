@@ -28,6 +28,8 @@ public class FavoriteCommunity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer favoriteCommunityId;
+
     @Column(name = "community_id")
     private Integer communityId;
 

@@ -15,7 +15,6 @@ export async function getClosingSoonItems() {
 export async function getMastersCollectorsRare() {
   try {
     const response = await api.get("items/mastersrare");
-    console.log(response.data)
     return response.data;
     return data;
   } catch (error) {
