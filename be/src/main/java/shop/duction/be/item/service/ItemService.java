@@ -24,7 +24,8 @@ public class ItemService {
 
   public List<ItemCardResponseDto> getClosingSoonItems(Integer userId) {
     Pageable pageable = PageRequest.of(0, 5);
-    List<Item> top5Items = itemRepository.findClosingSoonItemsByViews(pageable);
+    List<Integer> status = List.of(0, 1);
+    List<Item> top5Items = itemRepository.findClosingSoonItemsByViews(pageable, status);
 
     List<Integer> favoiteItemIds = userId != null
             ? getFavoriteItemIds(userId, top5Items)
