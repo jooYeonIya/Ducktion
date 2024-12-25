@@ -28,4 +28,12 @@ public class FavoriteCommunityService {
 
     favoriteCommunityRepository.save(favoriteCommunity);
   }
+
+  public void deleteFavoriteCommunity(int communityId, int userId) {
+    // JMT ..인증 어쩌고 로 바꿔야 하는!!!!
+    User user = userRepository.findById(userId).orElse(null);
+
+    FavoriteCommunity favoriteCommunity  = favoriteCommunityRepository.findByCommunityIdAndUser(communityId, user);
+    favoriteCommunityRepository.deleteById(favoriteCommunity.getFavoriteCommunityId());
+  }
 }

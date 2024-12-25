@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import shop.duction.be.community.entity.FavoriteCommunity;
+import shop.duction.be.user.entity.User;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface FavoriteCommunityRepository extends JpaRepository<FavoriteCommu
             WHERE fc.user.userId = :userId AND fc.communityId IN :communityIds
          """)
   List<Integer> findFavoriteCommunitiesByUserAndCommunityIds(@Param("userId") Integer userId, @Param("communityIds") List<Integer> communityIds);
+
+  FavoriteCommunity findByCommunityIdAndUser(Integer communityId, User user);
 }

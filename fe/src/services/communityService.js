@@ -82,10 +82,21 @@ export async function getCommunitySearchResults(searchText) {
   }
 }
 
+// 커뮤니티 관심 등록
 export async function postFavoriteCommunity(communityId) {
   try {
     await api.post(`communities/favorites/add/${communityId}`)
   } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+}
+
+// 커뮤니티 관심 해제
+export async function deleteFavoriteCommunity(communityId) {
+  try {
+    await api.delete(`communities/favorites/delete/${communityId}`)
+  } catch {
     console.log("error", error);
     throw error;
   }

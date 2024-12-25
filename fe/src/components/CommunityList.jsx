@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { postFavoriteCommunity } from '../services/communityService'
+import { postFavoriteCommunity, deleteFavoriteCommunity } from '../services/communityService'
 import { checkLogin } from '../utils/CheckLogin'
 import GodoTitleLabel from './Labels/GodoTitleLabel'
 import IconPlusLabel from './Labels/IconPlusLabel'
@@ -28,7 +28,7 @@ export default function CommunityList({ title, communityList }) {
   const handleFavoriteCommunity = async(communityId, isFavorite) => {
     try { 
       if (isFavorite) {
-
+        await deleteFavoriteCommunity(communityId);
       } else {
         await postFavoriteCommunity(communityId);
       }
