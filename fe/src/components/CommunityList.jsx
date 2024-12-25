@@ -1,17 +1,14 @@
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom'
 import GodoTitleLabel from './Labels/GodoTitleLabel'
 import IconPlusLabel from './Labels/IconPlusLabel'
-
 import '@styles/components/CommunityList.css'
 
 export default function CommunityList({ title, communityList }) {
   const navigate = useNavigate();
 
   const navigateToItemList = (communityId) => {
-    alert(communityId);
     navigate('/viewItemList', {state: {communityId: communityId}});
-  }
+  };
 
   return (
     <div className='communityList_container'>
@@ -23,13 +20,14 @@ export default function CommunityList({ title, communityList }) {
               <IconPlusLabel
                 text={item.name}
                 icon={
-                  item.isFavorited
+                  item.favorite
                     ? '/src/assets/duck_selected.png'
                     : '/src/assets/duck.png'
                 }
               />
             </div>
-          ))}
+          ))
+        }
       </div>
     </div>
   );

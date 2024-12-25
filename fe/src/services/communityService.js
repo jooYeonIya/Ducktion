@@ -22,7 +22,7 @@ export async function getCommunityInfo(communityId) {
 // 홈 페이지 - 인기 커뮤니티
 export async function getPopularCommunities() {
   try {
-    const response = await api.get("communities/popularity");
+    const response = await api.get("communities/popular");
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
