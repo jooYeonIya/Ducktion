@@ -7,8 +7,8 @@ import PreCaptionLabel from '../Labels/PreCaptionLabel'
 import '@styles/components/ItemCard.css'
 
 function ItemCard({ data, badgeClick }) {
-  const {itemId, image, favorited, name, priceInfo, additionalInfo, overlayText} = data
-  const [isFavorited, setIsFavorited] = useState(favorited);
+  const {itemId, image, favorite, name, priceInfo, additionalInfo, overlayText} = data
+  const [isFavorited, setIsFavorited] = useState(favorite);
   const navigate = useNavigate();
 
   const toggleBadge = () => {

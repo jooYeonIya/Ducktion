@@ -19,10 +19,10 @@ public class ItemController {
   private final ItemService itemService;
 
   // 일단 하드 코딩
-  private Integer userId = null;
+  private Integer userId = 1;
 
   @GetMapping("/closingsoon")
   public List<ItemCardResponseDto> getClosingSoonItems() {
-    return itemService.getClosingSoonItems();
+    return itemService.getClosingSoonItems(userId);
   }
 }
