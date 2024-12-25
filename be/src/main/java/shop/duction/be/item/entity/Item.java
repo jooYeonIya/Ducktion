@@ -46,6 +46,7 @@ public class Item {
 
     private Float rareScore;
 
+    @Enumerated(EnumType.ORDINAL)
     private RareTier rareTier;
 
     private LocalDateTime registDate;

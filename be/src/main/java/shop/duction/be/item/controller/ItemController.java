@@ -25,4 +25,9 @@ public class ItemController {
   public List<ItemCardResponseDto> getClosingSoonItems() {
     return itemService.getClosingSoonItems(userId);
   }
+
+  @GetMapping("/mastersrare")
+  public List<ItemCardResponseDto> getMastersCollectorsRare() {
+    return itemService.getMastersCollectorsRare(userId);
+  }
 }

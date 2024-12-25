@@ -14,21 +14,9 @@ export async function getClosingSoonItems() {
 // 홈 페이지 - 마스터즈컬렉션즈레어 상품
 export async function getMastersCollectorsRare() {
   try {
-    // const response = await api.get("items/masterscollectorsrare");
-    // return response.data;
-    const data = [];
-    for (let i = 0; i < 10; i++) {
-      data.push({
-        communityId: i,
-        image: "/src/assets/test_image.png",
-        favorited: i % 2 == 0,
-        name: "이거슨 마스터 컬렉션즈 레어 상품이다 이놈들아",
-        priceInfo: { price: i * 10000, type: "" },
-        additionalInfo: null,
-        overlayText: false,
-        itemId: "master"
-      });
-    }
+    const response = await api.get("items/mastersrare");
+    console.log(response.data)
+    return response.data;
     return data;
   } catch (error) {
     console.error("Error fetching:", error);

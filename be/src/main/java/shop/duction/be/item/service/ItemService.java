@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.duction.be.item.dto.ItemCardResponseDto;
 import shop.duction.be.item.entity.Item;
 import shop.duction.be.item.enums.BiddingStatus;
+import shop.duction.be.item.enums.RareTier;
 import shop.duction.be.item.repository.FavoriteItemRepository;
 import shop.duction.be.item.repository.ItemRepository;
 
@@ -34,6 +35,19 @@ public class ItemService {
     return top5Items.stream()
             .map(item -> changeToItemCardResponseDto(item, favoiteItemIds.contains(item.getItemId()))
             ).toList();
+  }
+
+  public List<ItemCardResponseDto> getMastersCollectorsRare(Integer userId) {
+    Pageable pageable = PageRequest.of(0, 10);
+    List<Item> top10Items = itemRepository.findMasterRareItemsByPrice(pageable, RareTier.MASTER_COLLECTORS_RARE);
+
+    List<Integer> favoiteItemIds = userId != null
+            ? getFavoriteItemIds(userId, top10Items)
+            : List.of();
+
+    return top10Items.stream()
+            .map(item -> changeToItemCardResponseDto(item,favoiteItemIds.contains(item.getItemId())))
+            .toList();
   }
 
   public ItemCardResponseDto changeToItemCardResponseDto(Item item, boolean isFavorite) {
