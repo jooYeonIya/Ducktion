@@ -21,6 +21,11 @@ public class BidPointService {
   public void addChargeBidPoint(int bidPoint, int userId) {
     User user = userRepository.findById(userId).orElse(null);
 
+    int newHeldBId = user.getHeldBid() == null ? 0 : user.getHeldBid() + bidPoint;
+    int newUsableBid = user.getUsableBid() == null ? 0 : user.getUsableBid() + bidPoint;
+    user.setHeldBid(newHeldBId);
+    user.setUsableBid(newUsableBid);
+
     BidHistory bidHistory = new BidHistory();
     bidHistory.setBidAmount(bidPoint);
     bidHistory.setType("충전"); // 디벨롭 머지 후 변경
@@ -28,5 +33,6 @@ public class BidPointService {
     bidHistory.setUser(user);
 
     bidPointRepository.save(bidHistory);
+    userRepository.save(user);
   }
 }
