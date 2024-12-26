@@ -18,18 +18,21 @@ public class BidPointService {
   private final BidHistoryRepository bidPointRepository;
   private final UserRepository userRepository;
 
-  public void addChargeBidPoint(Integer bidPoint, Integer userId) {
+  public void updateBidPoint(Integer bidPoint, Integer userId, BidpointType type) {
     User user = userRepository.findById(userId).orElseThrow(() ->
             new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-    int newHeldBId = user.getHeldBid() == null ? 0 : user.getHeldBid() + bidPoint;
-    int newUsableBid = user.getUsableBid() == null ? 0 : user.getUsableBid() + bidPoint;
-    user.setHeldBid(newHeldBId);
+    int bidAmount = (type == BidpointType.CHARGE) ? bidPoint : -bidPoint;
+
+    int newHeldBid = user.getHeldBid() == null ? 0 : user.getHeldBid() + bidAmount;
+    int newUsableBid = user.getUsableBid() == null ? 0 : user.getUsableBid() + bidAmount;
+
+    user.setHeldBid(newHeldBid);
     user.setUsableBid(newUsableBid);
 
     BidHistory bidHistory = new BidHistory();
-    bidHistory.setBidAmount(bidPoint);
-    bidHistory.setType(BidpointType.CHARGE);
+    bidHistory.setBidAmount(bidAmount);
+    bidHistory.setType(type);
     bidHistory.setTransactionTime(LocalDateTime.now());
     bidHistory.setUser(user);
 

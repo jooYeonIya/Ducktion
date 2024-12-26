@@ -48,7 +48,6 @@ export default function ViewBidPointHistoryList() {
       heldBid={state.heldBid} 
       usableBid={state.usableBid} 
       onClose={closeModal}  
-      text={'충전 금액'}
       onComplete={fetchBidPointHistories}
     />)
   }
@@ -58,7 +57,7 @@ export default function ViewBidPointHistoryList() {
       heldBid={state.heldBid} 
       usableBid={state.usableBid} 
       onClose={closeModal}  
-      text={'충전 금액'}
+      onComplete={fetchBidPointHistories}
     />)
   }
 
