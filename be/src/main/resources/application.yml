@@ -15,7 +15,7 @@ spring:
         format_sql: true
         use_sql_comments: true # 디버깅용이 아니라면 false로 설정
         hbm2ddl:
-          auto: update # 운영 환경에서는 create 대신 update 추천
+          auto: update  # 운영 환경에서는 create 대신 update 추천
         id:
           new_generator_mappings: true
         jdbc:
