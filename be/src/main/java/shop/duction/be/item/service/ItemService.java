@@ -5,15 +5,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.duction.be.item.dto.ItemCardResponseDto;
+import shop.duction.be.domain.item.dto.ItemCardResponseDto;
 import shop.duction.be.item.entity.Item;
 import shop.duction.be.item.enums.BiddingStatus;
 import shop.duction.be.item.enums.RareTier;
-import shop.duction.be.item.repository.FavoriteItemRepository;
-import shop.duction.be.item.repository.ItemRepository;
+import shop.duction.be.domain.item.repository.FavoriteItemRepository;
+import shop.duction.be.domain.item.repository.ItemRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

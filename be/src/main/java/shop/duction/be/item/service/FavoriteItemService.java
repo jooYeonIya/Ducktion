@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.duction.be.item.entity.FavoriteItem;
 import shop.duction.be.item.entity.UserItemKey;
-import shop.duction.be.item.repository.FavoriteItemRepository;
+import shop.duction.be.domain.item.repository.FavoriteItemRepository;
 import shop.duction.be.user.entity.User;
 import shop.duction.be.user.repository.UserRepository;
 
