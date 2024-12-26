@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { postChargeBidPoint } from '../../services/bidService'
+import { postWithdrwalBidPoint } from '../../services/bidPointService'
 import { numericInputValidate } from '../../utils/numericInputValidate'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import RectangleButton from '../Button/RectangleButton'

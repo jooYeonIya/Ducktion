@@ -2,7 +2,7 @@ package shop.duction.be.domain.item.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import shop.duction.be.item.service.FavoriteItemService;
+import shop.duction.be.domain.item.service.FavoriteItemService;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +21,7 @@ public class FavoriteItemController {
 
   @DeleteMapping("/delete/{itemId}")
   public void deleteFavoriteItem(@PathVariable int itemId) {
+
     favoriteItemService.deleteFavoriteItem(itemId, userId);
   }
 }

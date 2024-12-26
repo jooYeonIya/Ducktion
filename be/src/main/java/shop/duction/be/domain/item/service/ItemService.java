@@ -1,4 +1,4 @@
-package shop.duction.be.item.service;
+package shop.duction.be.domain.item.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.duction.be.domain.item.dto.ItemCardResponseDto;
-import shop.duction.be.item.entity.Item;
-import shop.duction.be.item.enums.BiddingStatus;
-import shop.duction.be.item.enums.RareTier;
+import shop.duction.be.domain.item.entity.Item;
+import shop.duction.be.domain.item.enums.AuctionStatus;
+import shop.duction.be.domain.item.enums.RareTier;
 import shop.duction.be.domain.item.repository.FavoriteItemRepository;
 import shop.duction.be.domain.item.repository.ItemRepository;
 
@@ -24,7 +24,7 @@ public class ItemService {
 
   public List<ItemCardResponseDto> getClosingSoonItems(Integer userId) {
     Pageable pageable = PageRequest.of(0, 5);
-    List<Integer> status = List.of(0, 1);
+    List<String > status = List.of("BIDDING_BEFORE", "BIDDING_UNDER");
     List<Item> top5Items = itemRepository.findClosingSoonItemsByViews(pageable, status);
 
     List<Integer> favoiteItemIds = userId != null
@@ -57,7 +57,7 @@ public class ItemService {
             item.getItemImages().get(0).getUrl(),
             calculatePriceInfo(item),
             null,
-            item.getBiddingStatus().getBiddingStatusMessage(),
+            item.getAuctionStatus().getAuctionStatusMessage(),
             isFavorite);
   }
 

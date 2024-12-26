@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getUserBidPoint } from '../../services/bidService'
+import { getUserBidPoint } from '../../services/bidPointService'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import PreTextLabel from '../Labels/PreTextLabel'
 import PreCaptionLabel from '../Labels/PreCaptionLabel'

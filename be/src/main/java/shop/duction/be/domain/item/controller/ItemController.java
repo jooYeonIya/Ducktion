@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shop.duction.be.domain.item.dto.ItemCardResponseDto;
-import shop.duction.be.item.service.ItemService;
+import shop.duction.be.domain.item.service.ItemService;
 
 import java.util.List;
 

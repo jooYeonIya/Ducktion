@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react';
-import { getBidPointHistories } from '../services/bidService';
+import { getBidPointHistories } from '../services/bidPointService';
 import { useModal } from '../hooks/useModal';
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import BidPointHistoryCard from '../components/BidPointHistoryCard'

@@ -3,8 +3,8 @@ package shop.duction.be.domain.item.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import shop.duction.be.item.entity.FavoriteItem;
-import shop.duction.be.item.entity.UserItemKey;
+import shop.duction.be.domain.item.entity.FavoriteItem;
+import shop.duction.be.domain.item.entity.UserItemKey;
 
 import java.util.List;
 
