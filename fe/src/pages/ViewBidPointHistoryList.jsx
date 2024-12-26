@@ -49,6 +49,7 @@ export default function ViewBidPointHistoryList() {
       usableBid={state.usableBid} 
       onClose={closeModal}  
       text={'충전 금액'}
+      onComplete={fetchBidPointHistories}
     />)
   }
   const openWithdrwalBidPointModal = () => {

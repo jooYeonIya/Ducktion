@@ -10,8 +10,8 @@ import shop.duction.be.user.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "BidHistory")
-public class BidPoint {
+@Table(name = "Bid_History")
+public class BidHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

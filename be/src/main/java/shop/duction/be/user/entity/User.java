@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import shop.duction.be.bidpoint.entity.BidPoint;
+import shop.duction.be.bidpoint.entity.BidHistory;
 import shop.duction.be.community.entity.FavoriteCommunity;
 import shop.duction.be.item.entity.FavoriteItem;
 import shop.duction.be.ship.entity.BidderShip;
@@ -57,7 +57,7 @@ public class User {
 
     // 관계 매핑
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BidPoint> bidHistories;
+    private List<BidHistory> bidHistories;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteItem> favoriteItems;

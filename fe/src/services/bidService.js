@@ -1,4 +1,4 @@
-// import api from "./api";
+import api from "./api";
 
 // 비드 이력 페이지 - 비드 이력
 export async function getBidPointHistories(bidPointHistoriesRequest) {
@@ -22,8 +22,7 @@ export async function getBidPointHistories(bidPointHistoriesRequest) {
 // 비드 충전하기
 export async function postChargeBidPoint(bidPoint) {
   try {
-    // const response = await api.post("api/bidpoint/charge", bidPoint);
-    // return response.data; 
+    const response = await api.post(`bidpoint/charge/${bidPoint}`);
     return `비드 충전 성공 메세지 ${bidPoint}`;
   } catch (error) {
     console.error("Error fetching:", error);
