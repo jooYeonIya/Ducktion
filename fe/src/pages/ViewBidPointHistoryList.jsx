@@ -18,9 +18,9 @@ import '@styles/pages/ViewBidPointHistoryList.css'
 
 export default function ViewBidPointHistoryList() {
   const sortOption = [
-    { value: "all", title: "전체" },
-    { value: "plus", title: "적립" },
-    { value: "minus", title: "차감" }
+    { value: "ALL", title: "전체" },
+    { value: "PLUS", title: "적립" },
+    { value: "MINUS", title: "차감" }
   ];
 
   const { isModalOpen, modalContent, openModal, closeModal } = useModal();
@@ -51,6 +51,7 @@ export default function ViewBidPointHistoryList() {
       onComplete={fetchBidPointHistories}
     />)
   }
+
   const openWithdrwalBidPointModal = () => {
     openModal(
     <WithdrwalBidPointModalContent
