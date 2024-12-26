@@ -6,18 +6,26 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import shop.duction.be.domain.item.dto.ItemEditRequestDTO;
 import shop.duction.be.domain.item.dto.ViewItemEditResponseDTO;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.ItemImage;
 import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.exception.ItemNotFoundException;
+import shop.duction.be.domain.item.dto.ItemCardResponseDto;
+import shop.duction.be.domain.item.enums.AuctionStatus;
+import shop.duction.be.domain.item.enums.RareTier;
+import shop.duction.be.domain.item.repository.FavoriteItemRepository;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ItemService {
   private final ItemRepository itemRepository;
+  private final FavoriteItemRepository favoriteItemRepository;
 
   public ViewItemEditResponseDTO viewItemEdit(int itemId) {
     Item item = itemRepository.findById(itemId)
@@ -81,5 +89,59 @@ public class ItemService {
     itemRepository.save(item);
 
     return "Item with ID " + itemId + " has been updated successfully!";
+  }
+  
+  public List<ItemCardResponseDto> getClosingSoonItems(Integer userId) {
+    Pageable pageable = PageRequest.of(0, 5);
+    List<String > status = List.of("BIDDING_BEFORE", "BIDDING_UNDER");
+    List<Item> top5Items = itemRepository.findClosingSoonItemsByViews(pageable, status);
+
+    List<Integer> favoiteItemIds = userId != null
+            ? getFavoriteItemIds(userId, top5Items)
+            : List.of();
+
+    return top5Items.stream()
+            .map(item -> changeToItemCardResponseDto(item, favoiteItemIds.contains(item.getItemId()))
+            ).toList();
+  }
+
+  public List<ItemCardResponseDto> getMastersCollectorsRare(Integer userId) {
+    Pageable pageable = PageRequest.of(0, 10);
+    List<Item> top10Items = itemRepository.findMasterRareItemsByPrice(pageable, RareTier.MASTER_COLLECTORS_RARE);
+
+    List<Integer> favoiteItemIds = userId != null
+            ? getFavoriteItemIds(userId, top10Items)
+            : List.of();
+
+    return top10Items.stream()
+            .map(item -> changeToItemCardResponseDto(item,favoiteItemIds.contains(item.getItemId())))
+            .toList();
+  }
+
+  public ItemCardResponseDto changeToItemCardResponseDto(Item item, boolean isFavorite) {
+    return new ItemCardResponseDto(
+            item.getItemId(),
+            item.getCommunity().getCommunityId(),
+            item.getName(),
+            item.getItemImages().get(0).getUrl(),
+            calculatePriceInfo(item),
+            null,
+            item.getAuctionStatus().getAuctionStatusMessage(),
+            isFavorite);
+  }
+
+  public ItemCardResponseDto.PriceInfo calculatePriceInfo(Item item) {
+    if (item.getImmediatePrice() != null) {
+      return new ItemCardResponseDto.PriceInfo(item.getImmediatePrice(), "즉시 낙찰가");
+    } else if (item.getNowPrice() != null) {
+      return new ItemCardResponseDto.PriceInfo(item.getNowPrice(), "현재 입찰가");
+    } else {
+      return new ItemCardResponseDto.PriceInfo(item.getStartPrice(), "시작가");
+    }
+  }
+
+  public List<Integer> getFavoriteItemIds(Integer userId, List<Item> items) {
+    List<Integer> ids = items.stream().map(Item::getItemId).toList();
+    return favoriteItemRepository.findeFavoriteItemsByUserAndItemIds(userId, ids);
   }
 }

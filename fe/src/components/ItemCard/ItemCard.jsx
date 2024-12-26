@@ -1,23 +1,44 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { deleteFavoriteItem, postFavoriteItem } from '../../services/itemService'
+import { checkLogin } from '../../utils/CheckLogin'
 import GodoTextLabel from '../Labels/GodoTextLabel'
 import PreTextLabel from '../Labels/PreTextLabel'
 import PreCaptionLabel from '../Labels/PreCaptionLabel'
 
 import '@styles/components/ItemCard.css'
 
-function ItemCard({ data, badgeClick }) {
-  const {itemId, image, favorited, name, priceInfo, additionalInfo, overlayText} = data
-  const [isFavorited, setIsFavorited] = useState(favorited);
+function ItemCard({ data }) {
+  const { itemId, image, favorite, name, priceInfo, additionalInfo, overlayText } = data
+  const [isFavorited, setIsFavorited] = useState(favorite);
   const navigate = useNavigate();
 
-  const toggleBadge = () => {
-    setIsFavorited(!isFavorited);
-    if (badgeClick) badgeClick();
+  const handleCheckLogin = () => {
+    const isLoggedIn = checkLogin();
+
+    if (isLoggedIn) {
+      toggleBadge()
+    } else {
+      alert("로그인해  주세요")
+    }
+  };
+
+  const toggleBadge = async() => {
+    try {
+      if (isFavorited) {
+        await deleteFavoriteItem(itemId);
+      } else {
+        await postFavoriteItem(itemId);
+      }
+
+      setIsFavorited(!isFavorited)
+    } catch (error) {
+      alert("관심 등록 중 오류가 발생했어요 다시 시도해 주세요")
+    }
   };
 
   const cardOnClick = () => {
-    navigate("/viewItem", { state: {itemId: itemId} });
+    navigate("/viewItem", { state: { itemId: itemId } });
   };
 
   return (
@@ -28,8 +49,8 @@ function ItemCard({ data, badgeClick }) {
         <img src={image} alt='ItemImage' className='itemCard_imageContainer_image' />
         <button className='itemCard_imageContainer_badge' onClick={(e) => {
           // 카드 클릭 이벤트와 구분
-          e.stopPropagation(); 
-          toggleBadge();
+          e.stopPropagation();
+          handleCheckLogin();
         }}>
           <img
             src={isFavorited ? 'src/assets/duck_selected.png' : 'src/assets/duck.png'}

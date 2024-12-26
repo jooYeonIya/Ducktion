@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class FavoriteCommunityId implements Serializable {
-    private int userId;
-    private int communityId;
+    private Integer userId;
+    private Integer communityId;
 }
 

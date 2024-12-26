@@ -1,5 +1,6 @@
 package shop.duction.be.domain.item.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -12,16 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shop.duction.be.domain.item.dto.ItemEditRequestDTO;
 import shop.duction.be.domain.item.dto.ViewItemEditResponseDTO;
+import shop.duction.be.domain.item.dto.ItemCardResponseDto;
 import shop.duction.be.domain.item.service.ItemService;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.utils.HttpStatusConstants;
+  
+import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/items")
 @RequiredArgsConstructor
 @Tag(name = "출품 상품")
 public class ItemController {
     private final ItemService itemService;
+  
+    // 일단 하드 코딩
+  private Integer userId = 1;
 
     @GetMapping("/editing/{itemId}")
     @Operation(summary = "수정할 상품 정보 보기")
@@ -49,5 +57,14 @@ public class ItemController {
             return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
         }
     };
+  
+    @GetMapping("/closingsoon")
+  public List<ItemCardResponseDto> getClosingSoonItems() {
+    return itemService.getClosingSoonItems(userId);
+  }
 
+  @GetMapping("/mastersrare")
+  public List<ItemCardResponseDto> getMastersCollectorsRare() {
+    return itemService.getMastersCollectorsRare(userId);
+  }
 }

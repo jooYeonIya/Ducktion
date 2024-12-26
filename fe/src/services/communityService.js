@@ -1,4 +1,4 @@
-// import axios from 'axios'
+import api from './api.js'
 
 // - 커뮤니티 정보 불러오기
 export async function getCommunityInfo(communityId) {
@@ -22,17 +22,8 @@ export async function getCommunityInfo(communityId) {
 // 홈 페이지 - 인기 커뮤니티
 export async function getPopularCommunities() {
   try {
-    // const response = await api.get("communities/popularity");
-    // return response.data;
-    const data = [];
-    for (let i = 0; i < 10; i++) {
-      data.push({
-        title: "디즈니랜드 마븖히어로즈 스파이더맨",
-        isFavorited: i % 2 == 0 ? true : false,
-        communityId: "1"
-      });
-    }
-    return data;
+    const response = await api.get("communities/popular");
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error; 
@@ -88,5 +79,25 @@ export async function getCommunitySearchResults(searchText) {
   } catch (error) {
     console.error("Error fetching:", error);
     throw error; 
+  }
+}
+
+// 커뮤니티 관심 등록
+export async function postFavoriteCommunity(communityId) {
+  try {
+    await api.post(`communities/favorites/add/${communityId}`)
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+}
+
+// 커뮤니티 관심 해제
+export async function deleteFavoriteCommunity(communityId) {
+  try {
+    await api.delete(`communities/favorites/delete/${communityId}`)
+  } catch {
+    console.log("error", error);
+    throw error;
   }
 }
