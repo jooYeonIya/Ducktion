@@ -1,6 +1,13 @@
+jwt:
+  secret: ${JWT_SECRET} # Base64로 인코딩된 비밀키
+  access-token-validity: ${JWT_ACCESS_TOKEN_VALIDITY:900000}         # Access Token 유효기간 (15분, 밀리초 단위)
+  refresh-token-validity: ${JWT_REFRESH_TOKEN_VALIDITY:604800000}     # Refresh Token 유효기간 (7일, 밀리초 단위)
+
 spring:
   application:
     name: be
+  config:
+    import: "optional:file:local.env"
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
