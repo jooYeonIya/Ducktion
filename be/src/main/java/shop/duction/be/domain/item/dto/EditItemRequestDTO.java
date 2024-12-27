@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import shop.duction.be.domain.item.enums.ItemCondition;
 
-public record ItemEditRequestDTO(
+public record EditItemRequestDTO(
     String itemName,
     List<String> addImageUrls,
     List<String> removeImageUrls,
@@ -12,6 +12,6 @@ public record ItemEditRequestDTO(
     ItemCondition itemCondition,
     Float rareScore,
     Integer startPrice,
-    LocalDateTime endBidTime,
+    LocalDateTime endTime,
     Integer immediatePrice
 ){}
