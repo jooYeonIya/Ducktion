@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 import shop.duction.be.domain.bidding.entity.BiddedHistory;
+import shop.duction.be.domain.bidding.entity.ExhibitHistory;
 import shop.duction.be.domain.bidpoint.enums.BidpointType;
 import shop.duction.be.domain.user.entity.User;
 
@@ -17,7 +18,7 @@ public class BidHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bidId; // 비드 ID
+    private Integer bidHistoryId; // 비드 ID
 
     @Column(nullable = false)
     private Integer bidAmount; // 비드 수량
@@ -36,5 +37,9 @@ public class BidHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bidded_id")
     private BiddedHistory biddedHistory; // 낙찰 ID
+
+    @OneToOne(mappedBy = "itemId", fetch = FetchType.LAZY)
+    @JoinColumn(name = "exhibit_item_id", nullable = false)
+    private ExhibitHistory exhibitHistory;
 }
 

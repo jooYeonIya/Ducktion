@@ -3,8 +3,10 @@ package shop.duction.be.domain.bidding.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.*;
+import shop.duction.be.domain.bidpoint.entity.BidHistory;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.UserItemKey;
+import shop.duction.be.domain.item.enums.AuctionStatus;
 import shop.duction.be.domain.user.entity.User;
 
 @Getter
@@ -12,7 +14,6 @@ import shop.duction.be.domain.user.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ExhibitHistory")
 public class ExhibitHistory {
 
     @EmbeddedId
@@ -31,4 +32,10 @@ public class ExhibitHistory {
     @Column(nullable = false)
     private LocalDateTime registTime;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AuctionStatus status;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private BidHistory bidHistory;
 }

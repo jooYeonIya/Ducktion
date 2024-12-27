@@ -2,8 +2,10 @@ package shop.duction.be.domain.bidding.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.*;
 import shop.duction.be.domain.bidding.enums.BiddedStatus;
+import shop.duction.be.domain.bidpoint.entity.BidHistory;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.user.entity.User;
 
@@ -32,11 +34,14 @@ public class BiddedHistory {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne
+    @OneToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    @OneToOne
+    @OneToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "bid_id", nullable = false)
     private BiddingHistory biddingHistory;
+
+    @OneToMany(mappedBy = "exhibitHistory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BidHistory> bidHistory;
 }
