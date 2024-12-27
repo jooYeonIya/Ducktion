@@ -1,6 +1,6 @@
 import '../styles/pages/RegistItem.css';
 import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel';
 import PreTitleLabel from '../components/Labels/PreTitleLabel';
 import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
@@ -16,6 +16,7 @@ import PreTextLabel from '../components/Labels/PreTextLabel';
 
 function RegistItem() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [images, setImages] = useState([]); // 이미지 URL 상태
   const [imageFiles, setImageFiles] = useState([]); // 이미지 파일 상태
@@ -31,6 +32,8 @@ function RegistItem() {
 
   const maxFileSize = 2 * 1024 * 1024; // 2MB
   const maxFileCount = 9; // 최대 파일 개수
+
+  const communityId = location.state?.communityId;
 
   // 상품 상태 변경 관리
   const handleConditionChange = (event) => {
@@ -104,6 +107,9 @@ function RegistItem() {
     // 서버 업로드 API 로직 추가 필요
     // 새 이미지의 S3 URL을 images 배열에 덮어쓰기 필요
 
+    // 임시 userId
+    userId = 1;
+
     // DTO 생성
     const dto = {
       itemName,
@@ -114,6 +120,8 @@ function RegistItem() {
       startingBid,
       auctionEndDate,
       immediateBid,
+      communityId,
+      userId // 커뮤니티 ID
     };
 
     try {

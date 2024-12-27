@@ -184,15 +184,15 @@ export async function postImmediateBidding(biddingGiveupRequest) {
 
 // 상품 등록 API 호출
 export async function postItem(dto) {
-  console.log("dto : ", dto);
-  return true;
-  // try {
-  //   const response = await api.post("items", dto); // 서버에 POST 요청
-  //   return response.data; // 성공적으로 응답 데이터를 반환
-  // } catch (error) {
-  //   console.error("상품 등록에 실패했습니다:", error);
-  //   throw error; // 에러를 호출한 쪽으로 전달
-  // }
+  // console.log("dto : ", dto);
+  // return true;
+  try {
+    const response = await api.post("items", dto); // 서버에 POST 요청
+    return response.data; // 성공적으로 응답 데이터를 반환
+  } catch (error) {
+    console.error("상품 등록에 실패했습니다:", error);
+    throw error; // 에러를 호출한 쪽으로 전달
+  }
 }
 
 // 상품 수정 보기 API 호출
