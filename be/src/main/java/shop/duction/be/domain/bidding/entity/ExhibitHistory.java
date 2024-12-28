@@ -3,10 +3,10 @@ package shop.duction.be.domain.bidding.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.*;
+import shop.duction.be.domain.bidding.enums.ExhibitStatus;
 import shop.duction.be.domain.bidpoint.entity.BidHistory;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.UserItemKey;
-import shop.duction.be.domain.item.enums.AuctionStatus;
 import shop.duction.be.domain.user.entity.User;
 
 @Getter
@@ -34,7 +34,7 @@ public class ExhibitHistory {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AuctionStatus status;
+    private ExhibitStatus status;
 
     @OneToOne(mappedBy = "exhibitHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private BidHistory bidHistory;

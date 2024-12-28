@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import shop.duction.be.domain.item.dto.HistoriesCountResponseDto;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.enums.RareTier;
 
@@ -32,4 +33,27 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
                 END DESC
         """)
   List<Item> findMasterRareItemsByPrice(Pageable pageable, @Param("rareTier") RareTier rareTier);
+
+  @Query("""
+          SELECT new shop.duction.be.domain.item.dto.HistoriesCountResponseDto$ExhibitDetails(
+            (SELECT COUNT(*) FROM ExhibitHistory),
+            SUM(CASE WHEN b.status = 'BIDDING_UNDER' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN b.status = 'BIDDED' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN b.status = 'BIDDING_NOT' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN b.status = 'BIDDED_CANCEL' THEN 1 ELSE 0 END)
+          )
+          FROM ExhibitHistory b
+        """)
+  HistoriesCountResponseDto.ExhibitDetails findExhibitHistoriesCounts();
+
+  @Query("""
+          SELECT new shop.duction.be.domain.item.dto.HistoriesCountResponseDto$BiddingDetails(
+            (SELECT COUNT(*) FROM BiddingHistory),
+            SUM(CASE WHEN b.status = 'BIDDING' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN b.status = 'BIDDED' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN b.status = 'BIDDING_FAIL' OR b.status = 'BIDDING_GIVE_UP' THEN 1 ELSE 0 END)
+          )
+          FROM BiddingHistory b
+        """)
+  HistoriesCountResponseDto.BiddingDetails findBiddingHistoriesCounts();
 }

@@ -7,14 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import shop.duction.be.domain.item.dto.ItemEditRequestDTO;
-import shop.duction.be.domain.item.dto.ViewItemDetailsDTO;
-import shop.duction.be.domain.item.dto.ViewItemEditResponseDTO;
+import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.ItemImage;
 import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.exception.ItemNotFoundException;
-import shop.duction.be.domain.item.dto.ItemCardResponseDto;
 import shop.duction.be.domain.item.enums.RareTier;
 import shop.duction.be.domain.item.repository.FavoriteItemRepository;
 import shop.duction.be.utils.ItemConditionConverter;
@@ -149,8 +146,6 @@ public class ItemService {
     Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
 
-
-
     List<ItemImage> itemImages = item.getItemImages();
     List<String> imageUrls = new ArrayList<>();
     if (item.getItemImages() != null && !item.getItemImages().isEmpty()) {
@@ -179,5 +174,17 @@ public class ItemService {
             .build();
 
     return dto;
+  }
+
+  public HistoriesCountResponseDto getHistoriesCount(Integer userId) {
+    HistoriesCountResponseDto responseDto = new HistoriesCountResponseDto();
+
+    HistoriesCountResponseDto.ExhibitDetails exhibitHistoriesCounts = itemRepository.findExhibitHistoriesCounts();
+    responseDto.setExhibit(exhibitHistoriesCounts);
+
+    HistoriesCountResponseDto.BiddingDetails biddingHistoriesCounts = itemRepository.findBiddingHistoriesCounts();
+    responseDto.setBidding(biddingHistoriesCounts);
+
+    return responseDto;
   }
 }

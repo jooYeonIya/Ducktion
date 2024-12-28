@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import shop.duction.be.domain.item.dto.ItemEditRequestDTO;
-import shop.duction.be.domain.item.dto.ViewItemDetailsDTO;
-import shop.duction.be.domain.item.dto.ViewItemEditResponseDTO;
-import shop.duction.be.domain.item.dto.ItemCardResponseDto;
+import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.service.ItemService;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.utils.HttpStatusConstants;
@@ -44,7 +41,6 @@ public class ItemController {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
     }
   };
-
 
   @PutMapping("/editing/{itemId}")
   @Operation(summary = "상품 수정하기")
@@ -80,5 +76,10 @@ public class ItemController {
     } catch (IllegalArgumentException e) {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
     }
-  };
+  }
+
+  @GetMapping("/histories/count")
+  public HistoriesCountResponseDto getHistoriesCount() {
+    return itemService.getHistoriesCount(userId);
+  }
 }

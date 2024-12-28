@@ -363,22 +363,8 @@ export async function getFavoriteItems() {
 // 입찰 이력, 출품 이력 횟수 불러오기 
 export async function getHistoriesCount() {
   try {
-    // const response = await api.get(`/api/histories/count/${user_id}`);
-    // return response.data;
-    const data = {
-      bidded: {
-        all: 100,
-        bidding: 10,
-        bidded: 20,
-        biddedCancel: 70,
-      },
-      bidding: {
-        all: 200,
-        bidding: 20,
-        bidded: 30,
-        biddedFail: 150,
-      }
-    }
+    const response = await api.get('/items/histories/count');
+    return response.data;
     return data;
   } catch (error) {
     console.error("Error fetching:", error);
