@@ -44,22 +44,22 @@ export default function ViewBidPointHistoryList() {
 
   const openChargeBidPointModal = () => {
     openModal(
-    <ChargeBidPointModalContent 
-      heldBid={state.heldBid} 
-      usableBid={state.usableBid} 
-      onClose={closeModal}  
-      onComplete={fetchBidPointHistories}
-    />)
+      <ChargeBidPointModalContent
+        heldBid={state.heldBid}
+        usableBid={state.usableBid}
+        onClose={closeModal}
+        onComplete={fetchBidPointHistories}
+      />)
   }
 
   const openWithdrwalBidPointModal = () => {
     openModal(
-    <WithdrwalBidPointModalContent
-      heldBid={state.heldBid} 
-      usableBid={state.usableBid} 
-      onClose={closeModal}  
-      onComplete={fetchBidPointHistories}
-    />)
+      <WithdrwalBidPointModalContent
+        heldBid={state.heldBid}
+        usableBid={state.usableBid}
+        onClose={closeModal}
+        onComplete={fetchBidPointHistories}
+      />)
   }
 
   const fetchBidPointHistories = async () => {
@@ -101,7 +101,7 @@ export default function ViewBidPointHistoryList() {
       </div>
 
       <div className="bidPointHistory_historyList">
-        {histories &&
+        {histories && histories.length > 0 ? (
           histories.map((history, index) => (
             <div key={index} className="bidPointHistory_historyList_item">
 
@@ -109,20 +109,25 @@ export default function ViewBidPointHistoryList() {
                 <PreSubTitleLabel text={history.date} />
                 <div className='bidPointHistory_historyList_item_leftContent'>
                   <PreTextLabel text={history.itemName} />
-                  <PreCaptionLabel text={`${history.time} | ${history.type}`} style={{color: '#bebebe'}}  />
+                  <PreCaptionLabel text={`${history.time} | ${history.type}`} style={{ color: '#bebebe' }} />
                 </div>
               </div>
 
               <div
                 className={`bidPointHistory_historyList_item_right ${history.bidAmount > 0 ? 'plus' : 'minus'}`}
               >
-                <PreSubTitleLabel 
+                <PreSubTitleLabel
                   text={history.bidAmount > 0
-                  ? `+${history.bidAmount.toLocaleString()} 비드`
-                  : `${history.bidAmount.toLocaleString()} 비드`} />
+                    ? `+${history.bidAmount.toLocaleString()} 비드`
+                    : `${history.bidAmount.toLocaleString()} 비드`} />
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className="bidPointHistory_noHistory">
+            <PreSubTitleLabel text="이력이 없습니다" style={{ color: '#bebebe', textAlign: 'center', paddingTop: "20px" }} />
+          </div>
+        )}
       </div>
     </>
   );
