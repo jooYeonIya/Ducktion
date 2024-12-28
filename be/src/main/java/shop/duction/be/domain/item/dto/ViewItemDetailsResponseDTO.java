@@ -1,14 +1,12 @@
 package shop.duction.be.domain.item.dto;
 
 import lombok.Builder;
-import shop.duction.be.domain.item.enums.ItemCondition;
-import shop.duction.be.domain.item.enums.RareTier;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
-public record ViewItemDetailsDTO(
+public record ViewItemDetailsResponseDTO(
         Integer communityId,
         String communityName,
         Integer itemId,

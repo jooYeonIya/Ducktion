@@ -92,17 +92,17 @@ export async function getItemDetails(itemId) {
 }
 
 // 출품 상품 레어 점수 평가
-export async function postItemRareScore(dto) {
+export async function postItemRareScore(itemId, dto) {
   console.log("dto : ", dto);
   try {
-    // const response = await api.post(`items/rare_score`, dto); // 서버에 POST 요청
-    // return response.data; // 성공적으로 응답 데이터를 반환
-    const updatedDto = {
-      userId: 1,
-      itemId: 1,
-      rareScore: dto.rareScore,
-    };
-    return updatedDto;
+    const response = await api.post(`items/${itemId}/rare_score`, dto); // 서버에 POST 요청
+    return response; // 성공적으로 응답 데이터를 반환
+    // const updatedDto = {
+    //   userId: 1,
+    //   itemId: 1,
+    //   rareScore: dto.rareScore,
+    // };
+    // return updatedDto;
   } catch (error) {
     console.error("아이템 정보를 불러오는 데 실패했습니다:", error);
     throw error; // 에러를 호출한 쪽으로 전달
