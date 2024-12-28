@@ -235,18 +235,16 @@ const ViewItem = () => {
 
   const handleRareScoreChange = async (value) => {
     const dto = {
-      // userId: 1,
-      itemId: data.itemId,
       rareScore: value,
     }; // 별점 포함된 dto 생성
 
     try {
       setRareScore(value);
 
-      const response = await postItemRareScore(dto); // API 요청
+      const response = await postItemRareScore(data.itemId, dto); // API 요청
       console.log("서버 응답:", response); // 응답 데이터 확인
-      console.log(`${response.rareScore}점의 레어 등급 평가가 제출되었습니다.`);
-      alert(`${response.rareScore}점의 레어 등급 평가가 제출되었습니다.`);
+      console.log(`${value}점의 레어 등급 평가가 제출되었습니다.`);
+      alert(`${value}점의 레어 등급 평가가 제출되었습니다.`);
     } catch (error) {
       console.error("레어 등급 평가 제출 중 오류 발생:", error);
       alert("레어 등급 평가를 제출하는 데 실패했습니다.");
