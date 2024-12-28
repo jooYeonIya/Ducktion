@@ -38,7 +38,4 @@ public class BiddingHistory {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private BiddedHistory biddedHistory;
-
-
-
 }
