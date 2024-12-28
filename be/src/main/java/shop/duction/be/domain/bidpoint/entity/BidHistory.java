@@ -38,8 +38,11 @@ public class BidHistory {
     @JoinColumn(name = "bidded_id")
     private BiddedHistory biddedHistory; // 낙찰 ID
 
-    @OneToOne(mappedBy = "itemId", fetch = FetchType.LAZY)
-    @JoinColumn(name = "exhibit_item_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false),
+            @JoinColumn(name = "item_id", referencedColumnName = "item_id", insertable = false, updatable = false)
+    })
     private ExhibitHistory exhibitHistory;
 }
 
