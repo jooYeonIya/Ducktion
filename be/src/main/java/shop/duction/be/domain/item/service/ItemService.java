@@ -235,4 +235,15 @@ public class ItemService {
 
     return rareRating.isPresent() ? "Rare rating updated successfully." : "Rare rating created successfully.";
   }
+
+  public String report(int itemId, int userId) {
+    Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
+    userRepository.findById(userId)
+            .orElseThrow(() -> new ItemNotFoundException("User with ID " + userId + " not found"));
+
+    item.setReportedCount(item.getReportedCount() + 1);
+
+    return "Report updated successfully";
+  }
 }

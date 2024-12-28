@@ -253,14 +253,8 @@ const ViewItem = () => {
 
   const onReport = async () => {
     if (!isReported) {
-      try {
-        const response = await putReport(data.itemId); // API 요청
-        console.log("서버 응답:", response); // 응답 데이터 확인
-        setIsReported(true);
-      } catch (error) {
-        console.error("신고 중 오류 발생:", error);
-        alert("신고하는 데 실패했습니다.");
-      }
+      await putReport(data.itemId); // API 요청
+      setIsReported(true);
     } else {
       alert("이미 신고하신 상품입니다.");
     }
@@ -350,9 +344,9 @@ const ViewItem = () => {
 
           {/* 버튼 추가 */}
           <div className="slider-buttons">
-            <IconPlusLabel icon="/src/assets/report.png" text={"신고하기"} onClick={onReport}/>
-            <IconPlusLabel icon="/src/assets/give_up.png" text={"입찰포기"} onClick={onGiveup}/>
-            <IconPlusLabel icon="/src/assets/duck.png" text={"관심등록"}/>
+            <IconPlusLabel icon="/src/assets/report.png" text={"신고하기"} onImageClick={onReport} onTextClick={onReport} />
+            <IconPlusLabel icon="/src/assets/give_up.png" text={"입찰포기"} onImageClick={onGiveup} onTextClick={onGiveup} />
+            <IconPlusLabel icon="/src/assets/duck.png" text={"관심등록"} onImageClick={onGiveup} onTextClick={onGiveup} />
           </div>
         </div>
 
