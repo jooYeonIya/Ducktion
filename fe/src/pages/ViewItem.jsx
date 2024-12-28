@@ -19,7 +19,7 @@ import IconPlusLabel from '../components/Labels/IconPlusLabel'
 const ViewItem = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const itemId = location.state.itemId;
+  const itemId = 41;
   const fileInputRef = useRef(null);
 
   const maxFileSize = 2 * 1024 * 1024; // 2MB
@@ -31,17 +31,17 @@ const ViewItem = () => {
     itemId: 1,
     itemName: "상",
     images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_8Rj-vULPVGhf-eQyiY5sG2dMcHFQzD6RrQ&s"],
-    description: "아아아 하기 싫다ㅏㅏㅏ",
+    description: "아아아 하기 싫다ㅏㅏㅏ\n저 대신 일 해주실 분 경매 하세욧!!\n지금 여기서 일할 수 있는 기회ㅣㅣㅣ \n놓치지 말고 사십시오!!!!!!!!!",
     itemCondition: "사용감 적음",
-    rareGrade: "마",
-    startingBid: 10000,
-    auctionEndDate: "2025-01-07T23:59:59",
-    nowPrice: 10000,
+    rareTier: "마스터컬렉션즈레어",
+    startPrice: 7000,
+    endTime: "2025-01-07T23:59:59",
+    nowPrice: 8000,
     totalView: 10000,
     totalBidding: 10000,
     exhibitorNickName: "오쿠맨",
     exhibitorRate: 58,
-    immediateBid: '',
+    immediatePrice: 20000,
   }); // 이미지 URL 상태
   const [images, setImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 보여지는 이미지 인덱스
@@ -63,10 +63,10 @@ const ViewItem = () => {
       try {
         // 실제 API 호출 로직 작성 필요
         const response = await getItemDetails(itemId);
-        // const data = await response.json();
-        console.log(response);
-        // setData(data);
-        setData(response);
+        const data = await response;
+        console.log(data);
+        setData(data);
+        // setData(response);
         // console.log(data.images);
       } catch (error) {
         console.error("아이템 정보를 불러오는 데 실패했습니다:", error);
@@ -87,7 +87,7 @@ const ViewItem = () => {
 
     const updateRemainingTime = () => {
       const now = new Date(); // 현재 시간
-      const auctionEnd = new Date(data.auctionEndDate); // 경매 종료 시간
+      const auctionEnd = new Date(data.endTime); // 경매 종료 시간
       const diff = auctionEnd - now; // 남은 시간 (밀리초)
 
       if (diff <= 0) {
@@ -149,7 +149,7 @@ const ViewItem = () => {
 
     // 컴포넌트 언마운트 시 업데이트 정리
     return () => clearTimeout(interval); // 컴포넌트 언마운트 시 업데이트 정리
-  }, [data.auctionEndDate]);
+  }, [data.endTime]);
 
 
   // communityName 클릭 시 실행될 함수
@@ -176,16 +176,16 @@ const ViewItem = () => {
   const onBid = () => {
     const probs = {
       itemName: data.itemName, 
-      startingBid: data.startingBid, 
+      startingPrice: data.startPrice, 
       nowPrice: data.nowPrice, 
-      immediateBid: data.immediateBid, 
+      immediatePrice: data.immediatePrice, 
     };
 
     openModal(<SubmitBidModalContent probs={probs} onClose={closeModal} />);
   };
 
   const onImmediateBid = async () => {
-    const userConfirmed = window.confirm(`${data.immediateBid}비드로 즉시 낙찰 하겠습니까?`); // 확인창 표시
+    const userConfirmed = window.confirm(`${data.immediatePrice}비드로 즉시 낙찰 하겠습니까?`); // 확인창 표시
 
     if (!userConfirmed) {
       // 사용자가 "아니오"를 선택한 경우
@@ -210,7 +210,7 @@ const ViewItem = () => {
   // 남은 시간을 계산하는 함수
   const calculateRemainingTime = () => {
     const now = new Date(); // 현재 시간
-    const auctionEnd = new Date(data.auctionEndDate); // 경매 종료 시간
+    const auctionEnd = new Date(data.endTime); // 경매 종료 시간
     const diff = auctionEnd - now; // 시간 차이 (밀리초)
 
     if (diff <= 0) {
@@ -361,7 +361,7 @@ const ViewItem = () => {
         {/* 상품 정보 */}
         <div className="item-info">
           <PreTitleLabel text={data.itemName} />
-          <PriceSummary startingBid={data.startingBid} nowPrice={data.nowPrice} immediateBid={data.immediateBid} />
+          <PriceSummary startingBid={data.startPrice} nowPrice={data.nowPrice} immediateBid={data.immediatePrice} />
 
           {/* 버튼 영역 */}
           <div className="price-button-container">
@@ -390,7 +390,7 @@ const ViewItem = () => {
             </div>
             <div className="item-info-detail-row">
               <PreTextLabel text={"레어 등급"} />
-              <PreTextLabel text={data.rareGrade} style={{fontFamily: "HakgyoansimByeolbichhaneulTTF-B"}}/>
+              <PreTextLabel text={data.rareTier} style={{fontFamily: "HakgyoansimByeolbichhaneulTTF-B"}}/>
             </div>
             <div className="item-info-detail-row">
               <PreTextLabel text={"레어 등급 평가"} />

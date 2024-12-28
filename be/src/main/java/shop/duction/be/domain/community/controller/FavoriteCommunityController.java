@@ -1,5 +1,6 @@
 package shop.duction.be.domain.community.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import shop.duction.be.domain.community.service.FavoriteCommunityService;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/communities/favorites")
+@Tag(name = "관심 커뮤니티")
 public class FavoriteCommunityController {
 
   private final FavoriteCommunityService favoriteCommunityService;

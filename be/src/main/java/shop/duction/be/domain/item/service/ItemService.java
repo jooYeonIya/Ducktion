@@ -3,22 +3,22 @@ package shop.duction.be.domain.item.service;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import shop.duction.be.domain.item.dto.ItemEditRequestDTO;
+import shop.duction.be.domain.item.dto.ViewItemDetailsDTO;
 import shop.duction.be.domain.item.dto.ViewItemEditResponseDTO;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.ItemImage;
 import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.domain.item.dto.ItemCardResponseDto;
-import shop.duction.be.domain.item.enums.AuctionStatus;
 import shop.duction.be.domain.item.enums.RareTier;
 import shop.duction.be.domain.item.repository.FavoriteItemRepository;
+import shop.duction.be.utils.ItemConditionConverter;
+import shop.duction.be.utils.RareTierConverter;
 
 @Service
 @Transactional
@@ -27,7 +27,7 @@ public class ItemService {
   private final ItemRepository itemRepository;
   private final FavoriteItemRepository favoriteItemRepository;
 
-  public ViewItemEditResponseDTO viewItemEdit(int itemId) {
+  public ViewItemEditResponseDTO readItemEdit(int itemId) {
     Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
 
@@ -53,7 +53,7 @@ public class ItemService {
     return dto;
   }
 
-  public String itemEdit(int itemId, ItemEditRequestDTO dto) {
+  public String updateItem(int itemId, ItemEditRequestDTO dto) {
     Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
     item.setName(dto.itemName());
@@ -143,5 +143,41 @@ public class ItemService {
   public List<Integer> getFavoriteItemIds(Integer userId, List<Item> items) {
     List<Integer> ids = items.stream().map(Item::getItemId).toList();
     return favoriteItemRepository.findeFavoriteItemsByUserAndItemIds(userId, ids);
+  }
+
+  public ViewItemDetailsDTO readItemDetails(int itemId) {
+    Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
+
+
+
+    List<ItemImage> itemImages = item.getItemImages();
+    List<String> imageUrls = new ArrayList<>();
+    if (item.getItemImages() != null && !item.getItemImages().isEmpty()) {
+      for (ItemImage image : itemImages) {
+        imageUrls.add(image.getUrl());
+      }
+    }
+
+    ViewItemDetailsDTO dto = ViewItemDetailsDTO.builder()
+            .communityId(item.getCommunity().getCommunityId())
+            .communityName(item.getCommunity().getName())
+            .itemId(item.getItemId())
+            .itemName(item.getName())
+            .images(imageUrls)
+            .description(item.getDescription())
+            .itemCondition(ItemConditionConverter.convert(item.getItemCondition()))
+            .rareTier(RareTierConverter.convert(item.getRareTier()))
+            .startPrice(item.getStartPrice())
+            .endTime(item.getEndTime())
+            .nowPrice(item.getNowPrice())
+            .totalView(item.getTotalView())
+            .totalBidding(item.getTotalBidding())
+            .exhibitorNickName(item.getUser().getNickname())
+            .exhibitorRate(item.getUser().getRate())
+            .immediatePrice(item.getImmediatePrice())
+            .build();
+
+    return dto;
   }
 }
