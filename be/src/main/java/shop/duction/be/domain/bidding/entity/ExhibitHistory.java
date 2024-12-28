@@ -36,6 +36,6 @@ public class ExhibitHistory {
     @Column(nullable = false)
     private AuctionStatus status;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "exhibitHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private BidHistory bidHistory;
 }

@@ -5,8 +5,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 import shop.duction.be.domain.bidding.entity.BiddedHistory;
+import shop.duction.be.domain.bidpoint.enums.BidPointType;
 import shop.duction.be.domain.bidding.entity.ExhibitHistory;
-import shop.duction.be.domain.bidpoint.enums.BidpointType;
 import shop.duction.be.domain.user.entity.User;
 
 @Entity
@@ -25,7 +25,7 @@ public class BidHistory {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private BidpointType type; // 유형 (CHARGE, BIDDED, 등)
+    private BidPointType type; // 유형 (CHARGE, BIDDED, 등)
 
     @Column(nullable = false)
     private LocalDateTime transactionTime; // 거래 시간
