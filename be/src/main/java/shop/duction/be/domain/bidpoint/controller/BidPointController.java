@@ -1,5 +1,6 @@
 package shop.duction.be.domain.bidpoint.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import shop.duction.be.domain.bidpoint.service.BidPointService;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/bidpoint")
+@Tag(name = "비드 이력")
 public class BidPointController {
   private final BidPointService bidPointService;
 

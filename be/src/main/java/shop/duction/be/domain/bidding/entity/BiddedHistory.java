@@ -42,6 +42,6 @@ public class BiddedHistory {
     @JoinColumn(name = "bid_id", nullable = false)
     private BiddingHistory biddingHistory;
 
-    @OneToMany(mappedBy = "exhibitHistory", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "biddedHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BidHistory> bidHistory;
 }
