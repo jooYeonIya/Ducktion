@@ -112,12 +112,17 @@ export async function postItemRareScore(itemId, dto) {
 // 신고하기
 export async function putReport(itemId) {
   try {
-    // const response = await api.put(`items/${itemId}/report`);
-    const response = {
-      ok: "ok",
-    }
-    if (response.ok) {
-      alert("신고되었습니다.");
+    const response = await api.put(`items/${itemId}/report`);
+    // const response = {
+    //   ok: "ok",
+    // }
+    if (response.status === 200) {
+      alert("신고 되었습니다.");
+      return response.data;
+    } else if (response.status === 404) {
+      alert("아이템을 찾을 수 없습니다.");
+    } else if (response.status === 400) {
+      alert("잘못된 입력입니다.");
     } else {
       alert("신고에 실패했습니다.");
     }

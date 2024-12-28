@@ -85,4 +85,17 @@ public class ItemController {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
     }
   };
+
+  @PutMapping("/{itemId}/report")
+  @Operation(summary = "신고하기")
+  public ResponseEntity<?> putReport(@PathVariable int itemId) {
+    try {
+      String result = itemService.report(itemId, userId);
+      return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
+    } catch (ItemNotFoundException e) {
+      return ResponseEntity.status(HttpStatusConstants.NOT_FOUND).body("Item not found"); // 404 NOT FOUND
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
+    }
+  };
 }
