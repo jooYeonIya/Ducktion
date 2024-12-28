@@ -11,6 +11,7 @@ import shop.duction.be.domain.bidpoint.enums.BidPointType;
 import shop.duction.be.domain.bidpoint.repository.BidHistoryRepository;
 import shop.duction.be.domain.user.entity.User;
 import shop.duction.be.domain.user.repository.UserRepository;
+import shop.duction.be.utils.DateTimeFormatterUtil;
 
 import java.time.LocalDateTime;
 import java.util.EnumSet;
@@ -40,9 +41,9 @@ public class BidPointService {
     List<BidHistory> histories = bidHistoryRepository.findBidHistoriesByTypesAndDate(userId, startDay, endDay, types);
     return histories.stream().map(history ->
             new BidPointHistoriesResponseDto(
-                    history.getTransactionTime().toLocalDate().toString(),
-                    history.getTransactionTime().toLocalTime().toString(),
-                    history.getType().toString(),
+                    DateTimeFormatterUtil.dateTimeFormatter.format(history.getTransactionTime().toLocalDate()),
+                    DateTimeFormatterUtil.timeFormatter.format(history.getTransactionTime().toLocalTime()),
+                    BidPointType.getDefaultNameBasedOnType(history.getType()),
                     history.getBidAmount(),
                     history.getBiddedHistory() != null && history.getBiddedHistory().getItem() != null
                             ? history.getBiddedHistory().getItem().getItemId()

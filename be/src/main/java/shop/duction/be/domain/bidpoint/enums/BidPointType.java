@@ -22,7 +22,7 @@ public enum BidPointType {
       case CHARGE -> "비드 충전";
       case WITHDRAWAL -> "현금화";
       case EARNING_BID -> "낙찰 비드 적립";
-      case CANCELLATION_BID -> "낙찰 비드 적립";
+      case CANCELLATION_BID -> "낙찰 취소";
       case BIDDED -> "낙찰 비드 차감";
       default -> "";
     };
