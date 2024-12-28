@@ -98,7 +98,7 @@ public class ItemService {
             : List.of();
 
     return top5Items.stream()
-            .map(item -> changeToItemCardResponseDto(item, favoiteItemIds.contains(item.getItemId()))
+            .map(item -> ItemCardResponseDto.fromItem(item, favoiteItemIds.contains(item.getItemId()))
             ).toList();
   }
 
@@ -111,30 +111,8 @@ public class ItemService {
             : List.of();
 
     return top10Items.stream()
-            .map(item -> changeToItemCardResponseDto(item,favoiteItemIds.contains(item.getItemId())))
+            .map(item -> ItemCardResponseDto.fromItem(item,favoiteItemIds.contains(item.getItemId())))
             .toList();
-  }
-
-  public ItemCardResponseDto changeToItemCardResponseDto(Item item, boolean isFavorite) {
-    return new ItemCardResponseDto(
-            item.getItemId(),
-            item.getCommunity().getCommunityId(),
-            item.getName(),
-            item.getItemImages().get(0).getUrl(),
-            calculatePriceInfo(item),
-            null,
-            item.getAuctionStatus().getAuctionStatusMessage(),
-            isFavorite);
-  }
-
-  public ItemCardResponseDto.PriceInfo calculatePriceInfo(Item item) {
-    if (item.getImmediatePrice() != null) {
-      return new ItemCardResponseDto.PriceInfo(item.getImmediatePrice(), "즉시 낙찰가");
-    } else if (item.getNowPrice() != null) {
-      return new ItemCardResponseDto.PriceInfo(item.getNowPrice(), "현재 입찰가");
-    } else {
-      return new ItemCardResponseDto.PriceInfo(item.getStartPrice(), "시작가");
-    }
   }
 
   public List<Integer> getFavoriteItemIds(Integer userId, List<Item> items) {
