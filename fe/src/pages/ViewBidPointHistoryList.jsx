@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { getBidPointHistories } from '../services/bidPointService';
 import { useModal } from '../hooks/useModal';
@@ -24,6 +24,7 @@ export default function ViewBidPointHistoryList() {
   ];
 
   const { isModalOpen, modalContent, openModal, closeModal } = useModal();
+  const navigate = useNavigate();
   const location = useLocation();
   const state = location.state || { heldBid: 0, usableBid: 0 }
 
@@ -108,7 +109,16 @@ export default function ViewBidPointHistoryList() {
               <div className="bidPointHistory_historyList_item_left">
                 <PreSubTitleLabel text={history.date} />
                 <div className='bidPointHistory_historyList_item_leftContent'>
-                  <PreTextLabel text={history.itemName} />
+                  {history.itemId ? (
+                    <span
+                      onClick={() => navigate('/viewItem', { state: { itemId: history.itemId } })}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <PreTextLabel text={history.itemName} />
+                    </span>
+                  ) : (
+                    <PreTextLabel text={history.itemName} />
+                  )}
                   <PreCaptionLabel text={`${history.time} | ${history.type}`} style={{ color: '#bebebe' }} />
                 </div>
               </div>

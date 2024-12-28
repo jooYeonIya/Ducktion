@@ -12,7 +12,7 @@ import RegistItem from '../pages/RegistItem';
 import EditItem from '../pages/EditItem'
 import ViewAdminPage from '../pages/ViewAdminPage'
 import ViewMyInfo from '../pages/ViewMyInfo';
-import ViewBidPointHistoryList from '../pages/viewBidPointHistoryList'
+import ViewBidPointHistoryList from '../pages/ViewBidPointHistoryList'
 import ViewAdminDetailPage from '../pages/ViewAdminDetailPage'
 import ViewItem from '../pages/ViewItem'
 import RequestDeleteItem from '../pages/RequestDeleteItem'

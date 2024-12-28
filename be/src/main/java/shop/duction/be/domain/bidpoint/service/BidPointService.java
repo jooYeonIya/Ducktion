@@ -49,7 +49,7 @@ public class BidPointService {
                             ? history.getBiddedHistory().getItem().getItemId()
                             : null,
                     history.getBiddedHistory() != null && history.getBiddedHistory().getItem() != null
-                            ? history.getBiddedHistory().getItem().getName()
+                            ? history.getBiddedHistory().getItem().getName() + " >"
                             : BidPointType.getDefaultNameBasedOnType(history.getType())
             )
     ).toList();
