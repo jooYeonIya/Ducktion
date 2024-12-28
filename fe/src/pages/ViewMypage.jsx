@@ -73,7 +73,7 @@ export default function ViewMypage() {
   }
 
   const navigateBidPointHistoryList = () => {
-    navigate('/viewBidPointHistoryList', { state: { heldBid: userInfo.heldBid, usableBid: userInfo.usableBid } })
+    navigate('/viewBidPointHistoryList')
   }
 
   const navigateBiddedHistoryList = (option) => {

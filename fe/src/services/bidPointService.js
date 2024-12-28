@@ -36,9 +36,8 @@ export async function postWithdrwalBidPoint(bidPoint) {
 // 유저 비드 불러오기
 export async function getUserBidPoint() {
   try {
-    // const response = await api.post("api/bidpoint/user);
-    // return response.data; 
-    return {heldBid: 1000, usableBid: 20000}
+    const response = await api.get("bidpoint/user");
+    return response.data; 
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;

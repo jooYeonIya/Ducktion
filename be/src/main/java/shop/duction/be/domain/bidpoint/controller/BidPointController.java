@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.duction.be.domain.bidpoint.dto.BidPointHistoriesRequestDto;
 import shop.duction.be.domain.bidpoint.dto.BidPointHistoriesResponseDto;
+import shop.duction.be.domain.bidpoint.dto.UserBidPointResponse;
 import shop.duction.be.domain.bidpoint.enums.BidPointType;
 import shop.duction.be.domain.bidpoint.service.BidPointService;
 
@@ -20,6 +21,11 @@ public class BidPointController {
 
   // 일단 하드 코딩
   private Integer userId = 1;
+
+  @GetMapping("/user")
+  public UserBidPointResponse getUserBidPoint() {
+    return bidPointService.getUserBidPoint(userId);
+  }
 
   @PostMapping("/histories")
   public List<BidPointHistoriesResponseDto> getBidPointHistories(@RequestBody BidPointHistoriesRequestDto request) {

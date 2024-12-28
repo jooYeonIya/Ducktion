@@ -1,6 +1,6 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
-import { getBidPointHistories } from '../services/bidPointService';
+import { getBidPointHistories, getUserBidPoint } from '../services/bidPointService';
 import { useModal } from '../hooks/useModal';
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import BidPointHistoryCard from '../components/BidPointHistoryCard'
@@ -25,9 +25,8 @@ export default function ViewBidPointHistoryList() {
 
   const { isModalOpen, modalContent, openModal, closeModal } = useModal();
   const navigate = useNavigate();
-  const location = useLocation();
-  const state = location.state || { heldBid: 0, usableBid: 0 }
-
+  
+  const [bidPoint, setBidPoint] = useState({ heldBid: 0, usableBid: 0 });
   const [histories, setHistories] = useState([]);
   const [selectedSortOption, setSelectedSortOption] = useState(sortOption[0].value);
   const [selectedDate, setSelectedDate] = useState({
@@ -46,20 +45,20 @@ export default function ViewBidPointHistoryList() {
   const openChargeBidPointModal = () => {
     openModal(
       <ChargeBidPointModalContent
-        heldBid={state.heldBid}
-        usableBid={state.usableBid}
+        heldBid={bidPoint.heldBid}
+        usableBid={bidPoint.usableBid}
         onClose={closeModal}
-        onComplete={fetchBidPointHistories}
+        onComplete={fetchUserBidPoint}
       />)
   }
 
   const openWithdrwalBidPointModal = () => {
     openModal(
       <WithdrwalBidPointModalContent
-        heldBid={state.heldBid}
-        usableBid={state.usableBid}
+        heldBid={bidPoint.heldBid}
+        usableBid={bidPoint.usableBid}
         onClose={closeModal}
-        onComplete={fetchBidPointHistories}
+        onComplete={fetchUserBidPoint}
       />)
   }
 
@@ -78,6 +77,19 @@ export default function ViewBidPointHistoryList() {
     }
   };
 
+  const fetchUserBidPoint = async () => {
+    try {
+      const data = await getUserBidPoint();
+      setBidPoint(data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUserBidPoint();
+  }, []);
+
   useEffect(() => {
     fetchBidPointHistories();
   }, [selectedSortOption, selectedDate]);
@@ -89,7 +101,7 @@ export default function ViewBidPointHistoryList() {
       <GodoTitleLabel text={'비드 이력'} />
 
       <div className="bidPointHistory_historyCard">
-        <BidPointHistoryCard heldBid={state.heldBid} usableBid={state.usableBid} />
+        <BidPointHistoryCard heldBid={bidPoint.heldBid} usableBid={bidPoint.usableBid} />
         <div className='bidPointHistory_historyCard_buttons'>
           <RectangleButton text={'현금화 하기'} onClick={openWithdrwalBidPointModal} />
           <RectangleButton text={'충전하기'} onClick={openChargeBidPointModal} />

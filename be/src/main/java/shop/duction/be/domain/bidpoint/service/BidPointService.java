@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.duction.be.domain.bidpoint.dto.BidPointHistoriesRequestDto;
 import shop.duction.be.domain.bidpoint.dto.BidPointHistoriesResponseDto;
+import shop.duction.be.domain.bidpoint.dto.UserBidPointResponse;
 import shop.duction.be.domain.bidpoint.entity.BidHistory;
 import shop.duction.be.domain.bidpoint.enums.BidPointHistoriesSortType;
 import shop.duction.be.domain.bidpoint.enums.BidPointType;
@@ -23,6 +24,11 @@ import java.util.List;
 public class BidPointService {
   private final BidHistoryRepository bidHistoryRepository;
   private final UserRepository userRepository;
+
+  public UserBidPointResponse getUserBidPoint(Integer userId) {
+    User user = userRepository.findHeldBidAndUsableBidByUserId(userId);
+    return new UserBidPointResponse(user.getHeldBid(), user.getUsableBid());
+  }
 
   public List<BidPointHistoriesResponseDto> getBidPointHistories(BidPointHistoriesRequestDto request, Integer userId) {
     LocalDateTime startDay = LocalDateTime.of(
