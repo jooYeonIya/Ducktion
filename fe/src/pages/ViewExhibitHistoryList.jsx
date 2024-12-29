@@ -105,9 +105,12 @@ export default function ViewExhibitHistoryList() {
                 <RectangleButton text={"수정"} onClick={() => navigateToModifyPage(item)} />
                 <RectangleButton text={"삭제"} onClick={() => navigateToDeletePage(item)} />
               </div>
-              <div className='biddedHistoryList_cardItems_botton'>
-                <RectangleButton text={"배송 번호 입력"} onClick={() => openInvoiceModal(item.itemId)} />
-              </div>
+              {selectedSortOption === 'bidded' 
+                ? ( <div className='biddedHistoryList_cardItems_botton'>
+                    <RectangleButton text={"배송 번호 입력"} onClick={() => openInvoiceModal(item.itemId)} />
+                  </div>)
+                : ( <></> ) 
+              }
             </div>
           ))
         )}
