@@ -71,24 +71,24 @@ export default function ViewBiddingHistoryList() {
   return (
     <>
       <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
-  
+
       <div className='biddingHistoryList_title'>
         <GodoTitleLabel text={"입찰 이력"} />
       </div>
-  
+
       <div className='biddingHistoryList_sortOption_container'>
         <div className='biddingHistoryList_sortOption'>
           <RoundButton options={sortOptions} onChange={handleSortChange} selectedOption={selectedSortOption} />
         </div>
       </div>
-  
+
       <div className='biddingHistoryList_date'>
         <DateNavigator onDateChange={handleDateChange} />
       </div>
-  
+
       {biddingHistory.length === 0 ? (
         <div className='biddingHistoryList_no_data'>
-            <PreSubTitleLabel text="이력이 없습니다" style={{ color: '#bebebe', textAlign: 'center', paddingTop: "20px" }} />
+          <PreSubTitleLabel text="이력이 없습니다" style={{ color: '#bebebe', textAlign: 'center', paddingTop: "20px" }} />
         </div>
       ) : (
         biddingHistory.map((item, index) => (
@@ -100,10 +100,12 @@ export default function ViewBiddingHistoryList() {
                   texts={[item.info.name, item.info.biddingCount, item.info.rareTier]}
                   itemId={item.info.itemId}
                 />
-                <div className='biddingHistoryList_item_buttons'>
-                  <RectangleButton text={"배송 번호 조회"} onClick={() => openInvoiceModal(item.info)} />
-                  <RectangleButton text={"출품자 평가"} onClick={() => openUserRatiangModal(item.info)} />
-                </div>
+                {selectedSortOption === "bidded" && (
+                  <div className='biddingHistoryList_item_buttons'>
+                    <RectangleButton text={"배송 번호 조회"} onClick={() => openInvoiceModal(item.info)} />
+                    <RectangleButton text={"출품자 평가"} onClick={() => openUserRatiangModal(item.info)} />
+                  </div>
+                )}
               </div>
             </div>
             <div className='biddingHistoryList_item_container_top'>
@@ -114,6 +116,6 @@ export default function ViewBiddingHistoryList() {
           </div>
         ))
       )}
-    </>  
+    </>
   )
 }
