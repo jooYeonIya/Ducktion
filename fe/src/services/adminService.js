@@ -30,6 +30,12 @@ export async function getReportData() {
   }
 }
 
-export async function getValidationData() {
-
+export async function getValidateItemData() {
+  try {
+    const response = await api.get("admin/validate/item");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    alert(error.response.data);
+  }
 }

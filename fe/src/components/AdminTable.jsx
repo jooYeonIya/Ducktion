@@ -20,7 +20,6 @@ export default function AdminTable({ type, data, handleNavigate }) {
             accessor: "itemName",
             Cell: ({ row }) => (
               <span
-                onClick={() => handleNavigate(row.original.id, row.original.type)}
                 style={{ cursor: "pointer", color: "black" }}
               >
                 {row.original.itemName}
@@ -44,17 +43,16 @@ export default function AdminTable({ type, data, handleNavigate }) {
           ...commonColumns,
           {
             Header: "상품명",
-            accessor: "title",
+            accessor: "itemName",
             Cell: ({ row }) => (
               <span
-                onClick={() => handleNavigate(row.original.id, row.original.type)}
                 style={{ cursor: "pointer", color: "black" }}
               >
-                {row.original.title}
+                {row.original.itemName}
               </span>
             ),
           },
-          { Header: "요청 일시", accessor: "date" },
+          { Header: "낙찰일", accessor: "bidEndTime" },
           {
             Header: "작업",
             accessor: "action",
@@ -74,7 +72,6 @@ export default function AdminTable({ type, data, handleNavigate }) {
             accessor: "title",
             Cell: ({ row }) => (
               <span
-                onClick={() => handleNavigate(row.original.id, row.original.type)}
                 style={{ cursor: "pointer", color: "black" }}
               >
                 {row.original.title}

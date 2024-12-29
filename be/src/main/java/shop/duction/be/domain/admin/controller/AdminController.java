@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import shop.duction.be.domain.admin.dto.CreateCommunityResponseDto;
 import shop.duction.be.domain.admin.dto.DeleteItemResponseDto;
 import shop.duction.be.domain.admin.dto.ReportInfoResponseDto;
+import shop.duction.be.domain.admin.dto.ValidateItemInfoResponseDto;
 import shop.duction.be.domain.admin.service.AdminService;
 
 import java.util.List;
@@ -29,8 +30,13 @@ public class AdminController {
     return adminService.getDeleteItemData();
   }
 
-  @GetMapping("report/item")
+  @GetMapping("/report/item")
   public List<ReportInfoResponseDto> getReportData() {
     return adminService.getReportData();
+  }
+
+  @GetMapping("/validate/item")
+  public List<ValidateItemInfoResponseDto> getValidateItemData() {
+    return adminService.getValidateItemData();
   }
 }

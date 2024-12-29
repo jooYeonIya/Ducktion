@@ -3,14 +3,15 @@ package shop.duction.be.domain.admin.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 import shop.duction.be.domain.admin.dto.CreateCommunityResponseDto;
 import shop.duction.be.domain.admin.dto.DeleteItemResponseDto;
 import shop.duction.be.domain.admin.dto.ReportInfoResponseDto;
+import shop.duction.be.domain.admin.dto.ValidateItemInfoResponseDto;
 import shop.duction.be.domain.admin.entity.CommunityCreateRequest;
 import shop.duction.be.domain.admin.entity.ItemDeleteRequest;
 import shop.duction.be.domain.admin.repository.CommunityCreateRequestRepository;
 import shop.duction.be.domain.admin.repository.ItemDeleteRequestRepository;
+import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.utils.DateTimeUtils;
 
@@ -50,5 +51,15 @@ public class AdminService {
 
   public List<ReportInfoResponseDto> getReportData() {
     return itemRepository.findAllReportInfos();
+  }
+
+  public List<ValidateItemInfoResponseDto> getValidateItemData() {
+    List<Item> items = itemRepository.findCheckedItems();
+    return items.stream().map(item -> {
+      return new ValidateItemInfoResponseDto(
+              item.getItemId(),
+              item.getName(),
+              DateTimeUtils.yearDateTimeFormatter.format(item.getEndBidTime()));
+    }).toList();
   }
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCreateCommunityData, getDeleteItemData, getReportData } from "../services/adminService";
+import { getCreateCommunityData, getDeleteItemData, getReportData, getValidateItemData } from "../services/adminService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
 import RoundButton from "../components/Button/RoundButton";
@@ -32,6 +32,9 @@ export default function ViewAdminPage() {
           break;
         case "신고":
           data = await getReportData();
+          break;
+        case "검수":
+          data = await getValidateItemData();
           break;
         default:
           console.warn("type error");

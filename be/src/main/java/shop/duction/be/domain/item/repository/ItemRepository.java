@@ -78,4 +78,13 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
             ORDER BY i.reportedCount DESC
         """)
   List<ReportInfoResponseDto> findAllReportInfos();
+
+  @Query("""
+            SELECT i
+            FROM Item i
+            WHERE i.isChecked = false
+            AND i.endBidTime IS NOT NULL
+            ORDER BY i.endBidTime DESC
+        """)
+  List<Item> findCheckedItems();
 }
