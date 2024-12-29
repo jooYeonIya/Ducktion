@@ -21,7 +21,13 @@ export async function getDeleteItemData() {
 }
 
 export async function getReportData() {
-
+  try {
+    const response = await api.get("admin/report/item");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    alert(error.response.data);
+  }
 }
 
 export async function getValidationData() {

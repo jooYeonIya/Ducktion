@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCreateCommunityData, getDeleteItemData } from "../services/adminService";
+import { getCreateCommunityData, getDeleteItemData, getReportData } from "../services/adminService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
 import RoundButton from "../components/Button/RoundButton";
@@ -30,13 +30,16 @@ export default function ViewAdminPage() {
         case "삭제 요청":
           data = await getDeleteItemData();
           break;
+        case "신고":
+          data = await getReportData();
+          break;
         default:
-          console.warn("Unknown type:", type);
+          console.warn("type error");
           break;
       }
       setCurrentData(data || []);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("error", error);
     }
   };
 

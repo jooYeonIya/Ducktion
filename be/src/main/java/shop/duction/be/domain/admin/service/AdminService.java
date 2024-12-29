@@ -6,10 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shop.duction.be.domain.admin.dto.CreateCommunityResponseDto;
 import shop.duction.be.domain.admin.dto.DeleteItemResponseDto;
+import shop.duction.be.domain.admin.dto.ReportInfoResponseDto;
 import shop.duction.be.domain.admin.entity.CommunityCreateRequest;
 import shop.duction.be.domain.admin.entity.ItemDeleteRequest;
 import shop.duction.be.domain.admin.repository.CommunityCreateRequestRepository;
 import shop.duction.be.domain.admin.repository.ItemDeleteRequestRepository;
+import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.utils.DateTimeUtils;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.List;
 public class AdminService {
   private final CommunityCreateRequestRepository communityCreateRequestRepository;
   private final ItemDeleteRequestRepository itemDeleteRequestRepository;
+  private final ItemRepository itemRepository;
 
   public List<CreateCommunityResponseDto> getCreateCommunityData() {
     List<CommunityCreateRequest> all = communityCreateRequestRepository.findAll();
@@ -43,5 +46,9 @@ public class AdminService {
               request.getRequestReason(),
               DateTimeUtils.yearDateTimeFormatter.format(request.getRequestTime()));
     }).toList();
+  }
+
+  public List<ReportInfoResponseDto> getReportData() {
+    return itemRepository.findAllReportInfos();
   }
 }

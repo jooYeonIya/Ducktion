@@ -17,17 +17,17 @@ export default function AdminTable({ type, data, handleNavigate }) {
           ...commonColumns,
           {
             Header: "상품명",
-            accessor: "title",
+            accessor: "itemName",
             Cell: ({ row }) => (
               <span
                 onClick={() => handleNavigate(row.original.id, row.original.type)}
                 style={{ cursor: "pointer", color: "black" }}
               >
-                {row.original.title}
+                {row.original.itemName}
               </span>
             ),
           },
-          { Header: "신고 횟수", accessor: "reportCount" },
+          { Header: "신고 횟수", accessor: "reportedCount" },
           {
             Header: "작업",
             accessor: "action",
