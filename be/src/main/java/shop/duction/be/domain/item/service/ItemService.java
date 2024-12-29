@@ -1,15 +1,22 @@
 package shop.duction.be.domain.item.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import shop.duction.be.domain.bidding.entity.BiddingHistory;
+import shop.duction.be.domain.bidding.entity.ExhibitHistory;
+import shop.duction.be.domain.bidding.enums.BiddingStatus;
+import shop.duction.be.domain.bidding.enums.ExhibitStatus;
+import shop.duction.be.domain.bidding.repository.BiddingHistoryRepository;
+import shop.duction.be.domain.bidding.repository.ExhibitHistoryRepository;
 import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.ItemImage;
@@ -22,6 +29,7 @@ import shop.duction.be.domain.user.repository.UserRepository;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.domain.item.enums.RareTier;
 import shop.duction.be.domain.item.repository.FavoriteItemRepository;
+import shop.duction.be.utils.DateTimeUtils;
 import shop.duction.be.utils.ItemConditionConverter;
 import shop.duction.be.utils.RareTierCheck;
 import shop.duction.be.utils.RareTierConverter;
@@ -35,6 +43,8 @@ public class ItemService {
   private final FavoriteItemRepository favoriteItemRepository;
   private final UserRepository userRepository;
   private final RareRatingRepository rareRatingRepository;
+  private final BiddingHistoryRepository biddingHistoryRepository;
+  private final ExhibitHistoryRepository exhibitHistoryRepository;
 
   public ViewItemEditResponseDTO readItemEdit(int itemId) {
     Item item = itemRepository.findById(itemId)
@@ -131,6 +141,7 @@ public class ItemService {
     return new ItemCardResponseDto(
             item.getItemId(),
             item.getCommunity().getCommunityId(),
+            item.getCommunity().getName(),
             item.getName(),
             item.getItemImages().get(0).getUrl(),
             calculatePriceInfo(item),
@@ -157,8 +168,6 @@ public class ItemService {
   public ViewItemDetailsResponseDTO readItemDetails(int itemId) {
     Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
-
-
 
     List<ItemImage> itemImages = item.getItemImages();
     List<String> imageUrls = new ArrayList<>();
@@ -245,5 +254,107 @@ public class ItemService {
     item.setReportedCount(item.getReportedCount() + 1);
 
     return "Report updated successfully";
+  }
+
+  public HistoriesCountResponseDto getHistoriesCount(Integer userId) {
+    HistoriesCountResponseDto responseDto = new HistoriesCountResponseDto();
+
+    HistoriesCountResponseDto.ExhibitDetails exhibitHistoriesCounts = itemRepository.findExhibitHistoriesCounts();
+    responseDto.setExhibit(exhibitHistoriesCounts);
+
+    HistoriesCountResponseDto.BiddingDetails biddingHistoriesCounts = itemRepository.findBiddingHistoriesCounts();
+    responseDto.setBidding(biddingHistoriesCounts);
+
+    return responseDto;
+  }
+
+  public ArrayList<BiddingHistoriesResponseDto> getBiddingHistory(HistoriesRequestDto request, Integer userId) {
+    LocalDateTime startDay = DateTimeUtils.getStartOfMonth(request.getYear(), request.getMonth());
+    LocalDateTime endDay = DateTimeUtils.getEndOfMonth(request.getYear(), request.getMonth());
+
+    List<String> types = switch (request.getSortType()) {
+      case "all" -> Arrays.stream(BiddingStatus.values()).map(Enum::name).toList();
+      case "bidding" -> List.of(BiddingStatus.BIDDING.toString());
+      case "bidded" -> List.of(BiddingStatus.BIDDED.toString());
+      case "biddedFail" -> List.of(BiddingStatus.BID_FAIL.toString(), BiddingStatus.BIDDING_GIVE_UP.toString());
+      default -> throw new IllegalStateException("Unexpected value: " + request.getSortType());
+    };
+
+    List<BiddingHistory> biddingHistories = biddingHistoryRepository.findBidHistoriesByTypesAndDate(userId, startDay, endDay, types);
+
+    Map<Integer, BiddingHistoriesResponseDto> mapData = new LinkedHashMap<>();
+
+    for (BiddingHistory history : biddingHistories) {
+      Integer itemId = history.getItem().getItemId();
+
+      mapData.computeIfAbsent(itemId, id -> {
+        BiddingHistoriesResponseDto dto = new BiddingHistoriesResponseDto();
+        dto.setInfo(new BiddingHistoriesResponseDto.Info(
+                history.getItem().getCommunity().getCommunityId(),
+                history.getItem().getItemId(),
+                history.getItem().getName(),
+                history.getItem().getItemImages().isEmpty() ? null : history.getItem().getItemImages().get(0).getUrl(),
+                history.getItem().getTotalBidding(),
+                history.getItem().getRareTier().name(),
+                history.getItem().getUser().getUserId(),
+                getFavoriteItemIds(userId, List.of(history.getItem())).contains(history.getItem().getItemId())
+        ));
+        dto.setHistories(new ArrayList<>());
+        return dto;
+      });
+
+      mapData.get(itemId).getHistories().add(new BiddingHistoriesResponseDto.History(
+              DateTimeUtils.dateTimeFormatter.format(history.getBidTime()),
+              String.valueOf(history.getPrice())
+      ));
+    }
+
+    return new ArrayList<>(mapData.values());
+  }
+
+  public List<ItemCardResponseDto> getExhibitHistory(HistoriesRequestDto request, Integer userId) {
+    LocalDateTime startDay = DateTimeUtils.getStartOfMonth(request.getYear(), request.getMonth());
+    LocalDateTime endDay = DateTimeUtils.getEndOfMonth(request.getYear(), request.getMonth());
+
+    List<String> types = switch (request.getSortType()) {
+      case "all" -> Arrays.stream(ExhibitStatus.values()).map(Enum::name).toList();
+      case "biddingUnder" -> List.of(ExhibitStatus.BIDDING_UNDER.toString());
+      case "bidded" -> List.of(ExhibitStatus.BIDDED.toString());
+      case "biddedNot" -> List.of(ExhibitStatus.BIDDING_NOT.toString());
+      case "biddedCancel" -> List.of(ExhibitStatus.BIDDED_CANCEL.toString());
+      default -> throw new IllegalStateException("Unexpected value: " + request.getSortType());
+    };
+
+    List<ExhibitHistory> exhibitHistories = exhibitHistoryRepository.findExhibitHistoryByUserAndStatus(userId, startDay, endDay, types);
+
+    return exhibitHistories.stream()
+            .map(history ->
+                    ItemCardResponseDto.fromItem(
+                            history.getItem(),
+                            getFavoriteItemIds(userId, List.of(history.getItem())).contains(history.getItem().getItemId())))
+            .toList();
+  }
+
+  public Page<ItemCardResponseDto> getItemsByCommunityId(AuctionItemsRequestDto request, Integer userId) {
+    int page = Math.max(request.getCurrentPage() - 1, 0);
+    Pageable pageable = PageRequest.of(page, 20);
+    Page<Item> items = itemRepository.findItems(request.getCommunityId(),  request.getSearchText(), pageable);
+    List<ItemCardResponseDto> itemDtos = new ArrayList<>(items.stream()
+            .map(item -> ItemCardResponseDto.fromItem(item, getFavoriteItemIds(userId, List.of(item)).contains(item.getItemId())))
+            .toList());
+
+    if ("price_asc".equals(request.getSortOption())) {
+      itemDtos.sort(Comparator.<ItemCardResponseDto, Integer>comparing(dto -> {
+        if (dto.getPriceInfo() != null) return dto.getPriceInfo().getPrice();
+        return Integer.MAX_VALUE;
+      }));
+    } else if ("price_desc".equals(request.getSortOption())) {
+      itemDtos.sort(Comparator.<ItemCardResponseDto, Integer>comparing(dto -> {
+        if (dto.getPriceInfo() != null) return dto.getPriceInfo().getPrice();
+        return Integer.MIN_VALUE;
+      }).reversed());
+    }
+
+    return new PageImpl<>(itemDtos, pageable, items.getTotalElements());
   }
 }

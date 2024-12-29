@@ -1,5 +1,6 @@
 package shop.duction.be.domain.item.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,7 +10,8 @@ import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.service.ItemService;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.utils.HttpStatusConstants;
-  
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -36,7 +38,6 @@ public class ItemController {
     }
   };
 
-
   @PutMapping("/editing/{itemId}")
   @Operation(summary = "상품 수정하기")
   public ResponseEntity<String> putItemEdit(@PathVariable int itemId, @RequestBody ItemEditRequestDTO dto) {
@@ -51,11 +52,13 @@ public class ItemController {
   };
   
   @GetMapping("/closingsoon")
+  @Operation(summary = "마감 임박 상품 보기")
   public List<ItemCardResponseDto> getClosingSoonItems() {
     return itemService.getClosingSoonItems(userId);
   }
 
   @GetMapping("/mastersrare")
+  @Operation(summary = "마스터 컬렉터즈 레어 상품 보기")
   public List<ItemCardResponseDto> getMastersCollectorsRare() {
     return itemService.getMastersCollectorsRare(userId);
   }
@@ -98,4 +101,28 @@ public class ItemController {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
     }
   };
+
+  @GetMapping("/histories/count")
+  @Operation(summary = "이력 횟수 불러오기")
+  public HistoriesCountResponseDto getHistoriesCount() {
+    return itemService.getHistoriesCount(userId);
+  }
+
+  @PostMapping("/histories/bidding")
+  @Operation(summary = "입찰 이력 불러오기")
+  public ArrayList<BiddingHistoriesResponseDto> getBiddingHistory(@RequestBody HistoriesRequestDto historiesRequestDto) {
+    return itemService.getBiddingHistory(historiesRequestDto, userId);
+  }
+
+  @PostMapping("/histories/exhibit")
+  @Operation(summary = "출품 이력 불러오기")
+  public List<ItemCardResponseDto> getExhibitHistory(@RequestBody HistoriesRequestDto historiesRequestDto) {
+    return itemService.getExhibitHistory(historiesRequestDto, userId);
+  }
+
+  @PostMapping("/auction")
+  @Operation(summary = "출품 상품 목록 불러오기")
+  public Page<ItemCardResponseDto> getItemsByCommunityId(@RequestBody AuctionItemsRequestDto auctionItemsRequestDto) {
+    return itemService.getItemsByCommunityId(auctionItemsRequestDto, userId);
+  }
 }

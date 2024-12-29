@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getBiddedHistory } from '../services/itemService'
+import { getExhibitHistory } from '../services/itemService'
 import { useModal } from '../hooks/useModal'
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
+import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel'
 import RoundButton from '../components/Button/RoundButton'
 import DateNavigator from '../components/DateNavigator'
 import ItemCard from '../components/ItemCard/ItemCard'
@@ -12,12 +13,13 @@ import CustomModal from '../components/Modal/CustomModal'
 
 import '@styles/pages/ViewBiddedHistory.css'
 
-export default function ViewBiddedHistoryList() {
+export default function ViewExhibitHistoryList() {
   const sortOptions = [
-    { value: "all", title: "전체" },
-    { value: "bidding", title: "입찰중" },
-    { value: "bidded", title: "낙찰" },
-    { value: "biddedCancel", title: "유찰" },
+    { value: "all", title: "전체", count: 0 },
+    { value: "biddingUnder", title: "입찰중", count: 0 },
+    { value: "bidded", title: "낙찰", count: 0 },
+    { value: "biddedNot", title: "유찰", count: 0 },
+    { value: "biddedCancel", title: "낙찰 취소", count: 0 },
   ];
 
   const navigate = useNavigate();
@@ -36,11 +38,12 @@ export default function ViewBiddedHistoryList() {
   const fetchBiddedHisory = async () => {
     const biddedHistoryRequest = {
       sortType: selectedSortOption,
-      date: selectedDate
+      year: selectedDate.year,
+      month: selectedDate.month
     }
 
     try {
-      const data = await getBiddedHistory(biddedHistoryRequest);
+      const data = await getExhibitHistory(biddedHistoryRequest);
       setBiddedHistory(data);
     } catch (error) {
       console.error("Failed", error);
@@ -56,11 +59,11 @@ export default function ViewBiddedHistoryList() {
   };
 
   const navigateToDeletePage = (item) => {
-    navigate("/requestDeleteItem", {state: {item: item}})
+    navigate("/requestDeleteItem", { state: { item: item } })
   }
 
   const navigateToModifyPage = (item) => {
-    navigate("/editItem", {state: {item: item}})
+    navigate("/editItem", { state: { item: item } })
   }
 
   const openInvoiceModal = (itemId) => {
@@ -90,18 +93,24 @@ export default function ViewBiddedHistoryList() {
       </div>
 
       <div className='biddedHistoryList_cardItems'>
-        {biddedHistory && biddedHistory.map((item, index) => (
-          <div className='biddedHistoryList_cardItems_item' key={index}>
-            <ItemCard key={index} data={item} />
-            <div className='biddedHistoryList_cardItems_bottons'>
-              <RectangleButton text={"수정"} onClick={() => navigateToModifyPage(item)}/>
-              <RectangleButton text={"삭제"} onClick={() => navigateToDeletePage(item)}/>
-            </div>
-            <div className='biddedHistoryList_cardItems_botton'>
-                <RectangleButton text={"배송 번호 입력"} onClick={() => openInvoiceModal(item.itemId)}/>
-            </div>
+        {biddedHistory.length === 0 ? (
+          <div className='biddedHistoryList_no_data' style={{ margin: "auto" }}>
+            <PreSubTitleLabel text="이력이 없습니다" style={{ color: '#bebebe', textAlign: 'center', paddingTop: "20px" }} />
           </div>
-        ))}
+        ) : (
+          biddedHistory.map((item, index) => (
+            <div className='biddedHistoryList_cardItems_item' key={index}>
+              <ItemCard key={index} data={item} />
+              <div className='biddedHistoryList_cardItems_bottons'>
+                <RectangleButton text={"수정"} onClick={() => navigateToModifyPage(item)} />
+                <RectangleButton text={"삭제"} onClick={() => navigateToDeletePage(item)} />
+              </div>
+              <div className='biddedHistoryList_cardItems_botton'>
+                <RectangleButton text={"배송 번호 입력"} onClick={() => openInvoiceModal(item.itemId)} />
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </>
   )
