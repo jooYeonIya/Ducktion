@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeleteItemResponseDto {
+  private Integer itemId;
   private String itemName;
+  private Integer requestId;
   private String nickname;
   private String title;
   private String requestReason;

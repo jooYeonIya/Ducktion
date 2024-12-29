@@ -9,7 +9,7 @@ export async function getCreateCommunityData() {
   }
 }
 
-export async function postCreateCommunity(communityName, requestId) {
+export async function createCommunity(communityName, requestId) {
   try {
     const response = await api.get(`admin/request/creat/community/${communityName}/${requestId}`);
     return response.data;
@@ -21,6 +21,15 @@ export async function postCreateCommunity(communityName, requestId) {
 export async function getDeleteItemData() {
   try {
     const response = await api.get("admin/request/delete/item");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
+export async function deleteItem(itemId, requestId) {
+  try {
+    const response = await api.get(`admin/request/delete/item/${itemId}/${requestId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);

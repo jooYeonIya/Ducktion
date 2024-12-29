@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { postCreateCommunity } from "../services/adminService";
+import { createCommunity, deleteItem } from "../services/adminService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
 import RectangleButton from '../components/Button/RectangleButton'
@@ -17,10 +16,13 @@ function ViewAdminDetailPage() {
   const handleSubmit = async() => {
 
     if (type === "개설 요청") {
-      const message = await postCreateCommunity(data.title, data.requestId);
+      const message = await createCommunity(data.title, data.requestId);
       alert(message);
       window.history.back();
     } else {
+      const message = await deleteItem(data.itemId, data.requestId);
+      alert(message);
+      window.history.back();
     }
   }
 

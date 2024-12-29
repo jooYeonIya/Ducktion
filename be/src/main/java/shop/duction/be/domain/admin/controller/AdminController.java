@@ -24,10 +24,10 @@ public class AdminController {
   }
 
   @GetMapping("/request/creat/community/{communityName}/{requestId}")
-  public ResponseEntity<String> postCreateCommunity(
+  public ResponseEntity<String> createCommunity(
           @PathVariable("communityName") String communityName,
           @PathVariable("requestId") Integer requestId) {
-    return adminService.postCreateCommunity(communityName, requestId);
+    return adminService.createCommunity(communityName, requestId);
   }
 
   @GetMapping("/request/delete/item")
@@ -35,6 +35,12 @@ public class AdminController {
     return adminService.getDeleteItemData();
   }
 
+  @GetMapping("/request/delete/item/{itemId}/{requestId}")
+  public ResponseEntity<String> deleteItemData(
+          @PathVariable("itemId") Integer itemId,
+          @PathVariable("requestId") Integer requestId) {
+    return adminService.deleteItemData(itemId, requestId);
+  }
   @GetMapping("/report/item")
   public List<ReportInfoResponseDto> getReportData() {
     return adminService.getReportData();

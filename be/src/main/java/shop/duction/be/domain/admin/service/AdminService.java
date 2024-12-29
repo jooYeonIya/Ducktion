@@ -44,7 +44,7 @@ public class AdminService {
     }).toList();
   }
 
-  public ResponseEntity<String> postCreateCommunity(String communityName, Integer requestId) {
+  public ResponseEntity<String> createCommunity(String communityName, Integer requestId) {
     Community community = new Community();
     community.setName(communityName);
     community.setFirstWord(InitialExtractor.getFirstChar(communityName));
@@ -58,12 +58,19 @@ public class AdminService {
     List<ItemDeleteRequest> all = itemDeleteRequestRepository.findAll();
     return all.stream().map(request -> {
       return new DeleteItemResponseDto(
+              request.getItem().getItemId(),
               request.getItem().getName(),
+              request.getRequestId(),
               request.getUser().getNickname(),
               "타이틀은 엔티티에 제목 추가한 후에 넣기로",
               request.getRequestReason(),
               DateTimeUtils.yearDateTimeFormatter.format(request.getRequestTime()));
     }).toList();
+  }
+
+  public ResponseEntity<String> deleteItemData(Integer itemId, Integer requestId) {
+    itemRepository.deleteById(itemId);
+    return ResponseEntity.ok("삭제 완료");
   }
 
   public List<ReportInfoResponseDto> getReportData() {
