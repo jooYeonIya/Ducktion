@@ -30,14 +30,30 @@ export default function ChargeBidPointModalContent({ heldBid = 0, usableBid = 0,
       return;
     }
 
-    try {
-      const message = await postChargeBidPoint(bidPoint); 
-      alert(message); 
-      onClose();
-      onComplete(); 
-    } catch (error) {
-      console.error('Failed', error);
-    }
+    const { IMP } = window; // 포트원 전역 객체
+    IMP.init(''); // 가맹점 식별코드 입력 -> git에는 안 올리고 차후, git 환경 변수를 사용
+  
+    const paymentData = {
+      // pg: 'kakaopay.TC0ONETIME', // 카카오페이
+      pg: 'html5_inicis.INIpayTest', // 이니시스 실제 결제 주의
+      pay_method: 'card', // 결제수단
+      merchant_uid: `charge_${new Date().getTime()}`, // 고유 주문번호
+      name: '비드 충전',
+      amount: bidPoint, 
+      buyer_email: 'test@example.com', 
+      buyer_name: '홍길동', // 구매자 정보
+    };
+
+    IMP.request_pay(paymentData, async (response) => {
+      if (response.success) {
+         const message = await postChargeBidPoint(bidPoint);
+        alert(message); 
+        onClose();
+        onComplete(); 
+      } else {
+        alert(`결제 실패: ${response.error_msg}`);
+      }
+    });
   };
 
   return (

@@ -15,7 +15,7 @@ export async function getBidPointHistories(bidPointHistoriesRequest) {
 export async function postChargeBidPoint(bidPoint) {
   try {
     const response = await api.post(`bidpoint/charge/${bidPoint}`);
-    return `${bidPoint} 비드 충전했습니다`;
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     alert(error.message);
