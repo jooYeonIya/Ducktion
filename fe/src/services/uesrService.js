@@ -1,4 +1,4 @@
-// import api from "./api";
+import api from "./api";
 
 // 사용자 정보 불러오기
 export async function getUserInfo() {
@@ -26,9 +26,8 @@ export async function getUserInfo() {
 // 출품자 평가하기
 export async function postRatingUser(ratingRequest) {
   try {
-    // const response = await api.get("api/user/rating", ratingRequest);
-    // return response.data;
     console.log(ratingRequest);
+    const response = await api.post("user/rating", ratingRequest);
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;

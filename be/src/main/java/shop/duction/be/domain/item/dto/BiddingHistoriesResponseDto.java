@@ -22,7 +22,7 @@ public class BiddingHistoriesResponseDto {
     private String image;
     private Integer biddingCount;
     private String rareTier;
-    private Integer userId;
+    private Integer userId; // 출품자
     private boolean favorite;
   }
 
