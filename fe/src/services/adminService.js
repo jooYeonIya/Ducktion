@@ -6,7 +6,15 @@ export async function getCreateCommunityData() {
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
-    alert(error.response.data);
+  }
+}
+
+export async function postCreateCommunity(communityName, requestId) {
+  try {
+    const response = await api.get(`admin/request/creat/community/${communityName}/${requestId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
   }
 }
 
@@ -16,7 +24,6 @@ export async function getDeleteItemData() {
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
-    alert(error.response.data);
   }
 }
 
@@ -26,7 +33,6 @@ export async function getReportData() {
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
-    alert(error.response.data);
   }
 }
 
@@ -36,6 +42,5 @@ export async function getValidateItemData() {
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
-    alert(error.response.data);
   }
 }

@@ -1,10 +1,8 @@
 package shop.duction.be.domain.admin.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import shop.duction.be.domain.admin.dto.CreateCommunityResponseDto;
 import shop.duction.be.domain.admin.dto.DeleteItemResponseDto;
 import shop.duction.be.domain.admin.dto.ReportInfoResponseDto;
@@ -23,6 +21,13 @@ public class AdminController {
   @GetMapping("/request/creat/community")
   public List<CreateCommunityResponseDto> getCreateCommunityData() {
     return adminService.getCreateCommunityData();
+  }
+
+  @GetMapping("/request/creat/community/{communityName}/{requestId}")
+  public ResponseEntity<String> postCreateCommunity(
+          @PathVariable("communityName") String communityName,
+          @PathVariable("requestId") Integer requestId) {
+    return adminService.postCreateCommunity(communityName, requestId);
   }
 
   @GetMapping("/request/delete/item")

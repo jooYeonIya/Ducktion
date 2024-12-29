@@ -7,7 +7,6 @@ export default function AdminTable({ type, data }) {
   const navigate = useNavigate();
 
   const handleNavigate = (original) => {
-    console.log(original)
     if (type === "개설 요청" || type === "삭제 요청") {
       navigate("/viewAdminDetailPage", { state: { type: type, data: original } });
     } else if (type === "신고" || type === "검수") {
