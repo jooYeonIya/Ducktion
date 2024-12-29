@@ -26,11 +26,11 @@ export async function getUserInfo() {
 // 출품자 평가하기
 export async function postRatingUser(ratingRequest) {
   try {
-    console.log(ratingRequest);
     const response = await api.post("user/rating", ratingRequest);
+    alert(response.data);
   } catch (error) {
     console.error("Error fetching:", error);
-    throw error;
+    alert(error.response.data);
   }
 }
 

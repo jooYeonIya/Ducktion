@@ -17,11 +17,16 @@ public class UserService {
   private final ExhibitorRatingRepository exhibitorRatingRepository;
 
   public void postRatingExhibitor(ExhibitorRatingRequestDto request, Integer userId) {
+
+    int existingRatings = exhibitorRatingRepository.countByEvaluatorAndExhibitor(request.getExhibitorId(), userId);
+    if (existingRatings > 0) {
+      throw new IllegalStateException("평가 완료한 출품자입니다");
+    }
     User user = userRepository.findById(userId).orElseThrow(() ->
-            new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+            new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
     User exhibitor = userRepository.findById(request.getExhibitorId()).orElseThrow(() ->
-            new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+            new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
     ExhibitorRating exhibitorRating = new ExhibitorRating();
     exhibitorRating.setExhibitor(exhibitor);
