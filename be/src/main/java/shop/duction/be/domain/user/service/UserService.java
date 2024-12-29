@@ -28,5 +28,15 @@ public class UserService {
     exhibitorRating.setEvaluator(user);
     exhibitorRating.setRate(Float.valueOf(request.getRating()));
     exhibitorRatingRepository.save(exhibitorRating);
+
+    Object[] ratingData = exhibitorRatingRepository.findExhibitorRatingData(request.getExhibitorId());
+
+    Object[] data = (Object[]) ratingData[0];
+    Float sum = data != null ? ((Number) data[0]).floatValue() : request.getRating(); // sum
+    Long count = data != null ? ((Number) data[1]).longValue() : 1; // count
+
+    Float rate = (sum) / (count);
+    exhibitor.setRate(rate);
+    userRepository.save(exhibitor);
   }
 }
