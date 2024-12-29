@@ -22,6 +22,7 @@ public class UserService {
     if (existingRatings > 0) {
       throw new IllegalStateException("평가 완료한 출품자입니다");
     }
+
     User user = userRepository.findById(userId).orElseThrow(() ->
             new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 

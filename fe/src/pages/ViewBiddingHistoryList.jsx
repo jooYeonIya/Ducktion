@@ -57,7 +57,7 @@ export default function ViewBiddingHistoryList() {
   };
 
   const openInvoiceModal = (item) => {
-    openModal(<OutputInvoiceModalContent itemId={item.itemId} itemName={item.itemName} onClose={closeModal} />);
+    openModal(<OutputInvoiceModalContent itemId={item.itemId} itemName={item.name} onClose={closeModal} />);
   };
 
   const openUserRatiangModal = (item) => {
