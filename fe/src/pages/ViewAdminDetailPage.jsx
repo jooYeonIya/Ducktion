@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { getViewRequestDetail } from "../services/adminService"; // 기존 함수 사용
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
 import RectangleButton from '../components/Button/RectangleButton'
