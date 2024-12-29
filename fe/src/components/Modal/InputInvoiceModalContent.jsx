@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { postExhibitorshipInvoice, getShippingDeadline } from '../../services/invoiceService'
+import { postExhibitorshipInvoice, getShippingDeadline } from '../../services/shipService'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import DropdownInput from './DropdownInput'
 import RectangleButton from '../Button/RectangleButton'

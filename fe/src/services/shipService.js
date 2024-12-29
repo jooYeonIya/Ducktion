@@ -1,4 +1,4 @@
-// import api from "./api";
+import api from "./api";
 
 // 배송 번호 입력 마감일 불러오기
 export async function getShippingDeadline(itemId) {
@@ -27,8 +27,8 @@ export async function postExhibitorshipInvoice(invoice) {
 // 배송 번호 조회하기
 export async function getBiddershipInvoice(itemId) {
   try {
-    // const response = await api.get(`/invoice/biddership`);
-    // return response.data;
+    const response = await api.get(`ship/biddership/${itemId}`);
+    return response.data;
     const data = {
       courier: `쿠팡 ${itemId}`,
       invoice: "1231451351235"
