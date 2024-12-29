@@ -11,7 +11,7 @@ export default function AdminTable({ type, data }) {
     if (type === "개설 요청" || type === "삭제 요청") {
       navigate("/viewAdminDetailPage", { state: { type: type, data: original } });
     } else if (type === "신고" || type === "검수") {
-      navigate("/viewItem", { state: { itemId: id } });
+      navigate("/viewItem", { state: { itemId: original.itemId } });
     }
   };
 
