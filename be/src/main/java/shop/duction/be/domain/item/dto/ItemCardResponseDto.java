@@ -11,6 +11,7 @@ import shop.duction.be.domain.item.entity.Item;
 public class ItemCardResponseDto {
   private int itemId;
   private int communityId;
+  private String communityName;
   private String name;
   private String image;
   private PriceInfo priceInfo;
@@ -30,6 +31,7 @@ public class ItemCardResponseDto {
     return new ItemCardResponseDto(
             item.getItemId(),
             item.getCommunity().getCommunityId(),
+            item.getCommunity().getName(),
             item.getName(),
             item.getItemImages().get(0).getUrl(),
             calculatePriceInfo(item),

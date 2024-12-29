@@ -1,5 +1,6 @@
 package shop.duction.be.domain.item.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -86,5 +87,10 @@ public class ItemController {
   @PostMapping("/histories/exhibit")
   public List<ItemCardResponseDto> getExhibitHistory(@RequestBody HistoriesRequestDto historiesRequestDto) {
     return itemService.getExhibitHistory(historiesRequestDto, userId);
+  }
+
+  @PostMapping("/auction")
+  public Page<ItemCardResponseDto> getItemsByCommunityId(@RequestBody AuctionItemsRequestDto auctionItemsRequestDto) {
+    return itemService.getItemsByCommunityId(auctionItemsRequestDto, userId);
   }
 }

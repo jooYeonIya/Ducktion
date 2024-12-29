@@ -1,6 +1,6 @@
 package shop.duction.be.domain.item.repository;
 
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -56,4 +56,17 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
           FROM BiddingHistory b
         """)
   HistoriesCountResponseDto.BiddingDetails findBiddingHistoriesCounts();
+
+  @Query("""
+            SELECT i
+            FROM Item i
+            WHERE i.community.communityId = :communityId
+            AND (:searchText IS NULL OR i.name LIKE %:searchText%)
+            ORDER BY i.registTime DESC
+        """)
+  Page<Item> findItems(
+          @Param("communityId") Integer communityId,
+          @Param("searchText") String searchText,
+          Pageable pageable
+  );
 }

@@ -2,9 +2,10 @@ package shop.duction.be.domain.item.service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
@@ -243,5 +244,28 @@ public class ItemService {
                             history.getItem(),
                             getFavoriteItemIds(userId, List.of(history.getItem())).contains(history.getItem().getItemId())))
             .toList();
+  }
+
+  public Page<ItemCardResponseDto> getItemsByCommunityId(AuctionItemsRequestDto request, Integer userId) {
+    int page = Math.max(request.getCurrentPage() - 1, 0);
+    Pageable pageable = PageRequest.of(page, 20);
+    Page<Item> items = itemRepository.findItems(request.getCommunityId(),  request.getSearchText(), pageable);
+    List<ItemCardResponseDto> itemDtos = new ArrayList<>(items.stream()
+            .map(item -> ItemCardResponseDto.fromItem(item, getFavoriteItemIds(userId, List.of(item)).contains(item.getItemId())))
+            .toList());
+
+    if ("price_asc".equals(request.getSortOption())) {
+      itemDtos.sort(Comparator.<ItemCardResponseDto, Integer>comparing(dto -> {
+        if (dto.getPriceInfo() != null) return dto.getPriceInfo().getPrice();
+        return Integer.MAX_VALUE;
+      }));
+    } else if ("price_desc".equals(request.getSortOption())) {
+      itemDtos.sort(Comparator.<ItemCardResponseDto, Integer>comparing(dto -> {
+        if (dto.getPriceInfo() != null) return dto.getPriceInfo().getPrice();
+        return Integer.MIN_VALUE;
+      }).reversed());
+    }
+
+    return new PageImpl<>(itemDtos, pageable, items.getTotalElements());
   }
 }
