@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
@@ -6,7 +6,8 @@ import RectangleButton from '../components/Button/RectangleButton'
 
 function ViewAdminDetailPage() {
   const location = useLocation();
-  const item = location.state;
+  const type = location.state.type;
+  const data = location.state.data;
   const [requestDetail, setRequestDetail] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -18,39 +19,16 @@ function ViewAdminDetailPage() {
 
   }
 
-  const fetchRequestDetail = async () => {
-    try {
-      const data = await getViewRequestDetail(item.requestId);
-      setRequestDetail(data);
-    } catch (error) {
-      console.error("Failed to fetch request detail:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchRequestDetail();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>; // 로딩 중 표시
-  }
-
-  if (!requestDetail) {
-    return <div>요청 상세 정보를 찾을 수 없습니다.</div>; // 요청 정보가 없을 경우
-  }
-
   return (
     <div>
       <div className='postForm_container'>
-        <GodoTitleLabel text={item.requestType} />
+        <GodoTitleLabel text={type} />
 
-        {requestDetail.type === item.requestType && (
+        {type === "삭제 요청" && (
           <div className='postForm_title_container'>
             <PreSubTitleLabel text={"상품명"} />
             <div className='postForm_item'>
-              <PreSubTitleLabel text={requestDetail.itemName || "상품명 없음"} />
+              <PreSubTitleLabel text={data.itemName || "상품명 없음"} />
             </div>
           </div>
         )}
@@ -60,7 +38,7 @@ function ViewAdminDetailPage() {
           <div className='postForm_title'>
             <input
               type="text"
-              value={requestDetail.title}
+              value={data.title}
               className="searchTextField_input"
               disabled={true}
             />
@@ -71,7 +49,7 @@ function ViewAdminDetailPage() {
           <PreSubTitleLabel text={"요청 내용"} />
           <div className='postForm_textarea'>
             <textarea
-              value={requestDetail.requestdetailstory}
+              value={data.requestReason}
               disabled={true}
             />
           </div>
