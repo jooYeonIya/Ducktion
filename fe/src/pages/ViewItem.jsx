@@ -175,6 +175,7 @@ const ViewItem = () => {
 
   const onBid = () => {
     const probs = {
+      itemId: data.itemId,
       itemName: data.itemName, 
       startingPrice: data.startPrice, 
       nowPrice: data.nowPrice, 

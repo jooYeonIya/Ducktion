@@ -7,9 +7,10 @@ import RectangleButton from '../Button/RectangleButton'
 import RoundButton from '../Button/RoundButton'
 import PriceSummary from '../PriceSummary'
 import '@styles/components/modal/BidPointModalContent.css'
+import { postBidding } from '../../services/itemService';
 
 export default function SubmitBidModalContent({ probs, onClose }) {
-  const { itemName, startingBid, nowPrice, immediateBid } = probs
+  const { itemId, itemName, startingBid, nowPrice, immediateBid } = probs
   const [currentBidPoint, setCurrentBidPoint] = useState(0);
   const [usableBid, setUsableBid] = useState(0);
 
@@ -46,7 +47,7 @@ export default function SubmitBidModalContent({ probs, onClose }) {
     setCurrentBidPoint(value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (immediateBid && currentBidPoint > immediateBid) {
       alert(`입찰가는 즉시 낙찰가를 초과할 수 없습니다.`);
       return;
@@ -56,6 +57,11 @@ export default function SubmitBidModalContent({ probs, onClose }) {
       alert('사용 가능한 비드가 부족합니다.');
       return;
     }
+
+    const bidRequestDTO = {
+      price: currentBidPoint
+    }
+    await postBidding(itemId, bidRequestDTO); // API 요청
   };
 
   const fetchUserBidPoint = async() => {
