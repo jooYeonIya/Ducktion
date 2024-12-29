@@ -10,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import shop.duction.be.domain.bidding.entity.BiddingHistory;
+import shop.duction.be.domain.bidding.entity.ExhibitHistory;
 import shop.duction.be.domain.bidding.enums.BiddingStatus;
+import shop.duction.be.domain.bidding.enums.ExhibitStatus;
 import shop.duction.be.domain.bidding.repository.BiddingHistoryRepository;
+import shop.duction.be.domain.bidding.repository.ExhibitHistoryRepository;
 import shop.duction.be.domain.bidpoint.enums.BidPointHistoriesSortType;
 import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.entity.Item;
@@ -31,6 +34,7 @@ public class ItemService {
   private final ItemRepository itemRepository;
   private final FavoriteItemRepository favoriteItemRepository;
   private final BiddingHistoryRepository biddingHistoryRepository;
+  private final ExhibitHistoryRepository exhibitHistoryRepository;
 
   public ViewItemEditResponseDTO readItemEdit(int itemId) {
     Item item = itemRepository.findById(itemId)
@@ -216,5 +220,28 @@ public class ItemService {
     }
 
     return new ArrayList<>(mapData.values());
+  }
+
+  public List<ItemCardResponseDto> getExhibitHistory(HistoriesRequestDto request, Integer userId) {
+    LocalDateTime startDay = DateTimeUtils.getStartOfMonth(request.getYear(), request.getMonth());
+    LocalDateTime endDay = DateTimeUtils.getEndOfMonth(request.getYear(), request.getMonth());
+
+    List<String> types = switch (request.getSortType()) {
+      case "all" -> Arrays.stream(ExhibitStatus.values()).map(Enum::name).toList();
+      case "bidding" -> List.of(ExhibitStatus.BIDDING_UNDER.toString());
+      case "bidded" -> List.of(ExhibitStatus.BIDDED.toString());
+      case "biddedNot" -> List.of(ExhibitStatus.BIDDING_NOT.toString());
+      case "biddedCancel" -> List.of(ExhibitStatus.BIDDED_CANCEL.toString());
+      default -> throw new IllegalStateException("Unexpected value: " + request.getSortType());
+    };
+
+    List<ExhibitHistory> exhibitHistories = exhibitHistoryRepository.findExhibitHistoryByUserAndStatus(userId, startDay, endDay, types);
+
+    return exhibitHistories.stream()
+            .map(history ->
+                    ItemCardResponseDto.fromItem(
+                            history.getItem(),
+                            getFavoriteItemIds(userId, List.of(history.getItem())).contains(history.getItem().getItemId())))
+            .toList();
   }
 }

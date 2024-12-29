@@ -78,7 +78,7 @@ export default function ViewMypage() {
   }
 
   const navigateBiddedHistoryList = (option) => {
-    navigate('/viewBiddedHistoryList', { state: { sortType: option } })
+    navigate('/viewExhibitHistoryList', { state: { sortType: option } })
   }
 
   const navigateBiddingHistoryList = (option) => {

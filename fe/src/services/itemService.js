@@ -277,24 +277,10 @@ export async function getBiddingHistory(biddingHistoryRequest) {
 }
 
 // 출품 이력 페이지
-export async function getBiddedHistory(biddedHistoryRequest) {
+export async function getExhibitHistory(exhibitHistoryRequest) {
   try {
-    // const response = await api.get("items/biddedhistory", biddedHistoryRequest);
-    // return response.data;
-    const data = [];
-    for (let i = 0; i < 10; i++) {
-      data.push({
-        communityId: i,
-        image: "/src/assets/test_image.png",
-        favorited: i % 2 == 0,
-        name: `${biddedHistoryRequest.sortType} ${biddedHistoryRequest.date.year} 상품`,
-        priceInfo: { price: i * 10000, type: "" },
-        additionalInfo: "출품 일시: 오늘인지 어제인지 생각 안남",
-        overlayText: false,
-        itemId: `${i} item id`
-      });
-    }
-    return data;
+    const response = await api.post("items/histories/exhibit", exhibitHistoryRequest);
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;

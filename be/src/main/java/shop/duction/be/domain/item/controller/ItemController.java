@@ -82,4 +82,9 @@ public class ItemController {
   public ArrayList<BiddingHistoriesResponseDto> getBiddingHistory(@RequestBody HistoriesRequestDto historiesRequestDto) {
     return itemService.getBiddingHistory(historiesRequestDto, userId);
   }
+
+  @PostMapping("/histories/exhibit")
+  public List<ItemCardResponseDto> getExhibitHistory(@RequestBody HistoriesRequestDto historiesRequestDto) {
+    return itemService.getExhibitHistory(historiesRequestDto, userId);
+  }
 }
