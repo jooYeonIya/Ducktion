@@ -16,7 +16,6 @@ export default function UserRatingModalContent({ userId, onClose }) {
   const handleSubmit = async() => {
     const ratingRequest = {
       exhibitorId: userId,
-      evaluatorsId: "asdf", // 이거 어디서 받아와야 하는데 말이지 
       rating: rating
     }
     await postRatingUser(ratingRequest);
