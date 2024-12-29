@@ -3,8 +3,8 @@ import api from "./api";
 // 배송 번호 입력 마감일 불러오기
 export async function getShippingDeadline(itemId) {
   try {
-    // const response = await api.get(`/invoice/exhibitorship`);
-    // return response.data;
+    const response = await api.get(`ship/shipping/deadline/${itemId}`);
+    return response.data;
     return `${itemId}년 11월 11일`;
   } catch (error) {
     console.error("Error fetching:", error);
