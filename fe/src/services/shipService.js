@@ -18,7 +18,7 @@ export async function postExhibitorshipInvoice(exhibitorShipInfo) {
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
-    throw error;
+    return(error.response.data);
   }
 }
 

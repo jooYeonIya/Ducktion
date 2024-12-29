@@ -49,6 +49,11 @@ public class ShipService {
   }
 
   public ResponseEntity<String> postExhibitorShipInvoice(ExhibitorShipInfoRequestDto request, Integer userId) {
+    int existingShipInfo = exhibitorShipRepository.countByUserIdAndItemId(userId, request.getItemId());
+    if (existingShipInfo > 0) {
+      throw new IllegalStateException("배송 번호 입력되어 있습니다");
+    }
+
     User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 

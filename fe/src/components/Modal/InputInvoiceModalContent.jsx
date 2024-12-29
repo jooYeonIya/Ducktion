@@ -58,7 +58,6 @@ export default function InputInvoiceModalContent({ itemId, onClose }) {
       }
 
       const message = await postExhibitorshipInvoice(exhibitorShipInfo);
-      console.log(message);
       alert(message)
       onClose();
     } catch (error) {
