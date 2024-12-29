@@ -27,8 +27,8 @@ export default function OutputInvoiceModalContent({ itemName, itemId, onClose })
       <PreTextLabel text={`상품명: ${itemName}`} />
       <DropdownInput
         dropList={[]} 
-        title={invoice.delivery} 
-        placeholder={invoice.postNumber}
+        title={invoice.delivery || "배송 전"} 
+        placeholder={invoice.postNumber || "배송 전"}
         isEditable={false} 
       />
 
