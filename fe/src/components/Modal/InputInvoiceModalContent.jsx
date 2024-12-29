@@ -51,12 +51,14 @@ export default function InputInvoiceModalContent({ itemId, onClose }) {
     }
 
     try {
-      const invoice = {
-        courier: selectedCourier,
-        ivoice: ivoice
+      const exhibitorShipInfo = {
+        deliveryId: selectedCourier,
+        postNumber: ivoice,
+        itemId: itemId
       }
 
-      const message = await postExhibitorshipInvoice(invoice);
+      const message = await postExhibitorshipInvoice(exhibitorShipInfo);
+      console.log(message);
       alert(message)
       onClose();
     } catch (error) {

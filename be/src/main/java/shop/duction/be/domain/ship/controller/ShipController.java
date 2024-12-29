@@ -1,7 +1,9 @@
 package shop.duction.be.domain.ship.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import shop.duction.be.domain.ship.dto.ExhibitorShipInfoRequestDto;
 import shop.duction.be.domain.ship.dto.ShipInfoResponseDto;
 import shop.duction.be.domain.ship.service.ShipService;
 
@@ -23,5 +25,10 @@ public class ShipController {
   @GetMapping("/shipping/deadline/{itemId}")
   public String getShippingDeadline(@PathVariable Integer itemId) {
     return shipService.getShippingDeadline(itemId, userId);
+  }
+
+  @PostMapping("/exhibitorship")
+  public ResponseEntity<String> postExhibitorShipInvoice(@RequestBody ExhibitorShipInfoRequestDto exhibitorShipInfoRequestDto) {
+    return shipService.postExhibitorShipInvoice(exhibitorShipInfoRequestDto, userId);
   }
 }
