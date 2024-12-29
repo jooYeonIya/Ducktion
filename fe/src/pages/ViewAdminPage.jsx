@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCreateCommunityData } from "../services/adminService";
+import { getCreateCommunityData, getDeleteItemData } from "../services/adminService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
 import RoundButton from "../components/Button/RoundButton";
@@ -20,19 +20,30 @@ export default function ViewAdminPage() {
     { value: "검수", title: "검수" },
   ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getCreateCommunityData();
-        setCurrentData(data || []);
-      } catch (error) {
-        console.error("error", error);
+  const fetchData = async () => {
+    try {
+      let data = [];
+      switch (type) {
+        case "개설 요청":
+          data = await getCreateCommunityData();
+          break;
+        case "삭제 요청":
+          data = await getDeleteItemData();
+          break;
+        default:
+          console.warn("Unknown type:", type);
+          break;
       }
-    };
+      setCurrentData(data || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
+  useEffect(() => {  
     fetchData();
   }, [type]);
-
+  
   const handleNavigate = (id, type) => {
     if (type === "개설 요청" || type === "삭제 요청") {
       navigate("/viewAdminDetailPage", {
