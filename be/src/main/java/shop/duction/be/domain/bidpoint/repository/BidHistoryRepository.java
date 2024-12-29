@@ -4,12 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import shop.duction.be.domain.bidpoint.entity.BidHistory;
-import shop.duction.be.domain.bidpoint.enums.BidPointHistoriesSortType;
-import shop.duction.be.domain.bidpoint.enums.BidPointType;
-import shop.duction.be.domain.user.entity.User;
 
 import java.time.LocalDateTime;
-import java.util.EnumSet;
 import java.util.List;
 
 public interface BidHistoryRepository extends JpaRepository<BidHistory, Integer> {

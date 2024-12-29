@@ -1,21 +1,16 @@
 package shop.duction.be.domain.item.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.service.ItemService;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.utils.HttpStatusConstants;
-  
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -81,5 +76,10 @@ public class ItemController {
   @GetMapping("/histories/count")
   public HistoriesCountResponseDto getHistoriesCount() {
     return itemService.getHistoriesCount(userId);
+  }
+
+  @PostMapping("/histories/bidding")
+  public ArrayList<BiddingHistoriesResponseDto> getBiddingHistory(@RequestBody HistoriesRequestDto historiesRequestDto) {
+    return itemService.getBiddingHistory(historiesRequestDto, userId);
   }
 }

@@ -268,42 +268,8 @@ export async function getItemSearchResults(searchText) {
 // 입찰 이력 페이지
 export async function getBiddingHistory(biddingHistoryRequest) {
   try {
-    // const response = await api.get("/items/biddinghistory, biddingHistoryRequest");
-    // return response.data;
-    const data = [];
-    for (let i = 0; i < 10; i++) {
-      data.push({
-        info: {
-          communityId: 1,
-          image: "/src/assets/test_image.png",
-          favorited: true,
-          name: "1 검색어 상품",
-          biddingCount: "1111",
-          rareTier: "레어",
-          itemId: `item id ${i}`,
-          userId: "출품자 id"
-        },
-        histories: [
-          {
-            date: "4444년 44월 23일",
-            price: "10000"
-          },
-          {
-            date: "1111년 22월 33일",
-            price: "120000"
-          },
-          {
-            date: "1111년 22월 33일",
-            price: "120000"
-          },
-          {
-            date: "1111년 22월 33일",
-            price: "120000"
-          }
-        ]
-      });
-    }
-    return data;
+    const response = await api.post("items/histories/bidding", biddingHistoryRequest);
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;

@@ -1,12 +1,18 @@
 package shop.duction.be.domain.item.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import shop.duction.be.domain.bidding.entity.BiddingHistory;
+import shop.duction.be.domain.bidding.enums.BiddingStatus;
+import shop.duction.be.domain.bidding.repository.BiddingHistoryRepository;
+import shop.duction.be.domain.bidpoint.enums.BidPointHistoriesSortType;
 import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.ItemImage;
@@ -14,6 +20,7 @@ import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.domain.item.enums.RareTier;
 import shop.duction.be.domain.item.repository.FavoriteItemRepository;
+import shop.duction.be.utils.DateTimeUtils;
 import shop.duction.be.utils.ItemConditionConverter;
 import shop.duction.be.utils.RareTierConverter;
 
@@ -23,6 +30,7 @@ import shop.duction.be.utils.RareTierConverter;
 public class ItemService {
   private final ItemRepository itemRepository;
   private final FavoriteItemRepository favoriteItemRepository;
+  private final BiddingHistoryRepository biddingHistoryRepository;
 
   public ViewItemEditResponseDTO readItemEdit(int itemId) {
     Item item = itemRepository.findById(itemId)
@@ -87,10 +95,10 @@ public class ItemService {
 
     return "Item with ID " + itemId + " has been updated successfully!";
   }
-  
+
   public List<ItemCardResponseDto> getClosingSoonItems(Integer userId) {
     Pageable pageable = PageRequest.of(0, 5);
-    List<String > status = List.of("BIDDING_BEFORE", "BIDDING_UNDER");
+    List<String> status = List.of("BIDDING_BEFORE", "BIDDING_UNDER");
     List<Item> top5Items = itemRepository.findClosingSoonItemsByViews(pageable, status);
 
     List<Integer> favoiteItemIds = userId != null
@@ -111,7 +119,7 @@ public class ItemService {
             : List.of();
 
     return top10Items.stream()
-            .map(item -> ItemCardResponseDto.fromItem(item,favoiteItemIds.contains(item.getItemId())))
+            .map(item -> ItemCardResponseDto.fromItem(item, favoiteItemIds.contains(item.getItemId())))
             .toList();
   }
 
@@ -164,5 +172,49 @@ public class ItemService {
     responseDto.setBidding(biddingHistoriesCounts);
 
     return responseDto;
+  }
+
+  public ArrayList<BiddingHistoriesResponseDto> getBiddingHistory(HistoriesRequestDto request, Integer userId) {
+    LocalDateTime startDay = DateTimeUtils.getStartOfMonth(request.getYear(), request.getMonth());
+    LocalDateTime endDay = DateTimeUtils.getEndOfMonth(request.getYear(), request.getMonth());
+
+    List<String> types = switch (request.getSortType()) {
+      case "all" -> Arrays.stream(BiddingStatus.values()).map(Enum::name).toList();
+      case "bidding" -> List.of(BiddingStatus.BIDDING.toString());
+      case "bidded" -> List.of(BiddingStatus.BIDDED.toString());
+      case "biddedFail" -> List.of(BiddingStatus.BID_FAIL.toString(), BiddingStatus.BIDDING_GIVE_UP.toString());
+      default -> throw new IllegalStateException("Unexpected value: " + request.getSortType());
+    };
+
+    List<BiddingHistory> biddingHistories = biddingHistoryRepository.findBidHistoriesByTypesAndDate(userId, startDay, endDay, types);
+
+    Map<Integer, BiddingHistoriesResponseDto> mapData = new LinkedHashMap<>();
+
+    for (BiddingHistory history : biddingHistories) {
+      Integer itemId = history.getItem().getItemId();
+
+      mapData.computeIfAbsent(itemId, id -> {
+        BiddingHistoriesResponseDto dto = new BiddingHistoriesResponseDto();
+        dto.setInfo(new BiddingHistoriesResponseDto.Info(
+                history.getItem().getCommunity().getCommunityId(),
+                history.getItem().getItemId(),
+                history.getItem().getName(),
+                history.getItem().getItemImages().isEmpty() ? null : history.getItem().getItemImages().get(0).getUrl(),
+                history.getItem().getTotalBidding(),
+                history.getItem().getRareTier().name(),
+                history.getItem().getUser().getUserId(),
+                getFavoriteItemIds(userId, List.of(history.getItem())).contains(history.getItem().getItemId())
+        ));
+        dto.setHistories(new ArrayList<>());
+        return dto;
+      });
+
+      mapData.get(itemId).getHistories().add(new BiddingHistoriesResponseDto.History(
+              DateTimeUtils.dateTimeFormatter.format(history.getBidTime()),
+              String.valueOf(history.getPrice())
+      ));
+    }
+
+    return new ArrayList<>(mapData.values());
   }
 }
