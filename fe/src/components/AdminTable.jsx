@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTable } from "react-table";
 import { useNavigate } from "react-router-dom";
-import { submitReport } from "../services/adminService";
+import { submitReport, cancelReport } from "../services/adminService";
 import RectangleButton from "../components/Button/RectangleButton";
 
 export default function AdminTable({ type, data }) {
@@ -20,6 +20,13 @@ export default function AdminTable({ type, data }) {
 
     const rejectReason = handelPrompt();
     const message = await submitReport(original.itemId, rejectReason);
+    alert(message);
+  }
+
+  const handelReportCancel = async (event, original) => {
+    event.stopPropagation();
+
+    const message = await cancelReport(original.itemId);
     alert(message);
   }
 
@@ -51,7 +58,7 @@ export default function AdminTable({ type, data }) {
             accessor: "action",
             Cell: ({ row }) => (
               <div className="button-action">
-                <RectangleButton text="반려" />
+                <RectangleButton text="반려" onClick={(e) => handelReportCancel(e, row.original)}/>
                 <RectangleButton text="승인" onClick={(e) => handleReportSubmit(e, row.original)} />
               </div>
             ),

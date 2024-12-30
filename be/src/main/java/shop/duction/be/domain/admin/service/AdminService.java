@@ -144,6 +144,14 @@ public class AdminService {
     return ResponseEntity.ok("신고 상품 취소 완료");
   }
 
+  public ResponseEntity<String> cancelReport(Integer itemId) {
+    Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
+    item.setReportedCount(0);
+    itemRepository.save(item);
+    return ResponseEntity.ok("신고 상품 반려 완료");
+  }
+
   public List<ValidateItemInfoResponseDto> getValidateItemData() {
     List<Item> items = itemRepository.findCheckedItems();
     return items.stream().map(item -> {

@@ -64,6 +64,11 @@ public class AdminController {
     return adminService.submitReport(itemId, rejectReason);
   }
 
+  @GetMapping("/cancel/report/item/{itemId}")
+  public ResponseEntity<String> cancelReport(@PathVariable("itemId") Integer itemId) {
+    return adminService.cancelReport(itemId);
+  }
+
   // 검수 관련
   @GetMapping("/validate/item")
   public List<ValidateItemInfoResponseDto> getValidateItemData() {

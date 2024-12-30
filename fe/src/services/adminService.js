@@ -75,6 +75,15 @@ export async function submitReport(itemId, rejectReason) {
   }
 }
 
+export async function cancelReport(itemId) {
+  try {
+    const response = await api.get(`admin/cancel/report/item/${itemId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
 export async function getValidateItemData() {
   try {
     const response = await api.get("admin/validate/item");
