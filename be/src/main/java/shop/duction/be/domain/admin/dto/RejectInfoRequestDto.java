@@ -7,13 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteItemResponseDto {
-  private Integer itemId;
-  private String itemName;
+public class RejectInfoRequestDto {
   private Integer requestId;
-  private String nickname;
-  private String email;
   private String title;
-  private String requestReason;
-  private String requestTime;
+  private String rejectReason;
+  private String email;
 }

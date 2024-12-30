@@ -1,66 +1,76 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { createCommunity, deleteItem, postRejectCommunity, postRejectDeleteItem } from "../services/adminService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
 import RectangleButton from '../components/Button/RectangleButton'
 
 function ViewAdminDetailPage() {
   const location = useLocation();
-  const item = location.state;
-  const [requestDetail, setRequestDetail] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const type = location.state.type;
+  const data = location.state.data;
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
+    const request = createSendEmailRequest();
 
+    if (type === "개설 요청") {
+      const message = await postRejectCommunity(request);
+      alert(message)      
+      window.history.back();
+    } else {
+      const message = await postRejectDeleteItem(request);
+      alert(message)      
+      window.history.back();
+    }
   }
 
-  const handleSubmit = () => {
-
+  const handleSubmit = async() => {
+    if (type === "개설 요청") {
+      const message = await createCommunity(data.title, data.requestId);
+      alert(message);
+      window.history.back();
+    } else {
+      const message = await deleteItem(data.itemId, data.requestId);
+      alert(message);
+      window.history.back();
+    }
   }
 
-  const fetchRequestDetail = async () => {
-    try {
-      const data = await getViewRequestDetail(item.requestId);
-      setRequestDetail(data);
-    } catch (error) {
-      console.error("Failed to fetch request detail:", error);
-    } finally {
-      setLoading(false);
+  const createSendEmailRequest = () => {
+    const rejectReasonTextField = prompt("반려 사유를 입력해주세요:", ""); 
+
+    if (rejectReasonTextField !== null && rejectReasonTextField.trim() !== "") {
+      const request = {
+        requestId: data.requestId,
+        title: type === "개설 요청" ? data.title : data.itemName,
+        rejectReason: rejectReasonTextField,
+        email: data.email
+      }
+      return request;
+    } else if (rejectReasonTextField !== null) {
+      alert("반려 사유를 작성해 주세요");
     }
   };
-
-  useEffect(() => {
-    fetchRequestDetail();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>; // 로딩 중 표시
-  }
-
-  if (!requestDetail) {
-    return <div>요청 상세 정보를 찾을 수 없습니다.</div>; // 요청 정보가 없을 경우
-  }
 
   return (
     <div>
       <div className='postForm_container'>
-        <GodoTitleLabel text={item.requestType} />
+        <GodoTitleLabel text={type} />
 
-        {requestDetail.type === item.requestType && (
+        {type === "삭제 요청" && (
           <div className='postForm_title_container'>
             <PreSubTitleLabel text={"상품명"} />
             <div className='postForm_item'>
-              <PreSubTitleLabel text={requestDetail.itemName || "상품명 없음"} />
+              <PreSubTitleLabel text={data.itemName || "상품명 없음"} />
             </div>
           </div>
         )}
 
         <div className='postForm_title_container'>
-          <PreSubTitleLabel text={"요청 이유"} />
+          <PreSubTitleLabel text={type === "삭제 요청" ? "제목" : "커뮤니티 이름"} />
           <div className='postForm_title'>
             <input
               type="text"
-              value={requestDetail.title}
+              value={data.title}
               className="searchTextField_input"
               disabled={true}
             />
@@ -68,10 +78,10 @@ function ViewAdminDetailPage() {
         </div>
 
         <div className='postForm_textarea_container'>
-          <PreSubTitleLabel text={"요청 내용"} />
-          <div className='postForm_textarea'>
+        <PreSubTitleLabel text={type === "삭제 요청" ? "이유" : "개설 요청 이유"} />
+        <div className='postForm_textarea'>
             <textarea
-              value={requestDetail.requestdetailstory}
+              value={data.requestReason}
               disabled={true}
             />
           </div>

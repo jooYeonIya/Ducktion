@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateCommunityResponseDto {
   private String nickname;
+  private String email;
+  private Integer requestId;
   private String title;
   private String requestReason;
   private String requestTime;
