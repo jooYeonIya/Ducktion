@@ -43,6 +43,11 @@ public class AdminController {
   }
 
   // 상품 삭제 요청 관련
+  @PostMapping("/request/delete/item")
+  public ResponseEntity<String> postDeleteItemData(@RequestBody DeleteItemRequestDto request) {
+    return adminService.postDeleteItemData(request, userId);
+  }
+
   @GetMapping("/request/delete/item")
   public List<DeleteItemResponseDto> getDeleteItemData() {
     return adminService.getDeleteItemData();

@@ -20,6 +20,9 @@ public class ItemDeleteRequest {
     @Column(nullable = false)
     private int requestId;
 
+    @Column(nullable = false)
+    private String title;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String requestReason;
 

@@ -38,6 +38,15 @@ export async function postRejectCommunity(request) {
 }
 
 // 상품 삭제 요청 관련
+export async function postDeleteItemData(request) {
+  try {
+    const response = await api.post("admin/request/delete/item", request);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
 export async function getDeleteItemData() {
   try {
     const response = await api.get("admin/request/delete/item");
