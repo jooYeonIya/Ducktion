@@ -51,6 +51,18 @@ public class AdminService {
 
   private final SendEamilMessage sendEamilMessage;
 
+  public ResponseEntity<String> postCreateCommunity(CreateCommunityRequestDto request, Integer userId) {
+    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 없습니다"));
+
+    CommunityCreateRequest communityCreateRequest = new CommunityCreateRequest();
+    communityCreateRequest.setName(request.getName());
+    communityCreateRequest.setRequestReason(request.getRequestReason());
+    communityCreateRequest.setUser(user);
+    communityCreateRequest.setRequestTime(LocalDateTime.now());
+    CommunityCreateRequest save = communityCreateRequestRepository.save(communityCreateRequest);
+    return save !=null ? ResponseEntity.ok("커뮤니티 개설 요청 완료") : ResponseEntity.badRequest().build();
+  }
+
   public List<CreateCommunityResponseDto> getCreateCommunityData() {
     List<CommunityCreateRequest> all = communityCreateRequestRepository.findAll();
 
@@ -82,6 +94,22 @@ public class AdminService {
     EmailMessageInfo eamilMessageInfo = new EmailMessageInfo(request.getEmail(), rejectSubject, rejectBody);
     sendEamilMessage.sendMail(eamilMessageInfo);
     return ResponseEntity.ok("커뮤니티 요청 반려 완료");
+  }
+
+  // 삭제 요청 관련
+  public ResponseEntity<String> postDeleteItemData(DeleteItemRequestDto request, Integer userId) {
+    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 없습니다"));
+    Item item = itemRepository.findById(request.getItemId())
+            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + request.getItemId() + " not found"));
+
+    ItemDeleteRequest itemDeleteRequest = new ItemDeleteRequest();
+    itemDeleteRequest.setTitle(request.getTitle());
+    itemDeleteRequest.setRequestReason(request.getRequestReason());
+    itemDeleteRequest.setUser(user);
+    itemDeleteRequest.setRequestTime(LocalDateTime.now());
+    itemDeleteRequest.setItem(item);
+    ItemDeleteRequest save = itemDeleteRequestRepository.save(itemDeleteRequest);
+    return save !=null ? ResponseEntity.ok("출품 상품 삭제 요청 완료") : ResponseEntity.badRequest().build();
   }
 
   public List<DeleteItemResponseDto> getDeleteItemData() {

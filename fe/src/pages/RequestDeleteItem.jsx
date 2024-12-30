@@ -1,16 +1,23 @@
 import React from 'react';
 import PostForm from '../components/PostForm';
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel';
-import { useLocation } from 'react-router-dom';
 import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
+import { useLocation } from 'react-router-dom';
+import { postDeleteItemData } from '../services/adminService';
 
 const RequestDeleteItem = () => {
   const location = useLocation();
   const item = location.state.item
 
-  const onsubmit = (data) => {
-    // 데이터 처리 로직 추가
-    console.log('제출된 데이터:', data);
+  const onsubmit = async (data) => {
+    const request = {
+      title: data.title,
+      requestReason: data.content,
+      itemId: item.itemId
+    }
+    const message = await postDeleteItemData(request);
+    alert(message)
+    window.history.back();
   };
 
   return (
