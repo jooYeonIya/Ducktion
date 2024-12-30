@@ -1,20 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { validateImageFile } from '../utils/ImageFileValidators';
+import { putUserProfileImage, deleteUserProfileImage, editMyInfo, deleteUser } from '../services/uesrService';
 import RectangleButton from '../components/Button/RectangleButton';
-import '../styles/pages/ViewMyInfo.css';
 import HorizontalRule from '../components/HorizontalRule';
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel';
 import PreTitleLabel from '../components/Labels/PreTitleLabel';
 import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
 import defaultProfileImage from '../assets/test_image.png';
-import { validateImageFile } from '../utils/ImageFileValidators';
-import { putUserProfileImage, deleteUserProfileImage, putUserInfo, deleteUser } from '../services/uesrService';
 import ProfileImage from '../components/ProfileImage';
+
+import '../styles/pages/ViewMyInfo.css';
 
 const ViewMyInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // 기본값 설정 (location.state가 비어 있을 경우 대비)
+
   const userInfo = location.state?.userInfo || {
     userId: '',
     nickname: '',
@@ -23,10 +24,10 @@ const ViewMyInfo = () => {
     address: ''
   };
 
-  const [nicknameNew, setNicknameNew] = useState(userInfo.nickname);
-  const [profileImageNew, setProfileImageNew] = useState(userInfo.profileImage);
-  const [phoneNumberNew, setPhoneNumberNew] = useState(userInfo.phone);
-  const [addressNew, setAddressNew] = useState(userInfo.address);
+  const [nickname, setNickname] = useState(userInfo.nickname);
+  const [profileImage, setProfileImage] = useState(userInfo.profileImage);
+  const [phone, setPhone] = useState(userInfo.phone);
+  const [address, setAddress] = useState(userInfo.address);
   const [isEditing, setIsEditing] = useState(false);
 
   const fileInputRef = useRef(null);
@@ -37,16 +38,12 @@ const ViewMyInfo = () => {
   useEffect(() => {
     console.log(userInfo.userId);
     if (!userInfo.profileImage) {
-      setProfileImageNew(defaultProfileImage);
+      setProfileImage(defaultProfileImage);
     }
   }, []);
 
-  const handleImageClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click(); // 파일 선택 창 열기
-    }
-  };
 
+  // 버튼 클릭 이벤트 함수
   // '사진 변경' 클릭 시 새로운 이미지를 설정
   const handleChangeImage = async (event) => {
     try {
@@ -71,7 +68,7 @@ const ViewMyInfo = () => {
 
       const response = await putUserProfileImage(newImageUrl);
 
-      setProfileImageNew(response);
+      setProfileImage(response);
     } catch (error) {
       console.error("프로필 사진 변경에 실패했습니다:", error);
       alert("프로필 사진 변경 중 문제가 발생했습니다.");
@@ -80,12 +77,11 @@ const ViewMyInfo = () => {
 
   // '사진 삭제' 클릭 시 기본 이미지로 초기화
   const handleDeleteImage = async () => {
-    const confirmDelete = window.confirm('프로필 사진을 삭제하시겠습니까?'); // 사용자 확인
+    const confirmDelete = confirm('프로필 사진을 삭제하시겠습니까?');
     if (confirmDelete) {
       try {
         await deleteUserProfileImage(userInfo.userId);
-
-        setProfileImageNew(defaultProfileImage); // 기본 이미지로 설정
+        setProfileImage(defaultProfileImage); // 기본 이미지로 설정
       } catch (error) {
         console.error("프로필 사진 삭제에 실패했습니다:", error);
         alert("프로필 사진 삭제 중 문제가 발생했습니다.");
@@ -93,52 +89,67 @@ const ViewMyInfo = () => {
     }
   };
 
-  const handleEditToggle = () => {
-    setIsEditing(!isEditing);
-  };
-
+  // 내 정보 수정
   const handleSave = async () => {
-    // 입력값 확인
-    if (!nicknameNew || !phoneNumberNew || !addressNew) {
-      window.alert('모든 필드를 채워주세요.');
+    if (!nickname || !phone || !address) {
+      alert('모든 필드를 채워주세요.');
       return;
     }
 
-    // 전화번호 11자리 확인
-    if (phoneNumberNew.length !== 11) {
-      window.alert('전화번호는 11자리여야 합니다.');
+    if (phone.length !== 11) {
+      alert('전화번호는 11자리여야 합니다.');
       return;
     }
 
-    const confirmSave = window.confirm("저장하시겠습니까?");
+    const confirmSave = confirm("저장하시겠습니까?");
     if (!confirmSave) {
       return;
     }
 
     try {
-      const dto = {
-        profileImage: nicknameNew,
-        phoneNumber: phoneNumberNew,
-        address: addressNew
+      const editUserInfo = {
+        nickname: nickname,
+        phone: phone,
+        address: address
       };
 
-      const response = await putUserInfo(dto);
-
-      // setNicknameNew();
-      // setPhoneNumberNew();
-      // setProfileImageNew();
-
+      const response = await editMyInfo(editUserInfo);
+      alert(response);
       setIsEditing(false);
-
-      console.log(response);
-      window.alert('저장되었습니다!'); // window.alert로 변경
     } catch (error) {
-      console.error("프로필 사진 삭제에 실패했습니다:", error);
-      alert("프로필 사진 삭제 중 문제가 발생했습니다.");
+      console.error("error", error);
+      alert('내 정보 수정 중 문제가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
-  const handlePhoneChange = (e) => {
+  // 회원 탈퇴
+  const handleLeaveAccount = async () => {
+    const confirmLeave = confirm('정말 회원 탈퇴를 진행하시겠습니까?');
+
+    if (confirmLeave) {
+      try {
+        await deleteUser(userInfo.userId); 
+        alert('회원 탈퇴가 완료되었습니다.');
+        navigate('/'); 
+      } catch (error) {
+        console.error('회원 탈퇴에 실패했습니다:', error);
+        alert('회원 탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.');
+      }
+    }
+  };
+
+  // 사용 함수
+  const toggleEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const opneImageFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // 파일 선택 창 열기
+    }
+  };
+
+  const validatePhone = (e) => {
     const inputValue = e.target.value;
 
     // 입력값에서 숫자만 남기기
@@ -147,22 +158,7 @@ const ViewMyInfo = () => {
     // 최대 11자리 숫자만 허용
     if (digitsOnly.length > 11) return;
 
-    setPhoneNumberNew(digitsOnly); // 상태 업데이트
-  };
-
-  const handleLeaveAccount = async () => {
-    const confirmLeave = window.confirm('정말 회원 탈퇴를 진행하시겠습니까?');
-
-    if (confirmLeave) {
-      try {
-        await deleteUser(userInfo.userId); // 회원 탈퇴 API 호출
-        alert('회원 탈퇴가 완료되었습니다.');
-        navigate('/'); // 탈퇴 후 메인 페이지로 이동
-      } catch (error) {
-        console.error('회원 탈퇴에 실패했습니다:', error);
-        alert('회원 탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.');
-      }
-    }
+    setPhone(digitsOnly);
   };
 
   return (
@@ -174,26 +170,25 @@ const ViewMyInfo = () => {
       </div>
 
       {/* 프로필 사진 */}
-      <div>
-        <div className="profile-section">
-          <PreSubTitleLabel text="프로필 사진" />
-          <div className="profile-image-container">
-            <ProfileImage imageUrl={profileImageNew} />
-            <div className="profile-buttons-container">
-              <RectangleButton text={"사진 변경"} onClick={handleImageClick} />
-              <RectangleButton text={"사진 삭제"} onClick={handleDeleteImage} />
-            </div>
+      <div className="profile-section">
+        <PreSubTitleLabel text="프로필 사진" />
+        <div className="profile-image-container">
+          <ProfileImage imageUrl={profileImage} />
+          <div className="profile-buttons-container">
+            <RectangleButton text={"사진 변경"} onClick={opneImageFileInput} />
+            <RectangleButton text={"사진 삭제"} onClick={handleDeleteImage} />
           </div>
         </div>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleChangeImage}
+          multiple
+          style={{ display: 'none' }}
+        />
       </div>
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleChangeImage}
-        multiple
-        style={{ display: 'none' }}
-      />
+
       <HorizontalRule type="hr2" />
 
       {/* 닉네임 */}
@@ -203,15 +198,16 @@ const ViewMyInfo = () => {
           {isEditing ? (
             <input
               type="text"
-              value={nicknameNew}
-              onChange={(e) => setNicknameNew(e.target.value)}
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
               className={"searchTextField_input"}
             />
           ) : (
-            <span>{nicknameNew}</span>
+            <span>{nickname}</span>
           )}
         </div>
       </div>
+
       <HorizontalRule type="hr2" />
 
       {/* 휴대폰 번호 */}
@@ -221,18 +217,19 @@ const ViewMyInfo = () => {
           {isEditing ? (
             <input
               type="text" // 여전히 type="text"를 사용 (number는 음수나 소수 입력 가능성을 배제하기 위해)
-              value={phoneNumberNew}
-              onChange={handlePhoneChange}
+              value={phone}
+              onChange={validatePhone}
               placeholder="전화번호를 입력해주세요.(- 제외) ex) 01012345678"
               className="searchTextField_input"
               inputMode="numeric" // 모바일 기기에서 숫자 키패드 표시
               pattern="\d*" // 숫자만 입력 가능하도록 설정 (HTML 속성 레벨)
             />
           ) : (
-            <span>{phoneNumberNew}</span>
+            <span>{phone}</span>
           )}
         </div>
       </div>
+
       <HorizontalRule type="hr2" />
 
       {/* 주소 */}
@@ -242,12 +239,12 @@ const ViewMyInfo = () => {
           {isEditing ? (
             <input
               type="text"
-              value={addressNew}
-              onChange={(e) => setAddressNew(e.target.value)}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               className="searchTextField_input"
             />
           ) : (
-            <span>{addressNew}</span>
+            <span>{address}</span>
           )}
         </div>
       </div>
@@ -259,7 +256,7 @@ const ViewMyInfo = () => {
         <span className="leave-account-text" onClick={handleLeaveAccount}>
           회원 탈퇴
         </span>
-        <RectangleButton text={isEditing ? "저장" : "변경"} onClick={isEditing ? handleSave : handleEditToggle} />
+        <RectangleButton text={isEditing ? "저장" : "변경"} onClick={isEditing ? handleSave : toggleEdit} />
       </div>
     </div>
   );

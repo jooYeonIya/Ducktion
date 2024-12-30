@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import shop.duction.be.domain.user.dto.EditUserInfoRequestDto;
 import shop.duction.be.domain.user.dto.ExhibitorRatingRequestDto;
 import shop.duction.be.domain.user.dto.MyInfoResponseDto;
 import shop.duction.be.domain.user.service.UserService;
@@ -24,6 +25,12 @@ public class UserController {
   @Operation(summary = "내 정보 불러오기")
   public MyInfoResponseDto getMyInfo() {
     return userService.getMyInfo(userId);
+  }
+
+  @PostMapping("/info/edit")
+  @Operation(summary = "내 정보 수정하기")
+  public  ResponseEntity<String> editMyInfo(@RequestBody EditUserInfoRequestDto editUserInfoRequestDto) {
+    return userService.editMyInfo(editUserInfoRequestDto, userId);
   }
 
   @PostMapping("/rating")

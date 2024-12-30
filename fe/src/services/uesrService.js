@@ -23,17 +23,10 @@ export async function postRatingUser(ratingRequest) {
 }
 
 // 내 정보 수정하기
-export async function putUserInfo(dto) {
+export async function editMyInfo(editUserInfo) {
   try {
-    // const response = await api.put(`user/info/${user_id}`);
-    // return response.data;
-    console.log(`putUserInfo DTO : ${dto}`);
-    const userInfo = location.state?.userInfo || {
-      nickname: '홍길동',
-      phoneNumber: '',
-      address: ''
-    };
-    return;
+    const response = await api.post("user/info/edit", editUserInfo);
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;

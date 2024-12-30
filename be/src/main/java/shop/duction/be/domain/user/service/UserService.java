@@ -1,8 +1,10 @@
 package shop.duction.be.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shop.duction.be.domain.user.dto.EditUserInfoRequestDto;
 import shop.duction.be.domain.user.dto.ExhibitorRatingRequestDto;
 import shop.duction.be.domain.user.dto.MyInfoResponseDto;
 import shop.duction.be.domain.user.entity.ExhibitorRating;
@@ -29,6 +31,15 @@ public class UserService {
             user.getPhone(),
             user.getAddress()
     );
+  }
+
+  public ResponseEntity<String> editMyInfo(EditUserInfoRequestDto editUserInfoRequestDto, Integer userId) {
+    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    user.setNickname(editUserInfoRequestDto.getNickname());
+    user.setPhone(editUserInfoRequestDto.getPhone());
+    user.setAddress(editUserInfoRequestDto.getAddress());
+    User save = userRepository.save(user);
+    return save != null ? ResponseEntity.ok("내 정보 수정 완료") : ResponseEntity.notFound().build();
   }
 
   public void postRatingExhibitor(ExhibitorRatingRequestDto request, Integer userId) {
