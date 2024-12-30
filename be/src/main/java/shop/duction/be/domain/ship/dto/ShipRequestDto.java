@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExhibitorShipInfoRequestDto {
+public class ShipRequestDto {
   String deliveryId;
   String postNumber;
   Integer itemId;

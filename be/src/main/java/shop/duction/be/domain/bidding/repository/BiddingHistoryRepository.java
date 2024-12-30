@@ -28,6 +28,8 @@ public interface BiddingHistoryRepository extends JpaRepository<BiddingHistory, 
           @Param("types") List<String> types
   );
 
+  List<BiddingHistory> findByItem_ItemId(Integer itemId);
+
   @Query(value = "SELECT * FROM bidding_history bh " +
           "WHERE bh.user_id = :userId AND bh.item_id = :itemId " +
           "ORDER BY bh.price DESC " +

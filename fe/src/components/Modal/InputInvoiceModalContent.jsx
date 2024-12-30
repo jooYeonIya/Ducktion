@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { postExhibitorshipInvoice, getShippingDeadline } from '../../services/shipService'
+import { validateItemOk } from "../../services/adminService";
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import DropdownInput from './DropdownInput'
 import RectangleButton from '../Button/RectangleButton'
 import PreTextLabel from '../Labels/PreTextLabel';
 import '@styles/components/modal/BidPointModalContent.css'
 
-export default function InputInvoiceModalContent({ itemId, onClose }) {
+export default function InputInvoiceModalContent({ itemId, onClose, role }) {
   const courier = ["롯데택배", "CJ대한통운", "우체국택배", "로젠택배"];
 
   const [selectedCourier, setSelectedCourier] = useState('');
@@ -49,16 +50,21 @@ export default function InputInvoiceModalContent({ itemId, onClose }) {
       alert('배송 번호를 입력해주세요.');
       return;
     }
-
     try {
-      const exhibitorShipInfo = {
+      const shipRequest = {
         deliveryId: selectedCourier,
         postNumber: ivoice,
         itemId: itemId
       }
 
-      const message = await postExhibitorshipInvoice(exhibitorShipInfo);
-      alert(message)
+      if (role === "USER") {
+        const message = await postExhibitorshipInvoice(shipRequest);
+        alert(message)
+      } else {
+        const message = await validateItemOk(shipRequest);
+        alert(message)
+      }
+
       onClose();
     } catch (error) {
       console.error('Failed', error);

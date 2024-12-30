@@ -56,6 +56,7 @@ export async function postRejectDeleteItem(request) {
   }
 }
 
+// 신고 관련
 export async function getReportData() {
   try {
     const response = await api.get("admin/report/item");
@@ -65,6 +66,25 @@ export async function getReportData() {
   }
 }
 
+export async function submitReport(itemId, rejectReason) {
+  try {
+    const response = await api.get(`admin/submit/report/item/${itemId}/${rejectReason}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
+export async function cancelReport(itemId) {
+  try {
+    const response = await api.get(`admin/cancel/report/item/${itemId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
+// 반려
 export async function getValidateItemData() {
   try {
     const response = await api.get("admin/validate/item");
@@ -73,3 +93,22 @@ export async function getValidateItemData() {
     console.error("Error fetching:", error);
   }
 }
+
+export async function validateItemOk(shipRequest) {
+  try {
+    const response = await api.post("admin/validate/item/Ok", shipRequest);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
+export async function validateItemReject(itemId) {
+  try {
+    const response = await api.get(`admin/validate/item/reject/${itemId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+

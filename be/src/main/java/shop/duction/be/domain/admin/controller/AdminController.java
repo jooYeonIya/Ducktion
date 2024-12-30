@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.duction.be.domain.admin.dto.*;
 import shop.duction.be.domain.admin.service.AdminService;
+import shop.duction.be.domain.ship.dto.ShipRequestDto;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
   private final AdminService adminService;
+
+  // 운영자 아이디 일단 하드 코딩
+  Integer userId = 1;
 
   // 커뮤니티 개설 요청 관련
   @GetMapping("/request/creat/community")
@@ -57,8 +61,31 @@ public class AdminController {
     return adminService.getReportData();
   }
 
+  @GetMapping("/submit/report/item/{itemId}/{rejectReason}")
+  public ResponseEntity<String> submitReport(
+          @PathVariable("itemId") Integer itemId,
+          @PathVariable("rejectReason") String rejectReason) {
+    return adminService.submitReport(itemId, rejectReason);
+  }
+
+  @GetMapping("/cancel/report/item/{itemId}")
+  public ResponseEntity<String> cancelReport(@PathVariable("itemId") Integer itemId) {
+    return adminService.cancelReport(itemId);
+  }
+
+  // 검수 관련
   @GetMapping("/validate/item")
   public List<ValidateItemInfoResponseDto> getValidateItemData() {
     return adminService.getValidateItemData();
+  }
+
+  @PostMapping("/validate/item/Ok")
+  public ResponseEntity<String> validateItemOk(@RequestBody ShipRequestDto shipRequestDto) {
+    return adminService.validateItemOk(shipRequestDto, userId);
+  }
+
+  @GetMapping("/validate/item/reject/{itemId}")
+  public ResponseEntity<String> validateItemReject(@PathVariable("itemId") Integer itemId) {
+    return adminService.validateItemReject(itemId);
   }
 }
