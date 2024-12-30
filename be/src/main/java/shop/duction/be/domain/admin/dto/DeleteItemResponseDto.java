@@ -12,6 +12,7 @@ public class DeleteItemResponseDto {
   private String itemName;
   private Integer requestId;
   private String nickname;
+  private String email;
   private String title;
   private String requestReason;
   private String requestTime;

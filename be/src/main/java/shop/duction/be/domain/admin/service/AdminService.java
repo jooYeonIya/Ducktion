@@ -56,12 +56,12 @@ public class AdminService {
     return save != null ? ResponseEntity.ok("커뮤니티 개설 완료") : ResponseEntity.notFound().build();
   }
 
-  public ResponseEntity<String> postRejectCommunity(RejectCommunityRequest request) {
+  public ResponseEntity<String> postRejectCommunity(RejectInfoRequestDto request) {
+    communityCreateRequestRepository.deleteById(request.getRequestId());
     String rejectSubject = SendEamilMessage.createRejectSubject(request.getTitle());
     String rejectBody = SendEamilMessage.createRejectBody(request.getTitle(), request.getRejectReason());
     EamilMessageInfo eamilMessageInfo = new EamilMessageInfo(request.getEmail(), rejectSubject, rejectBody);
     sendEamilMessage.sendMail(eamilMessageInfo);
-    communityCreateRequestRepository.deleteById(request.getRequestId());
     return ResponseEntity.ok("커뮤니티 요청 반려 완료");
   }
 
@@ -73,6 +73,7 @@ public class AdminService {
               request.getItem().getName(),
               request.getRequestId(),
               request.getUser().getNickname(),
+              request.getUser().getEmail(),
               "타이틀은 엔티티에 제목 추가한 후에 넣기로",
               request.getRequestReason(),
               DateTimeUtils.yearDateTimeFormatter.format(request.getRequestTime()));
@@ -82,6 +83,15 @@ public class AdminService {
   public ResponseEntity<String> deleteItemData(Integer itemId, Integer requestId) {
     itemRepository.deleteById(itemId);
     return ResponseEntity.ok("삭제 완료");
+  }
+
+  public ResponseEntity<String> postRejectDeleteItem(RejectInfoRequestDto request) {
+    itemDeleteRequestRepository.deleteById(request.getRequestId());
+    String rejectSubject = SendEamilMessage.createRejectSubject(request.getTitle());
+    String rejectBody = SendEamilMessage.createRejectBodyForDeleteItem(request.getTitle(), request.getRejectReason());
+    EamilMessageInfo eamilMessageInfo = new EamilMessageInfo(request.getEmail(), rejectSubject, rejectBody);
+    sendEamilMessage.sendMail(eamilMessageInfo);
+    return ResponseEntity.ok("삭제 요청 반려 완료");
   }
 
   public List<ReportInfoResponseDto> getReportData() {

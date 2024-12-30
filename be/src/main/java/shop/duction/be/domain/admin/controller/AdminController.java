@@ -15,6 +15,7 @@ import java.util.List;
 public class AdminController {
   private final AdminService adminService;
 
+  // 커뮤니티 개설 요청 관련
   @GetMapping("/request/creat/community")
   public List<CreateCommunityResponseDto> getCreateCommunityData() {
     return adminService.getCreateCommunityData();
@@ -28,11 +29,11 @@ public class AdminController {
   }
 
   @PostMapping("/request/reject/community")
-  public ResponseEntity<String> postRejectCommunity(@RequestBody RejectCommunityRequest request) {
+  public ResponseEntity<String> postRejectCommunity(@RequestBody RejectInfoRequestDto request) {
     return adminService.postRejectCommunity(request);
   }
 
-
+  // 상품 삭제 요청 관련
   @GetMapping("/request/delete/item")
   public List<DeleteItemResponseDto> getDeleteItemData() {
     return adminService.getDeleteItemData();
@@ -44,6 +45,13 @@ public class AdminController {
           @PathVariable("requestId") Integer requestId) {
     return adminService.deleteItemData(itemId, requestId);
   }
+
+  @PostMapping("/request/reject/item")
+  public ResponseEntity<String> postRejectDeleteItem(@RequestBody RejectInfoRequestDto request) {
+    return adminService.postRejectDeleteItem(request);
+  }
+
+  // 신고 관련
   @GetMapping("/report/item")
   public List<ReportInfoResponseDto> getReportData() {
     return adminService.getReportData();

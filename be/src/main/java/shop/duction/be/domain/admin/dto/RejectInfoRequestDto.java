@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RejectCommunityRequest {
+public class RejectInfoRequestDto {
   private Integer requestId;
   private String title;
   private String rejectReason;

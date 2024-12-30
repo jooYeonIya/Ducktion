@@ -28,8 +28,8 @@ public class SendEamilMessage {
     }
   }
 
-  public static String createRejectSubject(String communityName) {
-    return String.format("%s 커뮤니티 개설 반려 안내", communityName);
+  public static String createRejectSubject(String title) {
+    return String.format("%s 반려 안내", title);
   }
 
   public static String createRejectBody(String communityName, String rejectReason) {
@@ -41,5 +41,16 @@ public class SendEamilMessage {
                 <p>감사합니다.</p>
             </div>
             """, communityName,rejectReason);
+  }
+
+  public static String createRejectBodyForDeleteItem(String itemName, String rejectReason) {
+    return String.format( """
+            <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+                <h2>안녕하세요,</h2>
+                <p>요청하신 <strong>%s</strong> 삭제 요청이 다음과 같은 사유로 거절되었습니다:</p>
+                <blockquote style="color: red;">%s</blockquote>
+                <p>감사합니다.</p>
+            </div>
+            """, itemName,rejectReason);
   }
 }
