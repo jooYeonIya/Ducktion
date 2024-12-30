@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTable } from "react-table";
 import { useNavigate } from "react-router-dom";
+import { submitReport } from "../services/adminService";
 import RectangleButton from "../components/Button/RectangleButton";
 
 export default function AdminTable({ type, data }) {
@@ -14,6 +15,23 @@ export default function AdminTable({ type, data }) {
     }
   };
 
+  const handleReportSubmit = async (event, original) => {
+    event.stopPropagation(); // 이벤트 전파 중단
+
+    const rejectReason = handelPrompt();
+    const message = await submitReport(original.itemId, rejectReason);
+    alert(message);
+  }
+
+  const handelPrompt = () => {
+    const rejectReasonTextField = prompt("취소 사유를 입력해주세요:", "");
+    if (rejectReasonTextField !== null && rejectReasonTextField.trim() !== "") {
+      return rejectReasonTextField
+    } else if (rejectReasonTextField !== null) {
+      alert("사유를 작성해 주세요");
+    }
+  }
+
   const columns = useMemo(() => {
     const commonColumns = [
       {
@@ -26,25 +44,15 @@ export default function AdminTable({ type, data }) {
       case "신고":
         return [
           ...commonColumns,
-          {
-            Header: "상품명",
-            accessor: "itemName",
-            Cell: ({ row }) => (
-              <span
-                style={{ cursor: "pointer", color: "black" }}
-              >
-                {row.original.itemName}
-              </span>
-            ),
-          },
+          { Header: "상품명", accessor: "itemName" },
           { Header: "신고 횟수", accessor: "reportedCount" },
           {
             Header: "작업",
             accessor: "action",
-            Cell: () => (
+            Cell: ({ row }) => (
               <div className="button-action">
                 <RectangleButton text="반려" />
-                <RectangleButton text="승인" />
+                <RectangleButton text="승인" onClick={(e) => handleReportSubmit(e, row.original)} />
               </div>
             ),
           },

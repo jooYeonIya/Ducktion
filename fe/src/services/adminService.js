@@ -56,9 +56,19 @@ export async function postRejectDeleteItem(request) {
   }
 }
 
+// 신고 관련
 export async function getReportData() {
   try {
     const response = await api.get("admin/report/item");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
+export async function submitReport(itemId, rejectReason) {
+  try {
+    const response = await api.get(`admin/submit/report/item/${itemId}/${rejectReason}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching:", error);

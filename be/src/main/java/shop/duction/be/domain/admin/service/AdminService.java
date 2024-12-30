@@ -12,10 +12,13 @@ import shop.duction.be.domain.admin.repository.ItemDeleteRequestRepository;
 import shop.duction.be.domain.community.entity.Community;
 import shop.duction.be.domain.community.repository.CommunityRepository;
 import shop.duction.be.domain.item.entity.Item;
+import shop.duction.be.domain.item.enums.AuctionStatus;
 import shop.duction.be.domain.item.repository.ItemRepository;
+import shop.duction.be.domain.item.service.ItemService;
+import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.utils.DateTimeUtils;
 import shop.duction.be.utils.InitialExtractor;
-import shop.duction.be.utils.email.EamilMessageInfo;
+import shop.duction.be.utils.email.EmailMessageInfo;
 import shop.duction.be.utils.email.SendEamilMessage;
 
 import java.time.LocalDateTime;
@@ -29,6 +32,8 @@ public class AdminService {
   private final ItemDeleteRequestRepository itemDeleteRequestRepository;
   private final ItemRepository itemRepository;
   private final CommunityRepository communityRepository;
+
+  private final ItemService itemService;
 
   private final SendEamilMessage sendEamilMessage;
 
@@ -60,7 +65,7 @@ public class AdminService {
     communityCreateRequestRepository.deleteById(request.getRequestId());
     String rejectSubject = SendEamilMessage.createRejectSubject(request.getTitle());
     String rejectBody = SendEamilMessage.createRejectBody(request.getTitle(), request.getRejectReason());
-    EamilMessageInfo eamilMessageInfo = new EamilMessageInfo(request.getEmail(), rejectSubject, rejectBody);
+    EmailMessageInfo eamilMessageInfo = new EmailMessageInfo(request.getEmail(), rejectSubject, rejectBody);
     sendEamilMessage.sendMail(eamilMessageInfo);
     return ResponseEntity.ok("커뮤니티 요청 반려 완료");
   }
@@ -89,13 +94,54 @@ public class AdminService {
     itemDeleteRequestRepository.deleteById(request.getRequestId());
     String rejectSubject = SendEamilMessage.createRejectSubject(request.getTitle());
     String rejectBody = SendEamilMessage.createRejectBodyForDeleteItem(request.getTitle(), request.getRejectReason());
-    EamilMessageInfo eamilMessageInfo = new EamilMessageInfo(request.getEmail(), rejectSubject, rejectBody);
+    EmailMessageInfo eamilMessageInfo = new EmailMessageInfo(request.getEmail(), rejectSubject, rejectBody);
     sendEamilMessage.sendMail(eamilMessageInfo);
     return ResponseEntity.ok("삭제 요청 반려 완료");
   }
 
+  // 신고 관련
   public List<ReportInfoResponseDto> getReportData() {
     return itemRepository.findAllReportInfos();
+  }
+
+  public ResponseEntity<String> submitReport(Integer itemId, String rejectReason) {
+    Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
+
+    String itemName = item.getName();
+    String email = item.getUser().getEmail();
+
+    switch (item.getAuctionStatus()) {
+      case BIDDING_BEFORE:
+      case BIDDING_NOT:
+        // 입찰 전, 낙찰 실패 -> 삭제
+        itemRepository.deleteById(itemId);
+        break;
+
+      case BIDDED:
+        // 낙찰된 상품 -> 낙찰 취소
+        itemService.cancelBidded(item);
+        item.setReportedCount(0);
+        itemRepository.save(item);
+        break;
+
+      case BIDDING_UNDER:
+        // 입찰 중 -> 입찰 비드 반환 후 삭제
+        itemService.refundBidPoints(item);
+        itemRepository.deleteById(itemId);
+        break;
+
+      default:
+        // 경매 완료 -> 삭제 불가
+        return ResponseEntity.ok("상품 삭제 불가합니다. 반려해 주세요.");
+    }
+
+    String cancelSubject = SendEamilMessage.createCancelSubject(itemName);
+    String submitReportBody = SendEamilMessage.createSubmitReportBody(itemName, rejectReason);
+    EmailMessageInfo emailMessageInfo = new EmailMessageInfo(email, cancelSubject, submitReportBody);
+    sendEamilMessage.sendMail(emailMessageInfo);
+
+    return ResponseEntity.ok("신고 상품 취소 완료");
   }
 
   public List<ValidateItemInfoResponseDto> getValidateItemData() {

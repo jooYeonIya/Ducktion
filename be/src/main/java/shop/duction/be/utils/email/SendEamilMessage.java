@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class SendEamilMessage {
   private final JavaMailSender javaMailSender;
 
-  public void sendMail(EamilMessageInfo emailMessage) {
+  public void sendMail(EmailMessageInfo emailMessage) {
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
     try {
@@ -32,6 +32,10 @@ public class SendEamilMessage {
     return String.format("%s 반려 안내", title);
   }
 
+  public static String createCancelSubject(String title) {
+    return String.format("%s 취소 안내", title);
+  }
+
   public static String createRejectBody(String communityName, String rejectReason) {
     return String.format( """
             <div style="font-family: Arial, sans-serif; line-height: 1.5;">
@@ -48,6 +52,17 @@ public class SendEamilMessage {
             <div style="font-family: Arial, sans-serif; line-height: 1.5;">
                 <h2>안녕하세요,</h2>
                 <p>요청하신 <strong>%s</strong> 삭제 요청이 다음과 같은 사유로 거절되었습니다:</p>
+                <blockquote style="color: red;">%s</blockquote>
+                <p>감사합니다.</p>
+            </div>
+            """, itemName,rejectReason);
+  }
+
+  public static String createSubmitReportBody(String itemName, String rejectReason) {
+    return String.format( """
+            <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+                <h2>안녕하세요,</h2>
+                <p> <strong>%s</strong> 상품이 다음과 같은 사유로 신고를 받아 취소되었습니다:</p>
                 <blockquote style="color: red;">%s</blockquote>
                 <p>감사합니다.</p>
             </div>

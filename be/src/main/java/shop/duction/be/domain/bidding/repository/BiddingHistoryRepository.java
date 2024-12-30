@@ -26,4 +26,6 @@ public interface BiddingHistoryRepository extends JpaRepository<BiddingHistory, 
           @Param("endDay") LocalDateTime endDay,
           @Param("types") List<String> types
   );
+
+  List<BiddingHistory> findByItem_ItemId(Integer itemId);
 }

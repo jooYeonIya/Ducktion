@@ -57,6 +57,14 @@ public class AdminController {
     return adminService.getReportData();
   }
 
+  @GetMapping("/submit/report/item/{itemId}/{rejectReason}")
+  public ResponseEntity<String> submitReport(
+          @PathVariable("itemId") Integer itemId,
+          @PathVariable("rejectReason") String rejectReason) {
+    return adminService.submitReport(itemId, rejectReason);
+  }
+
+  // 검수 관련
   @GetMapping("/validate/item")
   public List<ValidateItemInfoResponseDto> getValidateItemData() {
     return adminService.getValidateItemData();

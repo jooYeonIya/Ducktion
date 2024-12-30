@@ -11,17 +11,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import shop.duction.be.domain.bidding.entity.BiddedHistory;
 import shop.duction.be.domain.bidding.entity.BiddingHistory;
 import shop.duction.be.domain.bidding.entity.ExhibitHistory;
+import shop.duction.be.domain.bidding.enums.BiddedStatus;
 import shop.duction.be.domain.bidding.enums.BiddingStatus;
 import shop.duction.be.domain.bidding.enums.ExhibitStatus;
 import shop.duction.be.domain.bidding.repository.BiddingHistoryRepository;
 import shop.duction.be.domain.bidding.repository.ExhibitHistoryRepository;
+import shop.duction.be.domain.bidpoint.entity.BidHistory;
+import shop.duction.be.domain.bidpoint.enums.BidPointType;
+import shop.duction.be.domain.bidpoint.repository.BidHistoryRepository;
 import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.ItemImage;
 import shop.duction.be.domain.item.entity.RareRating;
 import shop.duction.be.domain.item.entity.UserItemKey;
+import shop.duction.be.domain.item.enums.AuctionStatus;
 import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.domain.item.repository.RareRatingRepository;
 import shop.duction.be.domain.user.entity.User;
@@ -45,6 +51,7 @@ public class ItemService {
   private final RareRatingRepository rareRatingRepository;
   private final BiddingHistoryRepository biddingHistoryRepository;
   private final ExhibitHistoryRepository exhibitHistoryRepository;
+  private final BidHistoryRepository bidHisotryRepository;
 
   public ViewItemEditResponseDTO readItemEdit(int itemId) {
     Item item = itemRepository.findById(itemId)
@@ -356,5 +363,75 @@ public class ItemService {
     }
 
     return new PageImpl<>(itemDtos, pageable, items.getTotalElements());
+  }
+
+  // 낙찰 취소
+  public void cancelBidded(Item item) {
+    Integer price = item.getBiddedHistory().getPrice();
+
+    // 1. 출품자 비드 업데이트
+    User exhibitor = item.getUser();
+    exhibitor.setHeldBid(exhibitor.getHeldBid() - price);
+    exhibitor.setUsableBid(exhibitor.getUsableBid() - price);
+
+    BidHistory exhibitorBidHistory = new BidHistory();
+    exhibitorBidHistory.setBidAmount(-price);
+    exhibitorBidHistory.setType(BidPointType.CANCELLATION_BID);
+    exhibitorBidHistory.setTransactionTime(LocalDateTime.now());
+    exhibitorBidHistory.setUser(exhibitor);
+    exhibitorBidHistory.setBiddedHistory(item.getBiddedHistory());
+    exhibitorBidHistory.setExhibitHistory(item.getExhibitHistory());
+    bidHisotryRepository.save(exhibitorBidHistory);
+
+    // 2. 낙찰자 비드 업데이트
+    User bidder = item.getBiddedHistory().getUser();
+    bidder.setUsableBid(bidder.getUsableBid() + price);
+    bidder.setHeldBid(bidder.getHeldBid() + price);
+
+    BidHistory bidderBidHistory = new BidHistory();
+    bidderBidHistory.setBidAmount(price);
+    bidderBidHistory.setType(BidPointType.CANCELLATION_BID);
+    bidderBidHistory.setTransactionTime(LocalDateTime.now());
+    bidderBidHistory.setUser(bidder);
+    bidderBidHistory.setBiddedHistory(item.getBiddedHistory());
+    bidderBidHistory.setExhibitHistory(item.getExhibitHistory());
+    bidHisotryRepository.save(bidderBidHistory);
+
+    // 3. 아이템 상태 업데이트
+    item.setAuctionStatus(AuctionStatus.BIDDED_CANCEL);
+
+    // 4. 낙찰 이력 상태 업데이트
+    BiddedHistory biddedHistory = item.getBiddedHistory();
+    biddedHistory.setStatus(BiddedStatus.BIDDED_CANCEL);
+    itemRepository.save(item);
+
+    // 출품자가 배송했을 경우 처리 -> 미정
+  }
+
+  // 비드 돌려주기
+  public void refundBidPoints(Item item) {
+    List<BiddingHistory> biddingHistories = biddingHistoryRepository.findByItem_ItemId(item.getItemId());
+
+    biddingHistories.forEach(history -> {
+      int price = history.getPrice();
+      User user = history.getUser();
+
+      // 사용자 비드 업데이트
+      user.setUsableBid(user.getUsableBid() + price);
+
+      // 비드 히스토리 생성 및 저장
+      BidHistory bidHistory = new BidHistory();
+      bidHistory.setBidAmount(price);
+      bidHistory.setType(BidPointType.CANCELLATION_BID);
+      bidHistory.setTransactionTime(LocalDateTime.now());
+      bidHistory.setUser(user);
+
+      ExhibitHistory exhibitHistory = item.getExhibitHistory();
+      if (exhibitHistory != null) {
+        bidHistory.setExhibitHistory(exhibitHistory);
+      }
+
+      bidHisotryRepository.save(bidHistory);
+    });
   }
 }
