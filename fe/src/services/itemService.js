@@ -161,14 +161,14 @@ export async function postBidding(itemId, bidRequest) {
 }
 
 // 즉시 낙찰
-export async function postImmediateBidding(biddingGiveupRequest) {
+export async function postImmediateBidding(itemId) {
   try {
-    // const response = await api.post(`items/immediate_bidding`, biddingGiveupRequest);
-    const response = {
-      ok: "ok",
-    }
+    const response = await api.post(`items/${itemId}/immediatebidding`);
+    // const response = {
+    //   ok: "ok",
+    // }
 
-    if (response.ok) {
+    if (response.status === 200) {
       alert("즉시 낙찰되었습니다.");
     } else {
       alert("즉시 낙찰에 실패했습니다.");
