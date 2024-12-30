@@ -60,12 +60,12 @@ export async function putUserProfileImage(imageUrl) {
 }
 
 // 프로필 사진 삭제하기
-export async function deleteUserProfileImage(userId) {
+export async function deleteUserProfileImage() {
   try {
-    // const response = await api.delete(`user/info/{user_id}/profile_image`);
-    // return response.data;
-    console.log(`deleteUserProfileImage userId : ${userId}`);
-    return '';
+    const response = await api.delete(`user/info/image`);
+    return response;
+    // console.log(`deleteUserProfileImage userId : ${userId}`);
+    // return '';
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;

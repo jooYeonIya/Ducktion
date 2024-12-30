@@ -84,7 +84,7 @@ const ViewMyInfo = () => {
     const confirmDelete = confirm('프로필 사진을 삭제하시겠습니까?');
     if (confirmDelete) {
       try {
-        await deleteUserProfileImage(userInfo.userId);
+        await deleteUserProfileImage();
         setProfileImage(defaultProfileImage); // 기본 이미지로 설정
       } catch (error) {
         console.error("프로필 사진 삭제에 실패했습니다:", error);
