@@ -22,6 +22,7 @@ import shop.duction.be.domain.user.entity.User;
 import shop.duction.be.domain.user.enums.IsActive;
 import shop.duction.be.domain.user.repository.ExhibitorRatingRepository;
 import shop.duction.be.domain.user.repository.UserRepository;
+import shop.duction.be.exception.ItemNotFoundException;
 
 import java.util.List;
 
@@ -105,10 +106,10 @@ public class UserService {
     }
 
     User user = userRepository.findById(userId).orElseThrow(() ->
-            new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+            new ItemNotFoundException("사용자를 찾을 수 없습니다"));
 
     User exhibitor = userRepository.findById(request.getExhibitorId()).orElseThrow(() ->
-            new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+            new ItemNotFoundException("사용자를 찾을 수 없습니다"));
 
     ExhibitorRating exhibitorRating = new ExhibitorRating();
     exhibitorRating.setExhibitor(exhibitor);
@@ -129,10 +130,19 @@ public class UserService {
 
   public String updateUserProfileImage(Integer userId, ProfileImageEditRequestDTO dto) {
     User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+            .orElseThrow(() -> new ItemNotFoundException("사용자를 찾을 수 없습니다."));
     user.setProfileImage(dto.profileImage());
 
     userRepository.save(user);
     return "프로필 사진 수정 완료";
+  }
+
+  public String deleteUserProfileImage(Integer userId) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ItemNotFoundException("사용자를 찾을 수 없습니다."));
+    user.setProfileImage(null);
+
+    userRepository.save(user);
+    return "프로필 사진 삭제 완료";
   }
 }

@@ -61,4 +61,17 @@ public class UserController {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
     }
   }
+
+  @DeleteMapping("/info/image")
+  @Operation(summary = "프로필 사진 삭제하기")
+  public  ResponseEntity<String> deleteUserProfileImage() {
+    try {
+      String result = userService.deleteUserProfileImage(userId);
+      return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
+    } catch (ItemNotFoundException e) {
+      return ResponseEntity.status(HttpStatusConstants.NOT_FOUND).body("Item not found"); // 404 NOT FOUND
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
+    }
+  }
 }
