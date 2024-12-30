@@ -1,6 +1,15 @@
 import api from "./api";
 
 // 커뮤니티 개설 요청 관련
+export async function postCreateCommunity(request) {
+  try {
+    const response = await api.post("admin/request/creat/community", request);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
 export async function getCreateCommunityData() {
   try {
     const response = await api.get("admin/request/creat/community");

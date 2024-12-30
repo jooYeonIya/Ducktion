@@ -20,6 +20,11 @@ public class AdminController {
   Integer userId = 1;
 
   // 커뮤니티 개설 요청 관련
+  @PostMapping("/request/creat/community")
+  public ResponseEntity<String> postCreateCommunity(@RequestBody CreateCommunityRequestDto createCommunityRequestDto) {
+    return adminService.postCreateCommunity(createCommunityRequestDto, userId);
+  }
+
   @GetMapping("/request/creat/community")
   public List<CreateCommunityResponseDto> getCreateCommunityData() {
     return adminService.getCreateCommunityData();
