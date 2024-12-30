@@ -1,31 +1,21 @@
 package shop.duction.be.domain.bidding.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shop.duction.be.domain.bidding.dto.BidRequestDTO;
+import shop.duction.be.domain.bidding.entity.BiddingHistory;
+import shop.duction.be.domain.bidding.enums.BiddingStatus;
 import shop.duction.be.domain.bidding.repository.BiddingHistoryRepository;
-import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.entity.Item;
-import shop.duction.be.domain.item.entity.ItemImage;
-import shop.duction.be.domain.item.entity.RareRating;
-import shop.duction.be.domain.item.entity.UserItemKey;
-import shop.duction.be.domain.item.enums.RareTier;
-import shop.duction.be.domain.item.repository.FavoriteItemRepository;
+import shop.duction.be.domain.item.enums.AuctionStatus;
 import shop.duction.be.domain.item.repository.ItemRepository;
-import shop.duction.be.domain.item.repository.RareRatingRepository;
 import shop.duction.be.domain.user.entity.User;
 import shop.duction.be.domain.user.repository.UserRepository;
 import shop.duction.be.exception.ItemNotFoundException;
-import shop.duction.be.utils.ItemConditionConverter;
-import shop.duction.be.utils.RareTierCheck;
-import shop.duction.be.utils.RareTierConverter;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -39,46 +29,52 @@ public class BiddingService {
   public String bidding(int itemId, int userId, BidRequestDTO dto) {
     Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
+
+    // 입찰가가 시작가 및 현재가보다 낮을 경우 체크
+    Integer startPrice = item.getStartPrice(); // 시작가
+    Integer nowPrice = item.getNowPrice();     // 현재가 (nullable)
+
+    if (dto.price() <= startPrice || (nowPrice != null && dto.price() <= nowPrice)) {
+      throw new IllegalArgumentException("Invalid bid amount: Must be higher than both the start price and the current price");
+    }
+
     User user = userRepository.findById(userId)
             .orElseThrow(() -> new ItemNotFoundException("User with ID " + userId + " not found"));
 
-    BiddingHistoryRepository
+    // 보유 비드 확인
+    if(user.getUsableBid() < dto.price()) throw new IllegalArgumentException("Invalid bid amount: Not enough beads to hold");
 
-    Optional<RareRating> rareRating = rareRatingRepository.findById(userItemKey);
-    RareRating newRating;
-    float newAverageRareScore;
+    LocalDateTime now = LocalDateTime.now();
 
+    BiddingHistory newBiddingHistory = BiddingHistory.builder()
+            .price(dto.price())
+            .bidTime(now)
+            .status(BiddingStatus.BIDDING)
+            .user(user)
+            .item(item)
+            .biddedHistory(null)
+            .build();
 
-    if (rareRating.isPresent()) {
-      // rareRating 값이 존재하는 경우: Update
-      RareRating existingRating = rareRating.get();
-      Float previousRareScore = existingRating.getRareScore();
-      existingRating.setRareScore(dto.rareScore());
-      rareRatingRepository.save(existingRating);
+    biddingHistoryRepository.save(newBiddingHistory);
 
-      // 평균 rareScore, rareTier 업데이트 (추후 간소화)
-      int rareScoreCount = rareRatingRepository.countById_ItemId(itemId);
-      Float previousAverageRareScore = item.getRareScore();
-      newAverageRareScore = (rareScoreCount * previousAverageRareScore - previousRareScore + dto.rareScore()) / rareScoreCount;
-    } else {
-      // rareRating 값이 없는 경우: Create
-      newRating = RareRating.builder()
-              .id(userItemKey)
-              .user(user)
-              .item(item)
-              .rareScore(dto.rareScore())
-              .build();
-      rareRatingRepository.save(newRating);
+    item.setNowPrice(dto.price());
+    item.setAuctionStatus(AuctionStatus.BIDDING_UNDER);
+    item.setTotalBidding(item.getTotalBidding() + 1);
 
-      // 평균 rareScore, rareTier 업데이트
-      newAverageRareScore = (item.getRareScore() + dto.rareScore()) / 2;
+    // 종료 5분 전일 경우 시간 연장
+    LocalDateTime endBidTime = item.getEndBidTime();
+    Duration duration = Duration.between(now, endBidTime);
+
+    if (!duration.isNegative() && duration.toMinutes() <= 5) {
+      item.setEndBidTime(endBidTime.plusMinutes(5));
     }
 
-    RareTier newRareTier = RareTierCheck.rareCheck(newAverageRareScore);
-    item.setRareScore(newAverageRareScore);
-    item.setRareTier(newRareTier);
     itemRepository.save(item);
 
-    return rareRating.isPresent() ? "Rare rating updated successfully." : "Rare rating created successfully.";
+    user.setUsableBid(user.getUsableBid() - dto.price());
+
+    userRepository.save(user);
+
+    return "Bid create successful";
   }
 }

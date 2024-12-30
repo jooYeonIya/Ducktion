@@ -19,7 +19,7 @@ import IconPlusLabel from '../components/Labels/IconPlusLabel'
 const ViewItem = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const itemId = 41;
+  const itemId = 1;
   const fileInputRef = useRef(null);
 
   const maxFileSize = 2 * 1024 * 1024; // 2MB
