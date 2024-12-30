@@ -24,6 +24,7 @@ import shop.duction.be.domain.ship.entity.ExhibitorShip;
 import shop.duction.be.domain.ship.enums.DeliveryId;
 import shop.duction.be.domain.ship.repository.BidderShipRepository;
 import shop.duction.be.domain.user.entity.User;
+import shop.duction.be.domain.user.enums.IsActive;
 import shop.duction.be.domain.user.repository.UserRepository;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.utils.DateTimeUtils;
@@ -186,33 +187,55 @@ public class AdminService {
     Integer price = item.getBiddedHistory().getPrice();
 
     // 출품자 보유 비드 + 낙찰 비드
-    User exhibitor = userRepository.findById(item.getUser().getUserId())
-            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    User exhibitor = item.getUser();
     exhibitor.setHeldBid(exhibitor.getHeldBid() + price);
-
-    BidHistory exhibitorBidHistory = BidHistory.create(price, BidPointType.EARNING_BID, exhibitor, item.getBiddedHistory(), item.getExhibitHistory());
+    BidHistory exhibitorBidHistory = BidHistory.create(
+            price, BidPointType.EARNING_BID, exhibitor, item.getBiddedHistory(), item.getExhibitHistory()
+    );
+    bidHistoryRepository.save(exhibitorBidHistory);
 
     // 낙찰자 보유 비드 - 낙찰 비드
-    User bidder = userRepository.findById(item.getBiddedHistory().getUser().getUserId())
-            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-    bidder.setHeldBid(bidder.getHeldBid() + price);
+    User bidder = item.getBiddedHistory().getUser();
+    bidder.setHeldBid(bidder.getHeldBid() - price); // 낙찰자는 사용 가능 비드 감소
+    BidHistory bidderBidHistory = BidHistory.create(
+            price, BidPointType.BIDDED, bidder, item.getBiddedHistory(), item.getExhibitHistory()
+    );
+    bidHistoryRepository.save(bidderBidHistory);
 
-    BidHistory bidderBidHistory = BidHistory.create(price, BidPointType.BIDDED, bidder, item.getBiddedHistory(), item.getExhibitHistory());
-
-    // 배송 번호 등록
+    // 배송 번호 저장
     BidderShip bidderShip = new BidderShip();
     DeliveryId deliveryId = DeliveryId.valueOf(request.getDeliveryId());
     bidderShip.setDeliveryId(deliveryId);
     bidderShip.setPostNumber(request.getPostNumber());
     bidderShip.setUser(bidder);
     bidderShip.setItem(item);
-
     bidderShipRepository.save(bidderShip);
-    bidHistoryRepository.save(exhibitorBidHistory);
-    bidHistoryRepository.save(bidderBidHistory);
-    userRepository.save(bidder);
-    userRepository.save(exhibitor);
-    itemRepository.save(item);
+
     return ResponseEntity.ok("배송 번호 입력 완료");
+  }
+
+  public ResponseEntity<String> validateItemReject(Integer itemId) {
+    Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
+    // 낙찰 취소
+    itemService.cancelBidded(item);
+
+    // 출품자 평가 0점으로 업데이트
+    User exhibitor = item.getUser();
+    exhibitor.setRate(0.0F);
+    exhibitor.setPenaltyCount(exhibitor.getPenaltyCount() + 1);
+
+    // 패널티 3번 확인 후 영구 이용 정지
+    Integer penaltyCount = exhibitor.getPenaltyCount();
+    if (penaltyCount >= 3) {
+      exhibitor.setIsActive(IsActive.SUSPENDED);
+    }
+
+    userRepository.save(exhibitor);
+
+    item.setIsChecked(true);
+    itemRepository.save(item);
+
+    return ResponseEntity.ok("상품 검수 반려 완료");
   }
 }

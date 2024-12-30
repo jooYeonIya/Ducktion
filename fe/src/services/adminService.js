@@ -103,3 +103,12 @@ export async function validateItemOk(shipRequest) {
   }
 }
 
+export async function validateItemReject(itemId) {
+  try {
+    const response = await api.get(`admin/validate/item/reject/${itemId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+

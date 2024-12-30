@@ -83,4 +83,9 @@ public class AdminController {
   public ResponseEntity<String> validateItemOk(@RequestBody ShipRequestDto shipRequestDto) {
     return adminService.validateItemOk(shipRequestDto, userId);
   }
+
+  @GetMapping("/validate/item/reject/{itemId}")
+  public ResponseEntity<String> validateItemReject(@PathVariable("itemId") Integer itemId) {
+    return adminService.validateItemReject(itemId);
+  }
 }

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useTable } from "react-table";
 import { useNavigate } from "react-router-dom";
 import { useModal } from '../hooks/useModal'
-import { submitReport, cancelReport } from "../services/adminService";
+import { submitReport, cancelReport, validateItemReject } from "../services/adminService";
 import RectangleButton from "../components/Button/RectangleButton";
 import InputInvoiceModalContent from '../components/Modal/InputInvoiceModalContent'
 import CustomModal from '../components/Modal/CustomModal'
@@ -31,6 +31,12 @@ export default function AdminTable({ type, data }) {
     event.stopPropagation();
 
     const message = await cancelReport(original.itemId);
+    alert(message);
+  }
+
+  const handelValidateItemReject = async (event, original)  => {
+    event.stopPropagation();
+    const message = await validateItemReject(original.itemId);
     alert(message);
   }
 
@@ -83,7 +89,7 @@ export default function AdminTable({ type, data }) {
             accessor: "action",
             Cell: ({ row }) => (
               <div className="button-action">
-                <RectangleButton text="반려" />
+                <RectangleButton text="반려" onClick={(e) => handelValidateItemReject(e, row.original)} />
                 <RectangleButton text="검수완료" onClick={(e) => openInvoiceModal(e, row.original)} />
               </div>
             ),

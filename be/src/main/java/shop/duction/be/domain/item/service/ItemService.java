@@ -367,40 +367,17 @@ public class ItemService {
 
   // 낙찰 취소
   public void cancelBidded(Item item) {
-    Integer price = item.getBiddedHistory().getPrice();
+    // 출품자 비드 변동 사항 없음
 
-    // 1. 출품자 비드 업데이트
-    User exhibitor = item.getUser();
-    exhibitor.setHeldBid(exhibitor.getHeldBid() - price);
-    exhibitor.setUsableBid(exhibitor.getUsableBid() - price);
-
-    BidHistory exhibitorBidHistory = new BidHistory();
-    exhibitorBidHistory.setBidAmount(-price);
-    exhibitorBidHistory.setType(BidPointType.CANCELLATION_BID);
-    exhibitorBidHistory.setTransactionTime(LocalDateTime.now());
-    exhibitorBidHistory.setUser(exhibitor);
-    exhibitorBidHistory.setBiddedHistory(item.getBiddedHistory());
-    exhibitorBidHistory.setExhibitHistory(item.getExhibitHistory());
-    bidHisotryRepository.save(exhibitorBidHistory);
-
-    // 2. 낙찰자 비드 업데이트
+    // 낙찰자 사용 가능 비드 + 낙찰 비드
     User bidder = item.getBiddedHistory().getUser();
+    Integer price = item.getBiddedHistory().getPrice();
     bidder.setUsableBid(bidder.getUsableBid() + price);
-    bidder.setHeldBid(bidder.getHeldBid() + price);
 
-    BidHistory bidderBidHistory = new BidHistory();
-    bidderBidHistory.setBidAmount(price);
-    bidderBidHistory.setType(BidPointType.CANCELLATION_BID);
-    bidderBidHistory.setTransactionTime(LocalDateTime.now());
-    bidderBidHistory.setUser(bidder);
-    bidderBidHistory.setBiddedHistory(item.getBiddedHistory());
-    bidderBidHistory.setExhibitHistory(item.getExhibitHistory());
-    bidHisotryRepository.save(bidderBidHistory);
-
-    // 3. 아이템 상태 업데이트
+    // 아이템 낙찰 취소 업데이트
     item.setAuctionStatus(AuctionStatus.BIDDED_CANCEL);
 
-    // 4. 낙찰 이력 상태 업데이트
+    // 낙찰 이력 낙찰 취소 업데이트
     BiddedHistory biddedHistory = item.getBiddedHistory();
     biddedHistory.setStatus(BiddedStatus.BIDDED_CANCEL);
     itemRepository.save(item);
