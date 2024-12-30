@@ -11,6 +11,6 @@ public record ViewItemEditResponseDTO(
         ItemCondition itemCondition,
         Float rareScore,
         Integer startPrice,
-        LocalDateTime endBidTime,
+        LocalDateTime endTime,
         Integer immediatePrice
 ) {}

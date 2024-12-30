@@ -81,7 +81,7 @@ export default function ViewItemList() {
   }
 
   const handleRegistItemButton = () => {
-    navigate('/registItem')
+    navigate('/registItem', { state: { communityId: communityId } })
   }
 
   useEffect(() => {

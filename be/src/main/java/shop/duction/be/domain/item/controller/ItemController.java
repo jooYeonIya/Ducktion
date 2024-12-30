@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/items")
 @RequiredArgsConstructor
 @Tag(name = "출품 상품")
@@ -63,6 +62,18 @@ public class ItemController {
     return itemService.getMastersCollectorsRare(userId);
   }
 
+  @PostMapping()
+  @Operation(summary = "상품 등록하기")
+  public ResponseEntity<?> postItem(@RequestBody RegistItemRequestDTO dto) {
+    try {
+      Integer result = itemService.createItem(userId, dto);
+      return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
+    } catch (ItemNotFoundException e) {
+      return ResponseEntity.status(HttpStatusConstants.NOT_FOUND).body("Item not found"); // 404 NOT FOUND
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
+    }
+  
   @GetMapping("/{itemId}")
   @Operation(summary = "출품 상품 상세 보기")
   public ResponseEntity<?> getItemDetails(@PathVariable int itemId) {

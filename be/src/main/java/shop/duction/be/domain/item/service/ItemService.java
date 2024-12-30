@@ -1,6 +1,7 @@
 package shop.duction.be.domain.item.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.*;
 
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import shop.duction.be.domain.community.entity.Community;
+import shop.duction.be.domain.community.repository.CommunityRepository;
 import shop.duction.be.domain.bidding.entity.BiddedHistory;
 import shop.duction.be.domain.bidding.entity.BiddingHistory;
 import shop.duction.be.domain.bidding.entity.ExhibitHistory;
@@ -28,6 +31,8 @@ import shop.duction.be.domain.item.entity.ItemImage;
 import shop.duction.be.domain.item.entity.RareRating;
 import shop.duction.be.domain.item.entity.UserItemKey;
 import shop.duction.be.domain.item.enums.AuctionStatus;
+import shop.duction.be.domain.item.enums.ItemCondition;
+import shop.duction.be.domain.item.repository.ItemImageRepository;
 import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.domain.item.repository.RareRatingRepository;
 import shop.duction.be.domain.user.entity.User;
@@ -47,6 +52,8 @@ import shop.duction.be.utils.RareTierConverter;
 public class ItemService {
   private final ItemRepository itemRepository;
   private final FavoriteItemRepository favoriteItemRepository;
+  private final CommunityRepository communityRepository;
+  private final ItemImageRepository itemImageRepository;
   private final UserRepository userRepository;
   private final RareRatingRepository rareRatingRepository;
   private final BiddingHistoryRepository biddingHistoryRepository;
@@ -72,7 +79,7 @@ public class ItemService {
             item.getItemCondition(),
             item.getRareScore(),
             item.getStartPrice(),
-            item.getEndBidTime(),
+            item.getEndTime(),
             item.getImmediatePrice()
     );
 
@@ -87,7 +94,7 @@ public class ItemService {
     item.setItemCondition(dto.itemCondition());
     item.setRareScore(dto.rareScore());
     item.setStartPrice(dto.startPrice());
-    item.setEndBidTime(dto.endBidTime());
+    item.setEndBidTime(dto.endTime());
     item.setImmediatePrice(dto.immediatePrice());
 
     // 이미지 수정
@@ -171,6 +178,74 @@ public class ItemService {
     List<Integer> ids = items.stream().map(Item::getItemId).toList();
     return favoriteItemRepository.findeFavoriteItemsByUserAndItemIds(userId, ids);
   }
+
+  public Integer createItem(int userId, RegistItemRequestDTO dto) {
+    Community community = communityRepository.findById(dto.communityId()).get();
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ItemNotFoundException("User with ID " + userId + " not found"));
+
+    // 레어 등급 판정
+    RareTier rareTier = RareTierCheckUtils.rareCheck(dto.rareScore());
+
+    ItemCondition itemCondition = ItemCondition.fromString(dto.itemCondition());
+
+    // 출품 상품 등록
+    Item item = Item.builder()
+            .name(dto.name())
+            .startPrice(dto.startPrice())
+            .immediatePrice(dto.immediatePrice()) // null 가능
+            .endTime(dto.endTime())
+            .description(dto.description())
+            .auctionStatus(AuctionStatus.BIDDING_NOT)
+            .itemCondition(itemCondition)
+            .rareScore(dto.rareScore())
+            .rareTier(rareTier)
+            .isModified(false)
+            .isChecked(false)
+            .reportedCount(0)
+            .registTime(LocalDateTime.now())
+            .endBidTime(null)
+            .totalView(0)
+            .totalBidding(0)
+            .community(community)
+            .user(user)
+            .build();
+
+    Item savedItem = itemRepository.save(item);
+
+    // 상품 사진 추가
+    List<ItemImage> itemImages = new ArrayList<>();
+    if (dto.itemImages() != null && !dto.itemImages().isEmpty()) {
+      for (String imageUrl : dto.itemImages()) {
+        // 새 URL을 가진 ItemImage 객체 생성 및 저장
+        ItemImage newImage = ItemImage.builder()
+                .url(imageUrl)
+                .item(savedItem)
+                .build();
+        itemImages.add(newImage);
+
+        itemImageRepository.save(newImage);
+      }
+    }
+
+    savedItem.setItemImages(itemImages);
+    Item savedItem2 = itemRepository.save(savedItem);
+
+
+
+    // 최초 레어 등급 평가
+    UserItemKey userItemKey = new UserItemKey(user.getUserId(), savedItem2.getItemId());
+
+    RareRating rareRating = RareRating.builder()
+            .id(userItemKey)
+            .user(user)
+            .item(savedItem2)
+            .rareScore(dto.rareScore())
+            .build();
+    rareRatingRepository.save(rareRating);
+
+    return savedItem2.getItemId();
+}
 
   public ViewItemDetailsResponseDTO readItemDetails(int itemId) {
     Item item = itemRepository.findById(itemId)
