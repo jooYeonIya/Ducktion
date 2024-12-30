@@ -43,6 +43,7 @@ import shop.duction.be.domain.item.repository.FavoriteItemRepository;
 import shop.duction.be.utils.DateTimeUtils;
 import shop.duction.be.utils.ItemConditionConverter;
 import shop.duction.be.utils.RareTierCheck;
+import shop.duction.be.utils.RareTierCheckUtils;
 import shop.duction.be.utils.RareTierConverter;
 
 @Service
@@ -86,7 +87,7 @@ public class ItemService {
     return dto;
   }
 
-  public String updateItem(int itemId, ItemEditRequestDTO dto) {
+  public String updateItem(int itemId, EditItemRequestDTO dto) {
     Item item = itemRepository.findById(itemId)
             .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
     item.setName(dto.itemName());

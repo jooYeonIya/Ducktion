@@ -35,11 +35,11 @@ public class ItemController {
     } catch (IllegalArgumentException e) {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
     }
-  };
+  }
 
   @PutMapping("/editing/{itemId}")
   @Operation(summary = "상품 수정하기")
-  public ResponseEntity<String> putItemEdit(@PathVariable int itemId, @RequestBody ItemEditRequestDTO dto) {
+  public ResponseEntity<String> putItemEdit(@PathVariable int itemId, @RequestBody EditItemRequestDTO dto) {
     try {
       String result = itemService.updateItem(itemId, dto);
       return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
@@ -48,7 +48,7 @@ public class ItemController {
     } catch (IllegalArgumentException e) {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
     }
-  };
+  }
   
   @GetMapping("/closingsoon")
   @Operation(summary = "마감 임박 상품 보기")
@@ -69,10 +69,13 @@ public class ItemController {
       Integer result = itemService.createItem(userId, dto);
       return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
     } catch (ItemNotFoundException e) {
-      return ResponseEntity.status(HttpStatusConstants.NOT_FOUND).body("Item not found"); // 404 NOT FOUND
+      return ResponseEntity.status(HttpStatusConstants.NOT_FOUND)
+              .body("Item not found"); // 404 NOT FOUND
     } catch (IllegalArgumentException e) {
-      return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
+      return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST)
+              .body("Invalid input"); // 400 BAD REQUEST
     }
+  }
   
   @GetMapping("/{itemId}")
   @Operation(summary = "출품 상품 상세 보기")

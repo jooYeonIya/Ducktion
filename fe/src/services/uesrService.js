@@ -45,12 +45,14 @@ export async function deleteUser() {
 };
 
 // 프로필 사진 변경하기
-export async function putUserProfileImage(imageFile) {
+export async function putUserProfileImage(imageUrl) {
   try {
-    // const response = await api.put(`user/info/{user_id}/profile_image`);
-    // return response.data;
-    console.log(`putUserProfileImage imageFile : ${imageFile}`);
-    return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_8Rj-vULPVGhf-eQyiY5sG2dMcHFQzD6RrQ&s";
+    const response = await api.put(`user/info/image`,  {
+      profileImage: imageUrl
+    });
+    return response;
+    // console.log(`putUserProfileImage imageFile : ${imageFile}`);
+    // return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_8Rj-vULPVGhf-eQyiY5sG2dMcHFQzD6RrQ&s";
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;
