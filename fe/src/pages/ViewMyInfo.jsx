@@ -9,6 +9,7 @@ import PreTitleLabel from '../components/Labels/PreTitleLabel';
 import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
 import defaultProfileImage from '../assets/test_image.png';
 import ProfileImage from '../components/ProfileImage';
+import s3Upload from '../utils/S3Uploader';
 
 import '../styles/pages/ViewMyInfo.css';
 
@@ -53,20 +54,23 @@ const ViewMyInfo = () => {
         return;
       }
 
-      const files = Array.from(event.target.files);
-
-      console.log(files);
+      const file = event.target.files[0]; 
+      if (!file) {
+        console.log('파일이 선택되지 않았습니다.');
+        return;
+      }
 
       // 이미지 파일 필터링 (유효성 검사)
-      const validImages = files.filter((file) =>
-        validateImageFile(file, maxFileSize) // 유틸리티 함수 호출
-      );
+      const validImages = validateImageFile(file, maxFileSize); // 유틸리티 함수 호출
 
       // 유효한 이미지 파일의 URL 생성 및 상태 업데이트
       // 추후 S3에 업로드 된 이미지 
-      const newImageUrl = validImages.map((file) => URL.createObjectURL(file));
+      // const newImageUrl = validImages.map((file) => URL.createObjectURL(file));
+      const newImageUrl = await s3Upload(file);
 
-      const response = await putUserProfileImage(newImageUrl);
+      console.log( newImageUrl[0] );
+
+      const response = await putUserProfileImage(newImageUrl[0]);
 
       setProfileImage(response);
     } catch (error) {
@@ -184,7 +188,6 @@ const ViewMyInfo = () => {
           accept="image/*"
           ref={fileInputRef}
           onChange={handleChangeImage}
-          multiple
           style={{ display: 'none' }}
         />
       </div>

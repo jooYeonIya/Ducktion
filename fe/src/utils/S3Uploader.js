@@ -4,7 +4,10 @@ const s3Upload = async (files) => {
   try {
     const uploadedUrls = []; // 업로드된 이미지 URL을 저장할 배열
 
-    for (const file of files) {
+    // 단일 파일인 경우에도 배열로 변환
+    const fileArray = Array.isArray(files) ? files : [files];
+
+    for (const file of fileArray) {
       // 1. 백엔드에서 Pre-Signed URL 요청
       const response = await api.post(`s3/presigned-url`, {
         imageExtension: file.name.split(".").pop()

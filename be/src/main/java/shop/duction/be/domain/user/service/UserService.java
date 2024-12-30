@@ -16,6 +16,7 @@ import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.domain.user.dto.EditUserInfoRequestDto;
 import shop.duction.be.domain.user.dto.ExhibitorRatingRequestDto;
 import shop.duction.be.domain.user.dto.MyInfoResponseDto;
+import shop.duction.be.domain.user.dto.ProfileImageEditRequestDTO;
 import shop.duction.be.domain.user.entity.ExhibitorRating;
 import shop.duction.be.domain.user.entity.User;
 import shop.duction.be.domain.user.enums.IsActive;
@@ -124,5 +125,14 @@ public class UserService {
     Float rate = (sum) / (count);
     exhibitor.setRate(rate);
     userRepository.save(exhibitor);
+  }
+
+  public String updateUserProfileImage(Integer userId, ProfileImageEditRequestDTO dto) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    user.setProfileImage(dto.profileImage());
+
+    userRepository.save(user);
+    return "프로필 사진 수정 완료";
   }
 }
