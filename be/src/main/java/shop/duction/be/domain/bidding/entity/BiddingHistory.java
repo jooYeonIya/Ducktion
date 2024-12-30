@@ -12,6 +12,7 @@ import shop.duction.be.domain.user.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class BiddingHistory {
 
     @Id
@@ -36,9 +37,6 @@ public class BiddingHistory {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
     private BiddedHistory biddedHistory;
-
-
-
 }

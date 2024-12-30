@@ -8,15 +8,15 @@ const PriceSummary = ({ startingBid, nowPrice, immediateBid }) => {
     <div className="price-summary">
       <div className={"price-item"}>
         <PreCaptionLabel text={"시작가"} style={{paddingBottom: "4px"}}/>
-        <PreSubTitleLabel text={`${startingBid.toLocaleString()} 비드`} style={{fontWeight: "bold"}} />
+        <PreSubTitleLabel text={startingBid ? `${startingBid.toLocaleString()} 비드` : "-"} style={{fontWeight: "bold"}} />
       </div>
       <div className={'price-item price-item-withBorder'}>
         <PreCaptionLabel text={"현재 입찰가"} style={{paddingBottom: "4px"}}/>
-        <PreSubTitleLabel text={`${nowPrice.toLocaleString()} 비드`} style={{fontWeight: "bold"}}/>
+        <PreSubTitleLabel text={nowPrice ? `${nowPrice.toLocaleString()} 비드` : "-"} style={{fontWeight: "bold"}}/>
       </div>
       <div className={"price-item"}>
         <PreCaptionLabel text={"즉시 낙찰가"} style={{paddingBottom: "4px"}}/>
-        <PreSubTitleLabel text={`${immediateBid.toLocaleString()} 비드`} style={{fontWeight: "bold"}}/>
+        <PreSubTitleLabel text={immediateBid ? `${immediateBid.toLocaleString()} 비드` : "-"} style={{fontWeight: "bold"}}/>
       </div>
     </div>
   );

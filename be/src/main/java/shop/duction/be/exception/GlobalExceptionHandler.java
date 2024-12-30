@@ -23,4 +23,9 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(500)
             .body("An unexpected error occurred: " + ex.getMessage());
   }
+
+  @ExceptionHandler(IllegalStateException.class)
+  public ResponseEntity<String> handleIllegalStateException(IllegalStateException ex) {
+    return ResponseEntity.badRequest().body(ex.getMessage());
+  }
 }

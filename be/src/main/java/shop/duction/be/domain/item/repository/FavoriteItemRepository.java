@@ -16,4 +16,5 @@ public interface FavoriteItemRepository extends JpaRepository<FavoriteItem, User
         """)
   List<Integer> findeFavoriteItemsByUserAndItemIds(@Param("userId") Integer userId, @Param("itemIds") List<Integer> itemIds);
   void deleteById(UserItemKey id);
+  List<FavoriteItem> findById_UserId(Integer userId);
 }

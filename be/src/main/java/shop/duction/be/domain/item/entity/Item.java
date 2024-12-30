@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.*;
 import shop.duction.be.domain.admin.entity.ItemDeleteRequest;
+import shop.duction.be.domain.bidding.entity.BiddedHistory;
 import shop.duction.be.domain.bidding.entity.BiddingHistory;
 import shop.duction.be.domain.bidding.entity.ExhibitHistory;
 import shop.duction.be.domain.community.entity.Community;
@@ -102,6 +103,9 @@ public class Item {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BiddingHistory> biddingHistories;
+
+    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private BiddedHistory biddedHistory;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteItem> favoriteItems;
