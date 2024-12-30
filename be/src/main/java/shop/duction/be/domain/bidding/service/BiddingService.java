@@ -77,4 +77,33 @@ public class BiddingService {
 
     return "Bid create successful";
   }
+
+  public String biddingGiveup(int itemId, int userId) {
+    Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + itemId + " not found"));
+
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ItemNotFoundException("User with ID " + userId + " not found"));
+
+    BiddingHistory finalBid = biddingHistoryRepository.findHighestBidByUserIdAndItemId(itemId, userId)
+            .orElseThrow(() -> new ItemNotFoundException("BiddingHistory with userID, itemID " + userId + itemId + " not found"));
+
+
+    // 내 입찰가가 최고 입찰가일 경우 불가능
+    Integer nowPrice = item.getNowPrice();     // 현재가 (nullable)
+    int finalBidPrice = finalBid.getPrice();
+
+    if (nowPrice != null && finalBidPrice == nowPrice) {
+      throw new IllegalArgumentException("Invalid Request: You cannot cancel the bid if it is the highest bid.");
+    }
+
+    // 입찰 이력 취소 후 사용 가능 비드 복구
+    finalBid.setStatus(BiddingStatus.BIDDING_GIVE_UP);
+    biddingHistoryRepository.save(finalBid);
+
+    user.setUsableBid(user.getUsableBid() + finalBidPrice);
+    userRepository.save(user);
+
+    return "Bidding give up successful";
+  }
 }
