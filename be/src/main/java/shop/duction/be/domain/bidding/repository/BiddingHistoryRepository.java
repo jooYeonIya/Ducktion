@@ -1,5 +1,6 @@
 package shop.duction.be.domain.bidding.repository;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +29,10 @@ public interface BiddingHistoryRepository extends JpaRepository<BiddingHistory, 
   );
 
   List<BiddingHistory> findByItem_ItemId(Integer itemId);
+
+  @Query(value = "SELECT * FROM bidding_history bh " +
+          "WHERE bh.user_id = :userId AND bh.item_id = :itemId " +
+          "ORDER BY bh.price DESC " +
+          "LIMIT 1", nativeQuery = true)
+  Optional<BiddingHistory> findHighestBidByUserIdAndItemId(@Param("userId") Integer userId, @Param("itemId") Integer itemId);
 }

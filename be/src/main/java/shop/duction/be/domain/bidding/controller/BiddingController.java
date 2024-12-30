@@ -34,4 +34,30 @@ public class BiddingController {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
     }
   };
+
+  @PutMapping("/{itemId}/giveup")
+  @Operation(summary = "입찰 포기")
+  public ResponseEntity<?> putBiddingGiveup(@PathVariable int itemId) {
+    try {
+      String result = biddingService.biddingGiveup(itemId, userId);
+      return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
+    } catch (ItemNotFoundException e) {
+      return ResponseEntity.status(HttpStatusConstants.NOT_FOUND).body("Item not found"); // 404 NOT FOUND
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid Request: You cannot cancel the bid if it is the highest bid."); // 400 BAD REQUEST
+    }
+  };
+
+  @PostMapping("/{itemId}/immediatebidding")
+  @Operation(summary = "즉시 낙찰")
+  public ResponseEntity<?> postImmediateBidding(@PathVariable int itemId) {
+    try {
+      String result = biddingService.immediateBidding(itemId, userId);
+      return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
+    } catch (ItemNotFoundException e) {
+      return ResponseEntity.status(HttpStatusConstants.NOT_FOUND).body("Item not found"); // 404 NOT FOUND
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST).body("Invalid input"); // 400 BAD REQUEST
+    }
+  };
 }

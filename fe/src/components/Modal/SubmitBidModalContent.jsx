@@ -10,7 +10,7 @@ import '@styles/components/modal/BidPointModalContent.css'
 import { postBidding } from '../../services/itemService';
 
 export default function SubmitBidModalContent({ probs, onClose }) {
-  const { itemId, itemName, startingBid, nowPrice, immediateBid } = probs
+  const { itemId, itemName, startingPrice, nowPrice, immediatePrice } = probs
   const [currentBidPoint, setCurrentBidPoint] = useState(0);
   const [usableBid, setUsableBid] = useState(0);
 
@@ -24,7 +24,7 @@ export default function SubmitBidModalContent({ probs, onClose }) {
   };
 
   const getMinBidPoint = () => {
-    const baseBidPoint = nowPrice || startingBid;
+    const baseBidPoint = nowPrice || startingPrice;
     const plusBidPoint = getBidIncrement(baseBidPoint);
     return baseBidPoint + plusBidPoint;
   }
@@ -48,7 +48,7 @@ export default function SubmitBidModalContent({ probs, onClose }) {
   };
 
   const handleSubmit = async () => {
-    if (immediateBid && currentBidPoint > immediateBid) {
+    if (immediatePrice && currentBidPoint > immediatePrice) {
       alert(`입찰가는 즉시 낙찰가를 초과할 수 없습니다.`);
       return;
     }
@@ -85,7 +85,7 @@ export default function SubmitBidModalContent({ probs, onClose }) {
       </div>
 
       <div className='submit_modal_price'>
-        <PriceSummary startingBid={startingBid} nowPrice={nowPrice} immediateBid={immediateBid} />
+        <PriceSummary startingBid={startingPrice} nowPrice={nowPrice} immediateBid={immediatePrice} />
         <PreCaptionLabel text={"*즉시 낙찰가를 초과하는 입찰은 불가합니다."} style={{ color: "#bebebe" }} />
       </div>
       
