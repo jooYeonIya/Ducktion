@@ -116,14 +116,18 @@ export async function putReport(itemId) {
 }
 
 // 입찰 포기
-export async function putBiddingGiveup(dto) {
+export async function putBiddingGiveup(itemId) {
   try {
-    // const response = await api.put(`items/bidding_giveup`, dto);
-    const response = {
-      ok: "ok",
-    }
-    if (response.ok) {
+    const response = await api.put(`items/${itemId}/giveup`);
+    // const response = {
+    //   ok: "ok",
+    // }
+    if (response.status === 200) {
       alert("입찰이 포기되었습니다.");
+    } else if (response.status === 404) {
+      alert("아이템을 찾을 수 없습니다.");
+    } else if (response.status === 400) {
+      alert("잘못된 입력입니다.");
     } else {
       alert("입찰 포기에 실패했습니다.");
     }
