@@ -17,11 +17,12 @@ import '@styles/pages/ViewMypage.css'
 import PreTextLabel from "../components/Labels/PreTextLabel";
 
 export default function ViewMypage() {
-  const [biddedSortOptions, setBiddedSortOptions] = useState([
+  const [exhibitSortOptions, setExhibitSortOptions] = useState([
     { value: "all", title: "전체", count: 0 },
-    { value: "bidding", title: "입찰중", count: 0 },
+    { value: "biddingUnder", title: "입찰중", count: 0 },
     { value: "bidded", title: "낙찰", count: 0 },
-    { value: "biddedCancel", title: "유찰", count: 0 },
+    { value: "biddedNot", title: "유찰", count: 0 },
+    { value: "biddedCancel", title: "낙찰 취소", count: 0 },
   ]);
 
   const [biddingSortOptions, setBiddingSortOptions] = useState([
@@ -45,10 +46,10 @@ export default function ViewMypage() {
       setUserInfo(userInfo);
 
       const count = await getHistoriesCount();
-      setBiddedSortOptions((prevOptions) =>
+      setExhibitSortOptions((prevOptions) =>
         prevOptions.map((option) => ({
           ...option,
-          count: count.bidded[option.value] ?? 0,
+          count: count.exhibit[option.value] ?? 0,
         }))
       );
       setBiddingSortOptions((prevOptions) =>
@@ -77,7 +78,7 @@ export default function ViewMypage() {
   }
 
   const navigateBiddedHistoryList = (option) => {
-    navigate('/viewBiddedHistoryList', { state: { sortType: option } })
+    navigate('/viewExhibitHistoryList', { state: { sortType: option } })
   }
 
   const navigateBiddingHistoryList = (option) => {
@@ -150,7 +151,7 @@ export default function ViewMypage() {
         <div className='biddedItem_container_title'>
           <GodoTitleLabel text={"출품 이력"} />
         </div>
-        <Historybox items={biddedSortOptions} onClick={navigateBiddedHistoryList} />
+        <Historybox items={exhibitSortOptions} onClick={navigateBiddedHistoryList} />
       </div>
 
       {/* 관심 상품 */}

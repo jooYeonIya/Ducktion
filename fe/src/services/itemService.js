@@ -26,25 +26,8 @@ export async function getMastersCollectorsRare() {
 // 출품 상품 목록
 export async function getItemsByCommunityId(acutionItemsRequest) {
   try {
-    // const response = await api.get("items/auction", {
-    //   params: acutionItemsRequest,
-    // });
-    // return response.data;
-    const data = [];
-    for (let i = 0; i < 10; i++) {
-      data.push({
-        communityId: i,
-        image: "/src/assets/test_image.png",
-        favorited: i % 2 == 0,
-        name: "아 갑자기 스타벅스 마시고 싶어졌어!",
-        priceInfo: { price: i * 10000, type: "" },
-        additionalInfo: { bids: i, days: i },
-        overlayText: i % 2 == 0 ? "판매 완료" : "",
-        itemId: "item item item"
-      });
-    }
-    return data;
-
+    const response = await api.post("items/auction", acutionItemsRequest);
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;
@@ -277,42 +260,8 @@ export async function getItemSearchResults(searchText) {
 // 입찰 이력 페이지
 export async function getBiddingHistory(biddingHistoryRequest) {
   try {
-    // const response = await api.get("/items/biddinghistory, biddingHistoryRequest");
-    // return response.data;
-    const data = [];
-    for (let i = 0; i < 10; i++) {
-      data.push({
-        info: {
-          communityId: 1,
-          image: "/src/assets/test_image.png",
-          favorited: true,
-          name: "1 검색어 상품",
-          biddingCount: "1111",
-          rareTier: "레어",
-          itemId: `item id ${i}`,
-          userId: "출품자 id"
-        },
-        histories: [
-          {
-            date: "4444년 44월 23일",
-            price: "10000"
-          },
-          {
-            date: "1111년 22월 33일",
-            price: "120000"
-          },
-          {
-            date: "1111년 22월 33일",
-            price: "120000"
-          },
-          {
-            date: "1111년 22월 33일",
-            price: "120000"
-          }
-        ]
-      });
-    }
-    return data;
+    const response = await api.post("items/histories/bidding", biddingHistoryRequest);
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;
@@ -320,24 +269,10 @@ export async function getBiddingHistory(biddingHistoryRequest) {
 }
 
 // 출품 이력 페이지
-export async function getBiddedHistory(biddedHistoryRequest) {
+export async function getExhibitHistory(exhibitHistoryRequest) {
   try {
-    // const response = await api.get("items/biddedhistory", biddedHistoryRequest);
-    // return response.data;
-    const data = [];
-    for (let i = 0; i < 10; i++) {
-      data.push({
-        communityId: i,
-        image: "/src/assets/test_image.png",
-        favorited: i % 2 == 0,
-        name: `${biddedHistoryRequest.sortType} ${biddedHistoryRequest.date.year} 상품`,
-        priceInfo: { price: i * 10000, type: "" },
-        additionalInfo: "출품 일시: 오늘인지 어제인지 생각 안남",
-        overlayText: false,
-        itemId: `${i} item id`
-      });
-    }
-    return data;
+    const response = await api.post("items/histories/exhibit", exhibitHistoryRequest);
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;
@@ -347,22 +282,8 @@ export async function getBiddedHistory(biddedHistoryRequest) {
 // 관심 상품 페이지
 export async function getFavoriteItems() {
   try {
-    // const response = await axios.get(`http://localhost:8080/api/items/favorite/${user_id}`);
-    // return response.data;
-    const data = [];
-    for (let i = 0; i < 20; i++) {
-      data.push({
-        communityId: i,
-        image: "/src/assets/test_image.png",
-        favorited: true,
-        name: `관심이 있어!!`,
-        priceInfo: { price: i * 10000, type: "" },
-        additionalInfo: null,
-        overlayText: false,
-        itemId: "ffffff"
-      });
-    }
-    return data;
+    const response = await api.get('items/favorites/histories');
+    return response.data;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;
@@ -372,22 +293,8 @@ export async function getFavoriteItems() {
 // 입찰 이력, 출품 이력 횟수 불러오기 
 export async function getHistoriesCount() {
   try {
-    // const response = await api.get(`/api/histories/count/${user_id}`);
-    // return response.data;
-    const data = {
-      bidded: {
-        all: 100,
-        bidding: 10,
-        bidded: 20,
-        biddedCancel: 70,
-      },
-      bidding: {
-        all: 200,
-        bidding: 20,
-        bidded: 30,
-        biddedFail: 150,
-      }
-    }
+    const response = await api.get('/items/histories/count');
+    return response.data;
     return data;
   } catch (error) {
     console.error("Error fetching:", error);

@@ -12,10 +12,9 @@ import shop.duction.be.domain.bidpoint.enums.BidPointType;
 import shop.duction.be.domain.bidpoint.repository.BidHistoryRepository;
 import shop.duction.be.domain.user.entity.User;
 import shop.duction.be.domain.user.repository.UserRepository;
-import shop.duction.be.utils.DateTimeFormatterUtil;
+import shop.duction.be.utils.DateTimeUtils;
 
 import java.time.LocalDateTime;
-import java.util.EnumSet;
 import java.util.List;
 
 @Service
@@ -31,11 +30,8 @@ public class BidPointService {
   }
 
   public List<BidPointHistoriesResponseDto> getBidPointHistories(BidPointHistoriesRequestDto request, Integer userId) {
-    LocalDateTime startDay = LocalDateTime.of(
-            Integer.parseInt(request.getYear()),
-            Integer.parseInt(request.getMonth()),
-            1, 0, 0);
-    LocalDateTime endDay = startDay.withDayOfMonth(startDay.toLocalDate().lengthOfMonth()).withHour(23).withMinute(59);
+    LocalDateTime startDay = DateTimeUtils.getStartOfMonth(request.getYear(), request.getMonth());
+    LocalDateTime endDay = DateTimeUtils.getEndOfMonth(request.getYear(), request.getMonth());
 
     List<String> types = switch (request.getSortType()) {
       case "ALL" -> BidPointHistoriesSortType.ALL.getBidPointHistoriesString();
@@ -47,8 +43,8 @@ public class BidPointService {
     List<BidHistory> histories = bidHistoryRepository.findBidHistoriesByTypesAndDate(userId, startDay, endDay, types);
     return histories.stream().map(history ->
             new BidPointHistoriesResponseDto(
-                    DateTimeFormatterUtil.dateTimeFormatter.format(history.getTransactionTime().toLocalDate()),
-                    DateTimeFormatterUtil.timeFormatter.format(history.getTransactionTime().toLocalTime()),
+                    DateTimeUtils.dateTimeFormatter.format(history.getTransactionTime().toLocalDate()),
+                    DateTimeUtils.timeFormatter.format(history.getTransactionTime().toLocalTime()),
                     BidPointType.getDefaultNameBasedOnType(history.getType()),
                     history.getBidAmount(),
                     history.getBiddedHistory() != null && history.getBiddedHistory().getItem() != null
