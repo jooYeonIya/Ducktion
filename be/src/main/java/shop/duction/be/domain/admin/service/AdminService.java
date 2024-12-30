@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.duction.be.domain.admin.dto.CreateCommunityResponseDto;
-import shop.duction.be.domain.admin.dto.DeleteItemResponseDto;
-import shop.duction.be.domain.admin.dto.ReportInfoResponseDto;
-import shop.duction.be.domain.admin.dto.ValidateItemInfoResponseDto;
+import shop.duction.be.domain.admin.dto.*;
 import shop.duction.be.domain.admin.entity.CommunityCreateRequest;
 import shop.duction.be.domain.admin.entity.ItemDeleteRequest;
 import shop.duction.be.domain.admin.repository.CommunityCreateRequestRepository;
@@ -18,6 +15,8 @@ import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.utils.DateTimeUtils;
 import shop.duction.be.utils.InitialExtractor;
+import shop.duction.be.utils.email.EamilMessageInfo;
+import shop.duction.be.utils.email.SendEamilMessage;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,12 +30,15 @@ public class AdminService {
   private final ItemRepository itemRepository;
   private final CommunityRepository communityRepository;
 
+  private final SendEamilMessage sendEamilMessage;
+
   public List<CreateCommunityResponseDto> getCreateCommunityData() {
     List<CommunityCreateRequest> all = communityCreateRequestRepository.findAll();
 
     return all.stream().map(request -> {
       return new CreateCommunityResponseDto(
               request.getUser().getNickname(),
+              request.getUser().getEmail(),
               request.getRequestId(),
               request.getName(),
               request.getRequestReason(),
@@ -52,6 +54,15 @@ public class AdminService {
     Community save = communityRepository.save(community);
     communityCreateRequestRepository.deleteById(requestId);
     return save != null ? ResponseEntity.ok("커뮤니티 개설 완료") : ResponseEntity.notFound().build();
+  }
+
+  public ResponseEntity<String> postRejectCommunity(RejectCommunityRequest request) {
+    String rejectSubject = SendEamilMessage.createRejectSubject(request.getTitle());
+    String rejectBody = SendEamilMessage.createRejectBody(request.getTitle(), request.getRejectReason());
+    EamilMessageInfo eamilMessageInfo = new EamilMessageInfo(request.getEmail(), rejectSubject, rejectBody);
+    sendEamilMessage.sendMail(eamilMessageInfo);
+    communityCreateRequestRepository.deleteById(request.getRequestId());
+    return ResponseEntity.ok("커뮤니티 요청 반려 완료");
   }
 
   public List<DeleteItemResponseDto> getDeleteItemData() {

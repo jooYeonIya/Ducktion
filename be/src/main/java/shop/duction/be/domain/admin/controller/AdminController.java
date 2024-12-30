@@ -3,10 +3,7 @@ package shop.duction.be.domain.admin.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import shop.duction.be.domain.admin.dto.CreateCommunityResponseDto;
-import shop.duction.be.domain.admin.dto.DeleteItemResponseDto;
-import shop.duction.be.domain.admin.dto.ReportInfoResponseDto;
-import shop.duction.be.domain.admin.dto.ValidateItemInfoResponseDto;
+import shop.duction.be.domain.admin.dto.*;
 import shop.duction.be.domain.admin.service.AdminService;
 
 import java.util.List;
@@ -29,6 +26,12 @@ public class AdminController {
           @PathVariable("requestId") Integer requestId) {
     return adminService.createCommunity(communityName, requestId);
   }
+
+  @PostMapping("/request/reject/community")
+  public ResponseEntity<String> postRejectCommunity(@RequestBody RejectCommunityRequest request) {
+    return adminService.postRejectCommunity(request);
+  }
+
 
   @GetMapping("/request/delete/item")
   public List<DeleteItemResponseDto> getDeleteItemData() {

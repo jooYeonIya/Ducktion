@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCommunityResponseDto {
-  private String nickname;
-  private String email;
+public class RejectCommunityRequest {
   private Integer requestId;
   private String title;
-  private String requestReason;
-  private String requestTime;
+  private String rejectReason;
+  private String email;
 }

@@ -18,6 +18,15 @@ export async function createCommunity(communityName, requestId) {
   }
 }
 
+export async function postRejectCommunity(request) {
+  try {
+    const response = await api.post("admin/request/reject/community", request);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+
 export async function getDeleteItemData() {
   try {
     const response = await api.get("admin/request/delete/item");

@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { createCommunity, deleteItem } from "../services/adminService";
+import { createCommunity, deleteItem, postRejectCommunity } from "../services/adminService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel";
 import RectangleButton from '../components/Button/RectangleButton'
@@ -9,7 +9,10 @@ function ViewAdminDetailPage() {
   const type = location.state.type;
   const data = location.state.data;
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
+    if (type === "개설 요청") {
+      await handleSendMail();
+    }
 
   }
 
@@ -25,6 +28,26 @@ function ViewAdminDetailPage() {
       window.history.back();
     }
   }
+
+  const handleSendMail = async () => {
+    const rejectReasonTextField = prompt("반려 사유를 입력해주세요:", ""); 
+
+    if (rejectReasonTextField !== null && rejectReasonTextField.trim() !== "") {
+      const request = {
+        requestId: data.requestId,
+        title: data.title,
+        rejectReason: rejectReasonTextField,
+        email: data.email
+      }
+
+      const message = await postRejectCommunity(request);
+      alert(message)      
+      window.history.back();
+    
+    } else if (rejectReasonTextField !== null) {
+      alert("거절 사유를 작성해 주세요");
+    }
+  };
 
   return (
     <div>
