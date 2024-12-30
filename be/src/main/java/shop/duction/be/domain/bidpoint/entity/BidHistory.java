@@ -39,7 +39,7 @@ public class BidHistory {
     private BiddedHistory biddedHistory; // 낙찰 ID
 
     // 복합키 관계로 ExhibitHistory 참조
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false),
             @JoinColumn(name = "item_id", referencedColumnName = "item_id", insertable = false, updatable = false)

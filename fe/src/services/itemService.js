@@ -134,15 +134,19 @@ export async function putBiddingGiveup(dto) {
 }
 
 // 입찰
-export async function postBidding(bidRequest) {
+export async function postBidding(itemId, bidRequest) {
   try {
-    // const response = await api.post(`items/bidding`, bidRequest);
-    const response = {
-      ok: "ok",
-    }
+    const response = await api.post(`items/${itemId}/bidding`, bidRequest);
+    // const response = {
+    //   ok: "ok",
+    // }
 
-    if (response.ok) {
-      alert("입찰되었습니다.");
+    if (response.status === 200) {
+      alert(`${bidRequest.price} 비드로 입찰이 완료되었습니다.`);
+    } else if (response.status === 404) {
+      alert("아이템을 찾을 수 없습니다.");
+    } else if (response.status === 400) {
+      alert("잘못된 입력입니다.");
     } else {
       alert("입찰에 실패했습니다.");
     }
