@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.duction.be.domain.user.dto.ExhibitorRatingRequestDto;
+import shop.duction.be.domain.user.dto.MyInfoResponseDto;
 import shop.duction.be.domain.user.entity.ExhibitorRating;
 import shop.duction.be.domain.user.entity.User;
 import shop.duction.be.domain.user.repository.ExhibitorRatingRepository;
@@ -15,6 +16,20 @@ import shop.duction.be.domain.user.repository.UserRepository;
 public class UserService {
   private final UserRepository userRepository;
   private final ExhibitorRatingRepository exhibitorRatingRepository;
+
+  public MyInfoResponseDto getMyInfo(Integer userId) {
+    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    return new MyInfoResponseDto(
+            user.getNickname(),
+            user.getEmail(),
+            user.getRate(),
+            user.getHeldBid(),
+            user.getUsableBid(),
+            user.getProfileImage(),
+            user.getPhone(),
+            user.getAddress()
+    );
+  }
 
   public void postRatingExhibitor(ExhibitorRatingRequestDto request, Integer userId) {
 
