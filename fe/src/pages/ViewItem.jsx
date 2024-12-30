@@ -195,12 +195,8 @@ const ViewItem = () => {
     }
 
     try {
-      const biddingGiveupRequest = {
-        userId: data.userId,
-        itemId: data.itemId
-      };
 
-      const response = await postImmediateBidding(biddingGiveupRequest); // API 요청
+      const response = await postImmediateBidding(data.itemId); // API 요청
       console.log("서버 응답:", response); // 응답 데이터 확인
     } catch (error) {
       console.error("입찰 포기 중 오류 발생:", error);
