@@ -9,12 +9,22 @@ import shop.duction.be.domain.admin.entity.CommunityCreateRequest;
 import shop.duction.be.domain.admin.entity.ItemDeleteRequest;
 import shop.duction.be.domain.admin.repository.CommunityCreateRequestRepository;
 import shop.duction.be.domain.admin.repository.ItemDeleteRequestRepository;
+import shop.duction.be.domain.bidpoint.entity.BidHistory;
+import shop.duction.be.domain.bidpoint.enums.BidPointType;
+import shop.duction.be.domain.bidpoint.repository.BidHistoryRepository;
 import shop.duction.be.domain.community.entity.Community;
 import shop.duction.be.domain.community.repository.CommunityRepository;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.enums.AuctionStatus;
 import shop.duction.be.domain.item.repository.ItemRepository;
 import shop.duction.be.domain.item.service.ItemService;
+import shop.duction.be.domain.ship.dto.ShipRequestDto;
+import shop.duction.be.domain.ship.entity.BidderShip;
+import shop.duction.be.domain.ship.entity.ExhibitorShip;
+import shop.duction.be.domain.ship.enums.DeliveryId;
+import shop.duction.be.domain.ship.repository.BidderShipRepository;
+import shop.duction.be.domain.user.entity.User;
+import shop.duction.be.domain.user.repository.UserRepository;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.utils.DateTimeUtils;
 import shop.duction.be.utils.InitialExtractor;
@@ -32,6 +42,9 @@ public class AdminService {
   private final ItemDeleteRequestRepository itemDeleteRequestRepository;
   private final ItemRepository itemRepository;
   private final CommunityRepository communityRepository;
+  private final UserRepository userRepository;
+  private final BidderShipRepository bidderShipRepository;
+  private final BidHistoryRepository bidHistoryRepository;
 
   private final ItemService itemService;
 
@@ -152,6 +165,7 @@ public class AdminService {
     return ResponseEntity.ok("신고 상품 반려 완료");
   }
 
+  // 검수 관련
   public List<ValidateItemInfoResponseDto> getValidateItemData() {
     List<Item> items = itemRepository.findCheckedItems();
     return items.stream().map(item -> {
@@ -160,5 +174,45 @@ public class AdminService {
               item.getName(),
               DateTimeUtils.yearDateTimeFormatter.format(item.getEndBidTime()));
     }).toList();
+  }
+
+  public ResponseEntity<String> validateItemOk(ShipRequestDto request, Integer userId) {
+    // 경매 완료로 상태 변환 & 검수 완료 변환
+    Item item = itemRepository.findById(request.getItemId())
+            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + request.getItemId() + " not found"));
+    item.setAuctionStatus(AuctionStatus.AUCTION_COMPLETE);
+    item.setIsChecked(true);
+
+    Integer price = item.getBiddedHistory().getPrice();
+
+    // 출품자 보유 비드 + 낙찰 비드
+    User exhibitor = userRepository.findById(item.getUser().getUserId())
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    exhibitor.setHeldBid(exhibitor.getHeldBid() + price);
+
+    BidHistory exhibitorBidHistory = BidHistory.create(price, BidPointType.EARNING_BID, exhibitor, item.getBiddedHistory(), item.getExhibitHistory());
+
+    // 낙찰자 보유 비드 - 낙찰 비드
+    User bidder = userRepository.findById(item.getBiddedHistory().getUser().getUserId())
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    bidder.setHeldBid(bidder.getHeldBid() + price);
+
+    BidHistory bidderBidHistory = BidHistory.create(price, BidPointType.BIDDED, bidder, item.getBiddedHistory(), item.getExhibitHistory());
+
+    // 배송 번호 등록
+    BidderShip bidderShip = new BidderShip();
+    DeliveryId deliveryId = DeliveryId.valueOf(request.getDeliveryId());
+    bidderShip.setDeliveryId(deliveryId);
+    bidderShip.setPostNumber(request.getPostNumber());
+    bidderShip.setUser(bidder);
+    bidderShip.setItem(item);
+
+    bidderShipRepository.save(bidderShip);
+    bidHistoryRepository.save(exhibitorBidHistory);
+    bidHistoryRepository.save(bidderBidHistory);
+    userRepository.save(bidder);
+    userRepository.save(exhibitor);
+    itemRepository.save(item);
+    return ResponseEntity.ok("배송 번호 입력 완료");
   }
 }

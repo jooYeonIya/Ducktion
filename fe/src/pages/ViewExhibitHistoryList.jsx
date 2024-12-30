@@ -67,7 +67,7 @@ export default function ViewExhibitHistoryList() {
   }
 
   const openInvoiceModal = (itemId) => {
-    openModal(<InputInvoiceModalContent itemId={itemId} onClose={closeModal} />);
+    openModal(<InputInvoiceModalContent itemId={itemId} onClose={closeModal} role={"USER"}/>);
   };
 
   useEffect(() => {

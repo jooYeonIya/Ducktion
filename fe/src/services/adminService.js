@@ -84,6 +84,7 @@ export async function cancelReport(itemId) {
   }
 }
 
+// 반려
 export async function getValidateItemData() {
   try {
     const response = await api.get("admin/validate/item");
@@ -92,3 +93,13 @@ export async function getValidateItemData() {
     console.error("Error fetching:", error);
   }
 }
+
+export async function validateItemOk(shipRequest) {
+  try {
+    const response = await api.post("admin/validate/item/Ok", shipRequest);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+  }
+}
+

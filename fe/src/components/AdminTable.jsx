@@ -1,11 +1,15 @@
 import { useMemo } from "react";
 import { useTable } from "react-table";
 import { useNavigate } from "react-router-dom";
+import { useModal } from '../hooks/useModal'
 import { submitReport, cancelReport } from "../services/adminService";
 import RectangleButton from "../components/Button/RectangleButton";
+import InputInvoiceModalContent from '../components/Modal/InputInvoiceModalContent'
+import CustomModal from '../components/Modal/CustomModal'
 
 export default function AdminTable({ type, data }) {
   const navigate = useNavigate();
+  const { isModalOpen, modalContent, openModal, closeModal } = useModal();
 
   const handleNavigate = (original) => {
     if (type === "개설 요청" || type === "삭제 요청") {
@@ -39,6 +43,11 @@ export default function AdminTable({ type, data }) {
     }
   }
 
+  const openInvoiceModal = (event, original) => {
+    event.stopPropagation();
+    openModal(<InputInvoiceModalContent itemId={original.itemId} onClose={closeModal} role="ADMIN"/>);
+  };
+
   const columns = useMemo(() => {
     const commonColumns = [
       {
@@ -58,7 +67,7 @@ export default function AdminTable({ type, data }) {
             accessor: "action",
             Cell: ({ row }) => (
               <div className="button-action">
-                <RectangleButton text="반려" onClick={(e) => handelReportCancel(e, row.original)}/>
+                <RectangleButton text="반려" onClick={(e) => handelReportCancel(e, row.original)} />
                 <RectangleButton text="승인" onClick={(e) => handleReportSubmit(e, row.original)} />
               </div>
             ),
@@ -67,25 +76,15 @@ export default function AdminTable({ type, data }) {
       case "검수":
         return [
           ...commonColumns,
-          {
-            Header: "상품명",
-            accessor: "itemName",
-            Cell: ({ row }) => (
-              <span
-                style={{ cursor: "pointer", color: "black" }}
-              >
-                {row.original.itemName}
-              </span>
-            ),
-          },
+          { Header: "상품명", accessor: "itemName" },
           { Header: "낙찰일", accessor: "bidEndTime" },
           {
             Header: "작업",
             accessor: "action",
-            Cell: () => (
+            Cell: ({ row }) => (
               <div className="button-action">
                 <RectangleButton text="반려" />
-                <RectangleButton text="검수완료" />
+                <RectangleButton text="검수완료" onClick={(e) => openInvoiceModal(e, row.original)} />
               </div>
             ),
           },
@@ -109,31 +108,35 @@ export default function AdminTable({ type, data }) {
   } = useTable({ columns, data });
 
   return (
-    <table {...getTableProps()} className="admin-table">
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}
-              style={{ cursor: "pointer" }}
-              onClick={() => handleNavigate(row.original)}
-            >
-              {row.cells.map((cell) => (
-                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+    <>
+      <CustomModal isOpen={isModalOpen} onClose={closeModal} content={modalContent} />
+
+      <table {...getTableProps()} className="admin-table">
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
               ))}
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}
+                style={{ cursor: "pointer" }}
+                onClick={() => handleNavigate(row.original)}
+              >
+                {row.cells.map((cell) => (
+                  <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 }

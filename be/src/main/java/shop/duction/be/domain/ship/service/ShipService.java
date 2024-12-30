@@ -1,13 +1,12 @@
 package shop.duction.be.domain.ship.service;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.repository.ItemRepository;
-import shop.duction.be.domain.ship.dto.ExhibitorShipInfoRequestDto;
+import shop.duction.be.domain.ship.dto.ShipRequestDto;
 import shop.duction.be.domain.ship.dto.ShipInfoResponseDto;
 import shop.duction.be.domain.ship.entity.BidderShip;
 import shop.duction.be.domain.ship.entity.ExhibitorShip;
@@ -17,8 +16,6 @@ import shop.duction.be.domain.ship.repository.ExhibitorShipRepository;
 import shop.duction.be.domain.user.entity.User;
 import shop.duction.be.domain.user.repository.UserRepository;
 import shop.duction.be.utils.DateTimeUtils;
-
-import java.time.temporal.ChronoUnit;
 
 @Service
 @Transactional
@@ -48,7 +45,7 @@ public class ShipService {
             .orElseThrow(() -> new IllegalArgumentException("아이템을 찾을 수 없습니다."));
   }
 
-  public ResponseEntity<String> postExhibitorShipInvoice(ExhibitorShipInfoRequestDto request, Integer userId) {
+  public ResponseEntity<String> postExhibitorShipInvoice(ShipRequestDto request, Integer userId) {
     int existingShipInfo = exhibitorShipRepository.countByUserIdAndItemId(userId, request.getItemId());
     if (existingShipInfo > 0) {
       throw new IllegalStateException("배송 번호 입력되어 있습니다");
