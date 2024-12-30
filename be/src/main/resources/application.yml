@@ -1,3 +1,7 @@
+dotenv:
+  enabled: true
+  overload: true
+
 spring:
   application:
     name: be

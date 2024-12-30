@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shop.duction.be.domain.item.dto.EditItemRequestDTO;
 import shop.duction.be.domain.item.dto.RegistItemRequestDTO;
+import shop.duction.be.domain.item.dto.ViewItemDetailsResponseDTO;
 import shop.duction.be.domain.item.dto.ViewItemEditResponseDTO;
 import shop.duction.be.domain.item.dto.ItemCardResponseDto;
 import shop.duction.be.domain.item.service.ItemService;
@@ -23,7 +24,6 @@ import shop.duction.be.utils.HttpStatusConstants;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/items")
 @RequiredArgsConstructor
 @Tag(name = "출품 상품")
@@ -71,9 +71,10 @@ public class ItemController {
   }
 
   @PostMapping()
-  public ResponseEntity<String> postItem(@RequestBody RegistItemRequestDTO dto) {
+  @Operation(summary = "상품 등록하기")
+  public ResponseEntity<?> postItem(@RequestBody RegistItemRequestDTO dto) {
     try {
-      String result = itemService.createItem(dto);
+      Integer result = itemService.createItem(userId, dto);
       return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
     } catch (ItemNotFoundException e) {
       return ResponseEntity.status(HttpStatusConstants.NOT_FOUND).body("Item not found"); // 404 NOT FOUND

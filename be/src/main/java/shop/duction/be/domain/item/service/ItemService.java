@@ -15,15 +15,22 @@ import shop.duction.be.domain.item.dto.RegistItemRequestDTO;
 import shop.duction.be.domain.item.dto.ViewItemEditResponseDTO;
 import shop.duction.be.domain.item.entity.Item;
 import shop.duction.be.domain.item.entity.ItemImage;
+import shop.duction.be.domain.item.entity.RareRating;
+import shop.duction.be.domain.item.entity.UserItemKey;
 import shop.duction.be.domain.item.enums.AuctionStatus;
+import shop.duction.be.domain.item.enums.ItemCondition;
+import shop.duction.be.domain.item.repository.ItemImageRepository;
 import shop.duction.be.domain.item.repository.ItemRepository;
+import shop.duction.be.domain.item.repository.RareRatingRepository;
 import shop.duction.be.domain.user.entity.User;
 import shop.duction.be.domain.user.repository.UserRepository;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.domain.item.dto.ItemCardResponseDto;
 import shop.duction.be.domain.item.enums.RareTier;
 import shop.duction.be.domain.item.repository.FavoriteItemRepository;
+import shop.duction.be.utils.ItemConditionConverter;
 import shop.duction.be.utils.RareTierCheckUtils;
+import shop.duction.be.utils.RareTierConverter;
 
 @Service
 @Transactional
@@ -33,6 +40,8 @@ public class ItemService {
   private final FavoriteItemRepository favoriteItemRepository;
   private final CommunityRepository communityRepository;
   private final UserRepository userRepository;
+  private final RareRatingRepository rareRatingRepository;
+  private final ItemImageRepository itemImageRepository;
 
   public ViewItemEditResponseDTO readItemEdit(int itemId) {
     Item item = itemRepository.findById(itemId)
@@ -152,12 +161,17 @@ public class ItemService {
     return favoriteItemRepository.findeFavoriteItemsByUserAndItemIds(userId, ids);
   }
 
-  public String createItem(RegistItemRequestDTO dto) {
+  public Integer createItem(int userId, RegistItemRequestDTO dto) {
     Community community = communityRepository.findById(dto.communityId()).get();
-    User user = userRepository.findById(dto.userId()).get();
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ItemNotFoundException("User with ID " + userId + " not found"));
 
+    // 레어 등급 판정
     RareTier rareTier = RareTierCheckUtils.rareCheck(dto.rareScore());
 
+    ItemCondition itemCondition = ItemCondition.fromString(dto.itemCondition());
+
+    // 출품 상품 등록
     Item item = Item.builder()
             .name(dto.name())
             .startPrice(dto.startPrice())
@@ -165,7 +179,7 @@ public class ItemService {
             .endTime(dto.endTime())
             .description(dto.description())
             .auctionStatus(AuctionStatus.BIDDING_NOT)
-            .itemCondition(dto.itemCondition())
+            .itemCondition(itemCondition)
             .rareScore(dto.rareScore())
             .rareTier(rareTier)
             .isModified(false)
@@ -179,22 +193,39 @@ public class ItemService {
             .user(user)
             .build();
 
-    // 이미지 추가
+    Item savedItem = itemRepository.save(item);
+
+    // 상품 사진 추가
     List<ItemImage> itemImages = new ArrayList<>();
     if (dto.itemImages() != null && !dto.itemImages().isEmpty()) {
       for (String imageUrl : dto.itemImages()) {
-        // 새 URL을 가진 ItemImage 객체 생성 및 추가
+        // 새 URL을 가진 ItemImage 객체 생성 및 저장
         ItemImage newImage = ItemImage.builder()
                 .url(imageUrl)
-                .item(item)
+                .item(savedItem)
                 .build();
         itemImages.add(newImage);
+
+        itemImageRepository.save(newImage);
       }
     }
 
-    item.setItemImages(itemImages);
-    itemRepository.save(item);
+    savedItem.setItemImages(itemImages);
+    Item savedItem2 = itemRepository.save(savedItem);
 
-    return "Item has been create successfully!";
+
+
+    // 최초 레어 등급 평가
+    UserItemKey userItemKey = new UserItemKey(user.getUserId(), savedItem2.getItemId());
+
+    RareRating rareRating = RareRating.builder()
+            .id(userItemKey)
+            .user(user)
+            .item(savedItem2)
+            .rareScore(dto.rareScore())
+            .build();
+    rareRatingRepository.save(rareRating);
+
+    return savedItem2.getItemId();
   }
 }

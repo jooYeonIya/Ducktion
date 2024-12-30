@@ -55,35 +55,35 @@ export async function getItemsByCommunityId(acutionItemsRequest) {
 export async function getItemDetails(itemId) {
   console.log("itemId : ", itemId);
   try {
-    // const response = await api.get(`items/${itemId}`); // 서버에 GET 요청
-    // return response.data; // 성공적으로 응답 데이터를 반환
-    const dto = {
-      communityId: 1,
-      communityName: "리그오브레전드",
-      itemId: 1,
-      itemName: "상품명",
-      images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_8Rj-vULPVGhf-eQyiY5sG2dMcHFQzD6RrQ&s", 
-        "https://m.jncompany.shop/web/product/big/202302/55da73b5645922de32ffa07cf315ee64.jpg", 
-        "https://sitem.ssgcdn.com/87/70/47/item/1000026477087_i1_750.jpg",
-        "https://wimg.heraldcorp.com/content/default/2015/03/06/20150306001045_0.jpg",
-        "https://www.cheonyu.com/_DATA/product/63900/63992_1672648178.jpg",
-        "https://i.pinimg.com/736x/b5/9d/8f/b59d8f8cbb54368862109db8324dc6b8.jpg",
-        "https://i.pinimg.com/736x/7a/64/d1/7a64d16d82e1bc56a6607d4a7f13625b.jpg",
-        "https://mblogthumb-phinf.pstatic.net/MjAxODA0MDlfMTUy/MDAxNTIzMjQwNjYxMDcw.NUntdy9kjN5iiUuneXi71eg74XEAtAJ40QOGb1LhOewg.UyZCO_3r6zQUwbDJ9n5FXuX-yalD0bMAHFiy9v8NN1Mg.PNG.lifesaverclinic/%EC%A7%B1%EA%B5%AC-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B46.png?type=w800",
-        "https://i.namu.wiki/i/G0dztHXufsO8bQs8dySSWVQplZXjOJ1mVhjbzHFGFgO7PXxMM-yt7wV9tNm9YVoLV-jnhK5l3JORzRMUkNN9Mw.webp",],
-      description: "아아아 하기 싫다ㅏㅏㅏ\n저 대신 일 해주실 분 경매 하세욧!!\n지금 여기서 일할 수 있는 기회ㅣㅣㅣ \n놓치지 말고 사십시오!!!!!!!!!",
-      itemCondition: "사용감 적음",
-      rareGrade: "마스터컬렉션즈레어",
-      startingBid: 7000,
-      auctionEndDate: "2025-01-07T23:59:59",
-      nowPrice: 8000,
-      totalView: 10000,
-      totalBidding: 10000,
-      exhibitorNickName: "오쿠맨",
-      exhibitorRate: 58,
-      immediateBid: 20000,
-    };
-    return dto;
+    const response = await api.get(`items/${itemId}`); // 서버에 GET 요청
+    return response.data; // 성공적으로 응답 데이터를 반환
+    // const dto = {
+    //   communityId: 1,
+    //   communityName: "리그오브레전드",
+    //   itemId: 1,
+    //   itemName: "상품명",
+    //   images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_8Rj-vULPVGhf-eQyiY5sG2dMcHFQzD6RrQ&s", 
+    //     "https://m.jncompany.shop/web/product/big/202302/55da73b5645922de32ffa07cf315ee64.jpg", 
+    //     "https://sitem.ssgcdn.com/87/70/47/item/1000026477087_i1_750.jpg",
+    //     "https://wimg.heraldcorp.com/content/default/2015/03/06/20150306001045_0.jpg",
+    //     "https://www.cheonyu.com/_DATA/product/63900/63992_1672648178.jpg",
+    //     "https://i.pinimg.com/736x/b5/9d/8f/b59d8f8cbb54368862109db8324dc6b8.jpg",
+    //     "https://i.pinimg.com/736x/7a/64/d1/7a64d16d82e1bc56a6607d4a7f13625b.jpg",
+    //     "https://mblogthumb-phinf.pstatic.net/MjAxODA0MDlfMTUy/MDAxNTIzMjQwNjYxMDcw.NUntdy9kjN5iiUuneXi71eg74XEAtAJ40QOGb1LhOewg.UyZCO_3r6zQUwbDJ9n5FXuX-yalD0bMAHFiy9v8NN1Mg.PNG.lifesaverclinic/%EC%A7%B1%EA%B5%AC-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B46.png?type=w800",
+    //     "https://i.namu.wiki/i/G0dztHXufsO8bQs8dySSWVQplZXjOJ1mVhjbzHFGFgO7PXxMM-yt7wV9tNm9YVoLV-jnhK5l3JORzRMUkNN9Mw.webp",],
+    //   description: "아아아 하기 싫다ㅏㅏㅏ\n저 대신 일 해주실 분 경매 하세욧!!\n지금 여기서 일할 수 있는 기회ㅣㅣㅣ \n놓치지 말고 사십시오!!!!!!!!!",
+    //   itemCondition: "사용감 적음",
+    //   rareGrade: "마스터컬렉션즈레어",
+    //   startingBid: 7000,
+    //   auctionEndDate: "2025-01-07T23:59:59",
+    //   nowPrice: 8000,
+    //   totalView: 10000,
+    //   totalBidding: 10000,
+    //   exhibitorNickName: "오쿠맨",
+    //   exhibitorRate: 58,
+    //   immediateBid: 20000,
+    // };
+    // return dto;
   } catch (error) {
     console.error("아이템 정보를 불러오는 데 실패했습니다:", error);
     throw error; // 에러를 호출한 쪽으로 전달
@@ -184,7 +184,7 @@ export async function postImmediateBidding(biddingGiveupRequest) {
 
 // 상품 등록 API 호출
 export async function postItem(dto) {
-  // console.log("dto : ", dto);
+  console.log("dto : ", dto);
   // return true;
   try {
     const response = await api.post("items", dto); // 서버에 POST 요청

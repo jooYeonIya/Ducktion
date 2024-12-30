@@ -10,13 +10,12 @@ public record RegistItemRequestDTO(
   String name,
   List<String> itemImages,
   String description,
-  ItemCondition itemCondition,
+  String itemCondition,
   Float rareScore,
   Integer startPrice,
   LocalDateTime endTime,
   Integer immediatePrice,
-  Integer communityId,
-  Integer userId
+  Integer communityId
 ) {
 
 }
