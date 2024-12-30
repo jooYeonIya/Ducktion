@@ -33,6 +33,12 @@ public class UserController {
     return userService.editMyInfo(editUserInfoRequestDto, userId);
   }
 
+  @GetMapping("/info/delete")
+  @Operation(summary = "회원 탈퇴하기")
+  public  ResponseEntity<String> deleteUser() {
+    return userService.deleteUser(userId);
+  }
+
   @PostMapping("/rating")
   @Operation(summary = "출품자 평가하기")
   public ResponseEntity<String> postRatingExhibitor(@RequestBody ExhibitorRatingRequestDto exhibitorRatingRequestDto) {

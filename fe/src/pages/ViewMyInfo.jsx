@@ -124,12 +124,12 @@ const ViewMyInfo = () => {
 
   // 회원 탈퇴
   const handleLeaveAccount = async () => {
-    const confirmLeave = confirm('정말 회원 탈퇴를 진행하시겠습니까?');
+    const confirmLeave = confirm('회원 탈퇴하시겠습니까?');
 
     if (confirmLeave) {
       try {
-        await deleteUser(userInfo.userId); 
-        alert('회원 탈퇴가 완료되었습니다.');
+        const message = await deleteUser(); 
+        alert(message);
         navigate('/'); 
       } catch (error) {
         console.error('회원 탈퇴에 실패했습니다:', error);

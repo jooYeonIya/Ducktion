@@ -34,22 +34,15 @@ export async function editMyInfo(editUserInfo) {
 }
 
 // 회원 탈퇴하기
-export async function deleteUser(userId) {
-  // const token = localStorage.getItem('token'); // 사용자 인증 토큰 가져오기
-  // if (!token) throw new Error('인증 토큰이 없습니다.');
-
-  // const response = await api.delete(`user/info/${userId}`, {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
-
-  // return response.data;
-
-  console.log(`userId :${userId}`);
-  return "삭제가 성공했습니다.";
+export async function deleteUser() {
+  try {
+    const response = await api.get("user/info/delete");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error;
+  }
 };
-
 
 // 프로필 사진 변경하기
 export async function putUserProfileImage(imageFile) {
