@@ -8,6 +8,7 @@ import shop.duction.be.domain.community.dto.PopularCommunitiesResponseDto;
 import shop.duction.be.domain.community.service.CommunityService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class CommunityController {
   private Integer userId = 1;
 
   @GetMapping
-  public CommunityListResponseDTO getCommunities() {
+  public Map<String, List<CommunityListResponseDTO>> getCommunities() {
     return communityService.getCommunities(userId);
   }
 

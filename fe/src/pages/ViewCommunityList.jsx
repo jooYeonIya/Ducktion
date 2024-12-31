@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getCommunities } from "../services/communityService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreTextLabel from "../components/Labels/PreTextLabel";
 import HorizontalRule from "../components/HorizontalRule";
+import CommunityList from "../components/CommunityList";
 
 import "@styles/pages/ViewCommunityList.css";
 
 export default function ViewCommunityList() {
-  const [communities, setCommunities] = useState([])
   const hangle = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
   const alphabet = ['전체', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+  const [communities, setCommunities] = useState([])
   const [selectedTab, setSelectedTab] = useState('가나다순'); 
   const [selectedChar, setSelectedChar] = useState('전체'); 
 
@@ -18,9 +19,23 @@ export default function ViewCommunityList() {
 
   const fetchCommunities = async () => {
     const data = await getCommunities();
-    console.log(data)
     setCommunities(data)
   }
+
+  const filteredCommunities = useMemo(() => {
+    if (!communities || Object.keys(communities).length === 0) {
+      return [];
+    }
+
+    if (selectedChar === "전체") {
+      const keys = Object.keys(communities).filter((key) => 
+        selectedTab === '가나다순' ? /^[ㄱ-ㅎ|가-힣]/.test(key) : /^[A-Z]/i.test(key))
+      return keys.flatMap((key) => communities[key]);
+    }
+
+    return communities[selectedChar.toLowerCase()] || [];
+
+  }, [selectedChar, selectedTab, communities]);
 
   useEffect(() => {
     fetchCommunities()
@@ -72,6 +87,15 @@ export default function ViewCommunityList() {
         </div>
       )}
       <HorizontalRule type="hr2" />
+      <div className="communityList_item">
+        {
+          filteredCommunities.length > 0 ? (
+            <CommunityList communityList={filteredCommunities} />
+          ) : (
+            <PreTextLabel text="표시 내용이 없습니다" />
+          )
+       }
+      </div>
     </>
   );
 }
