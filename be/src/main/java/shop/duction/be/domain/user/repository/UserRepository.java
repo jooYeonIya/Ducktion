@@ -6,4 +6,5 @@ import shop.duction.be.domain.user.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
   Optional<User> findByEmail(String email);
+  User findHeldBidAndUsableBidByUserId(Integer id);
 }

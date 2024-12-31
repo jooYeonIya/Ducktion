@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { postChargeBidPoint } from '../../services/bidService'
+import { postWithdrwalBidPoint } from '../../services/bidPointService'
 import { numericInputValidate } from '../../utils/numericInputValidate'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import RectangleButton from '../Button/RectangleButton'
@@ -8,7 +8,7 @@ import BidInputTextField from './BidInputTextField'
 
 import '@styles/components/modal/BidPointModalContent.css'
 
-export default function WithdrwalBidPointModalContent({ heldBid = 0, usableBid = 0, onClose }) {
+export default function WithdrwalBidPointModalContent({ heldBid = 0, usableBid = 0, onClose, onComplete }) {
   const [bidPoint, setBidPoint] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
@@ -55,10 +55,9 @@ export default function WithdrwalBidPointModalContent({ heldBid = 0, usableBid =
 
     try {
       const message = await postWithdrwalBidPoint(bidPoint); 
-      alert(message); 
-      alert(selectedBank); 
-      alert(accountNumber)
+      alert(message);
       onClose(); 
+      onComplete();
     } catch (error) {
       console.error('Failed', error);
     }

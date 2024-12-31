@@ -1,6 +1,6 @@
 import '../styles/pages/RegistItem.css';
 import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import GodoTitleLabel from '../components/Labels/GodoTitleLabel';
 import PreTitleLabel from '../components/Labels/PreTitleLabel';
 import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel';
@@ -13,9 +13,11 @@ import { postItem } from '../services/itemService';
 import HorizontalRule from '../components/HorizontalRule';
 import PreCaptionLabel from '../components/Labels/PreCaptionLabel';
 import PreTextLabel from '../components/Labels/PreTextLabel';
+import s3Upload from '../utils/S3Uploader';
 
 function RegistItem() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [images, setImages] = useState([]); // 이미지 URL 상태
   const [imageFiles, setImageFiles] = useState([]); // 이미지 파일 상태
@@ -31,6 +33,8 @@ function RegistItem() {
 
   const maxFileSize = 2 * 1024 * 1024; // 2MB
   const maxFileCount = 9; // 최대 파일 개수
+
+  const communityId = location.state?.communityId;
 
   // 상품 상태 변경 관리
   const handleConditionChange = (event) => {
@@ -99,30 +103,30 @@ function RegistItem() {
 
     // 이미지 파일 추가
     imageFiles.forEach((file) => {
-      formData.append("imageFiles", file); // key 이름은 서버와 협의 필요
+      formData.append("imageFiles", file);
     });
-    // 서버 업로드 API 로직 추가 필요
-    // 새 이미지의 S3 URL을 images 배열에 덮어쓰기 필요
+
+    // S3에 이미지 업로드 후 URL 반환
+    const addImageUrls = await s3Upload(imageFiles);
 
     // DTO 생성
     const dto = {
-      itemName,
-      imageFiles, // 이미지 파일 배열.
-      description,
-      itemCondition,
-      rareScore,
-      startingBid,
-      auctionEndDate,
-      immediateBid,
+      name: itemName,
+      itemImages: addImageUrls,
+      description: description,
+      itemCondition: itemCondition,
+      rareScore: rareScore,
+      startPrice: startingBid,
+      endTime: auctionEndDate,
+      immediatePrice: immediateBid ? immediateBid : null,
+      communityId: communityId,
     };
 
     try {
-      // API POST 요청
       const response = await postItem(dto);
-      console.log("성공적으로 등록되었습니다:", response.data);
+      console.log("성공적으로 등록되었습니다:", response);
 
-      // 성공적으로 등록 후 페이지 이동
-      navigate("/viewItem");
+      navigate("/viewItem", { state: { itemId: response } });
     } catch (error) {
       console.error("상품 등록에 실패했습니다:", error);
       alert("상품 등록 중 문제가 발생했습니다.");

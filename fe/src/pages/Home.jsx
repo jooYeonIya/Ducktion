@@ -5,6 +5,7 @@ import CommunityList from '../components/CommunityList'
 import CardItemsList from '../components/ItemCard/ItemCardList'
 
 import '@styles/pages/Home.css'
+import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel'
 
 export default function Home() {
   const [communities, setCommunities] = useState([]);

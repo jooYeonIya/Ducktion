@@ -74,7 +74,7 @@ export default function Header() {
       </div>
       <div className='header_container_options'>
         {options.map((item, index) => (
-          <IconPlusLabel key={index} icon={item.icon} text={item.text} onClick={item.onClick}/>
+          <IconPlusLabel key={index} icon={item.icon} text={item.text} onImageClick={item.onClick} onTextClick={item.onClick}/>
         ))}
       </div>
     </div>

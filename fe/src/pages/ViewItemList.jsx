@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getCommunityInfo } from '../services/communityService'
 import { getItemsByCommunityId } from '../services/itemService'
-import GodoTitleLabe from '../components/Labels/GodoTitleLabel'
+import GodoTitleLabel from '../components/Labels/GodoTitleLabel'
 import CardItemsList from '../components/ItemCard/ItemCardList'
 import RoundButton from '../components/Button/RoundButton'
 import RectangleButton from '../components/Button/RectangleButton'
@@ -18,7 +17,6 @@ export default function ViewItemList() {
     { value: "price_asc", title: "저가순" },
   ];
 
-  const [communityInfo, setCommunityInfo] = useState('');
   const [auctionItems, setAuctionItems] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,15 +30,6 @@ export default function ViewItemList() {
   const navigate = useNavigate();
   const location = useLocation();
   const communityId = location.state.communityId;
-
-  const fetchCommunityInfo = async () => {
-    try {
-      const data = await getCommunityInfo(communityId);
-      setCommunityInfo(data);
-    } catch (error) {
-      console.error("Faild", error);
-    }
-  }
 
   const fetchAuctionItems = async () => {
     const acutionItemsRequest = {
@@ -92,11 +81,10 @@ export default function ViewItemList() {
   }
 
   const handleRegistItemButton = () => {
-    navigate('/registItem')
+    navigate('/registItem', { state: { communityId: communityId } })
   }
 
   useEffect(() => {
-    fetchCommunityInfo();
     displayWinningBidMessage();
   }, [])
 
@@ -107,7 +95,7 @@ export default function ViewItemList() {
   return (
     <>
       <div className='auctionItems_title'>
-        <GodoTitleLabe text={communityInfo.name} />
+        <GodoTitleLabel text={auctionItems?.content?.[0]?.communityName || "No Data"} />
       </div>
 
       <div className={`message_container ${disply ? "disply" : ""}`}>
@@ -124,7 +112,7 @@ export default function ViewItemList() {
       </div>
 
       <div className='auctionItems_cardItems_container'>
-        <CardItemsList itemList={auctionItems} />
+        <CardItemsList itemList={auctionItems.content} />
       </div>
 
       <div className='auctionItems_pagination'>

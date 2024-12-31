@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getUserBidPoint } from '../../services/bidService'
+import { getUserBidPoint } from '../../services/bidPointService'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import PreTextLabel from '../Labels/PreTextLabel'
 import PreCaptionLabel from '../Labels/PreCaptionLabel'
@@ -7,9 +7,10 @@ import RectangleButton from '../Button/RectangleButton'
 import RoundButton from '../Button/RoundButton'
 import PriceSummary from '../PriceSummary'
 import '@styles/components/modal/BidPointModalContent.css'
+import { postBidding } from '../../services/itemService';
 
 export default function SubmitBidModalContent({ probs, onClose }) {
-  const { itemName, startingBid, nowPrice, immediateBid } = probs
+  const { itemId, itemName, startingPrice, nowPrice, immediatePrice } = probs
   const [currentBidPoint, setCurrentBidPoint] = useState(0);
   const [usableBid, setUsableBid] = useState(0);
 
@@ -23,7 +24,7 @@ export default function SubmitBidModalContent({ probs, onClose }) {
   };
 
   const getMinBidPoint = () => {
-    const baseBidPoint = nowPrice || startingBid;
+    const baseBidPoint = nowPrice || startingPrice;
     const plusBidPoint = getBidIncrement(baseBidPoint);
     return baseBidPoint + plusBidPoint;
   }
@@ -46,8 +47,8 @@ export default function SubmitBidModalContent({ probs, onClose }) {
     setCurrentBidPoint(value);
   };
 
-  const handleSubmit = () => {
-    if (immediateBid && currentBidPoint > immediateBid) {
+  const handleSubmit = async () => {
+    if (immediatePrice && currentBidPoint > immediatePrice) {
       alert(`입찰가는 즉시 낙찰가를 초과할 수 없습니다.`);
       return;
     }
@@ -56,6 +57,11 @@ export default function SubmitBidModalContent({ probs, onClose }) {
       alert('사용 가능한 비드가 부족합니다.');
       return;
     }
+
+    const bidRequestDTO = {
+      price: currentBidPoint
+    }
+    await postBidding(itemId, bidRequestDTO); // API 요청
   };
 
   const fetchUserBidPoint = async() => {
@@ -79,7 +85,7 @@ export default function SubmitBidModalContent({ probs, onClose }) {
       </div>
 
       <div className='submit_modal_price'>
-        <PriceSummary startingBid={startingBid} nowPrice={nowPrice} immediateBid={immediateBid} />
+        <PriceSummary startingBid={startingPrice} nowPrice={nowPrice} immediateBid={immediatePrice} />
         <PreCaptionLabel text={"*즉시 낙찰가를 초과하는 입찰은 불가합니다."} style={{ color: "#bebebe" }} />
       </div>
       

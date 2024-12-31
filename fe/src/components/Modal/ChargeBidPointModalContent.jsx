@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { postChargeBidPoint } from '../../services/bidService'
+import { postChargeBidPoint } from '../../services/bidPointService'
 import { numericInputValidate } from '../../utils/numericInputValidate'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import RectangleButton from '../Button/RectangleButton'
@@ -7,7 +7,7 @@ import BidInputTextField from './BidInputTextField'
 
 import '@styles/components/modal/BidPointModalContent.css'
 
-export default function ChargeBidPointModalContent({ heldBid = 0, usableBid = 0, onClose }) {
+export default function ChargeBidPointModalContent({ heldBid = 0, usableBid = 0, onClose, onComplete }) {
   const [bidPoint, setBidPoint] = useState('');
 
   const handleBidPointChange = (value) => {
@@ -33,7 +33,8 @@ export default function ChargeBidPointModalContent({ heldBid = 0, usableBid = 0,
     try {
       const message = await postChargeBidPoint(bidPoint); 
       alert(message); 
-      onClose(); 
+      onClose();
+      onComplete(); 
     } catch (error) {
       console.error('Failed', error);
     }

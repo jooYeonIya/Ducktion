@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getBiddershipInvoice } from '../../services/invoiceService'
+import { getBiddershipInvoice } from '../../services/shipService'
 import GodoTitleLabel from '../Labels/GodoTitleLabel'
 import DropdownInput from './DropdownInput'
 import RectangleButton from '../Button/RectangleButton'
@@ -8,8 +8,8 @@ import '@styles/components/modal/BidPointModalContent.css'
 
 export default function OutputInvoiceModalContent({ itemName, itemId, onClose }) {
   const [invoice, setInvocie] = useState({
-    courier: '',
-    invoice: ''
+    delivery: '',
+    postNumber: ''
   });
 
   const fetchBiddershipInvoice = async() => {
@@ -27,8 +27,8 @@ export default function OutputInvoiceModalContent({ itemName, itemId, onClose })
       <PreTextLabel text={`상품명: ${itemName}`} />
       <DropdownInput
         dropList={[]} 
-        title={invoice.courier} 
-        placeholder={invoice.invoice}
+        title={invoice.delivery || "배송 전"} 
+        placeholder={invoice.postNumber || "배송 전"}
         isEditable={false} 
       />
 
