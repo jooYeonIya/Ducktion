@@ -14,10 +14,10 @@
 
 .communityList_subTitle {
   display: flex;
-  gap: 20px;
+  justify-content: space-between;
   align-items: center;
-  cursor: pointer;
 }
+
 
 .communityList_title_items div:hover,
 .communityList_title div:hover,

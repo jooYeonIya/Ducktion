@@ -7,6 +7,8 @@ import AllCommunityList from "../components/CommunityList/AllCommunityList"
 import CharCommunityList from "../components/CommunityList/CharCommunityList"
 
 import "@styles/pages/ViewCommunityList.css";
+import RectangleButton from "../components/Button/RectangleButton";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewCommunityList() {
   const hangle = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
@@ -17,6 +19,12 @@ export default function ViewCommunityList() {
   const [selectedChar, setSelectedChar] = useState('전체'); 
 
   const titleItems = selectedTab === '가나다순' ? hangle : alphabet;
+
+  const navigate = useNavigate()
+
+  const navigateToRequestAddCommunity = () => {
+    navigate("/requestAddCommunity")
+  }
 
   const fetchCommunities = async () => {
     const data = await getCommunities();
@@ -112,6 +120,7 @@ export default function ViewCommunityList() {
               <PreTextLabel text={char} />
             </div>
           ))}
+          <RectangleButton text="커뮤니티 개설 요청" onClick={navigateToRequestAddCommunity}/>
         </div>
       )}
 
