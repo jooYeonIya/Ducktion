@@ -11,8 +11,8 @@ export default function CommunityList({ title, communityList }) {
 
   const navigate = useNavigate();
 
-  const navigateToItemList = (communityId) => {
-    navigate('/viewItemList', {state: {communityId: communityId}});
+  const navigateToItemList = (communityId, communityName) => {
+    navigate('/viewItemList', {state: {communityId: communityId, communityName: communityName}});
   };
 
   const handleCheckLogin = (communityId, isFavorite) => {
@@ -62,7 +62,7 @@ export default function CommunityList({ title, communityList }) {
                     : '/src/assets/duck.png'
                 }
                 onImageClick={() => handleCheckLogin(item.communityId, item.favorite)}
-                onTextClick={() => navigateToItemList(item.communityId)}
+                onTextClick={() => navigateToItemList(item.communityId, item.name)}
               />
             </div>
           ))
