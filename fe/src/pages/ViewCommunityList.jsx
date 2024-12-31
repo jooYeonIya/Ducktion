@@ -22,16 +22,27 @@ export default function ViewCommunityList() {
     const data = await getCommunities();
     setCommunities(data)
   }
-
   const groupedCommunities = useMemo(() => {
     if (!communities || Object.keys(communities).length === 0) {
       return {};
     }
-  
+
+    if (selectedTab === 'MY') {
+      const filtered = Object.entries(communities).reduce((newMap, [key, value]) => {
+        const favoriteOnly = value.filter((community) => community.favorite);
+        if (favoriteOnly.length > 0) {
+          newMap[key] = favoriteOnly;
+        }
+        return newMap;
+      }, {});
+
+      return filtered;
+    }
+
     const keys = Object.keys(communities).filter((key) =>
       selectedTab === '가나다순' ? /^[ㄱ-ㅎ|가-힣]/.test(key) : /^[A-Z]/i.test(key)
     );
-  
+
     return keys.reduce((newMap, key) => {
       newMap[key] = communities[key];
       return newMap;
@@ -106,8 +117,8 @@ export default function ViewCommunityList() {
 
       <HorizontalRule type="hr2" />
 
-      {selectedChar === "전체" ? (
-        <AllCommunityList communities={groupedCommunities } />
+      {selectedChar === "전체" || selectedTab === "MY" ? (
+        <AllCommunityList communities={groupedCommunities} />
       ) : (
         <CharCommunityList communities={filteredCommunities} />
       )}
