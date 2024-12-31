@@ -20,3 +20,13 @@ spring:
           new_generator_mappings: true
         jdbc:
           batch_size: 30  # 운영 환경에서는 부하 테스트를 통해 조정
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator  # actuator 경로 설정
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

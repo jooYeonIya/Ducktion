@@ -34,8 +34,8 @@ export default function ChargeBidPointModalContent({ heldBid = 0, usableBid = 0,
     IMP.init(''); // 가맹점 식별코드 입력 -> git에는 안 올리고 차후, git 환경 변수를 사용
   
     const paymentData = {
-      // pg: 'kakaopay.TC0ONETIME', // 카카오페이
-      pg: 'html5_inicis.INIpayTest', // 이니시스 실제 결제 주의
+      pg: 'kakaopay.TC0ONETIME', // 카카오페이
+      // pg: 'html5_inicis.INIpayTest', // 이니시스 실제 결제 주의
       pay_method: 'card', // 결제수단
       merchant_uid: `charge_${new Date().getTime()}`, // 고유 주문번호
       name: '비드 충전',
