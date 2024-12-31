@@ -35,6 +35,22 @@ public class KakaoOAuthService {
   @Value("${KAKAO_REDIRECT_URI}") // .env에서 리다이렉트 URI 가져오기
   private String redirectUri;
 
+  private String FRONT_HOME = "http://localhost:5173/";
+
+  public ResponseEntity<Map<String, String>> getKakaoAuthUrl() {
+    String kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize?client_id=" + clientId +
+            "&redirect_uri=" + redirectUri +
+            "&response_type=code";
+
+    // 헤더 설정
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON); // JSON 형식으로 응답
+
+    return ResponseEntity.ok()
+            .headers(headers)
+            .body(Map.of("url", kakaoAuthUrl));
+  }
+
   // 카카오 인증코드를 이용한 JWT 발급
   public ResponseEntity<Void> authenticateWithKakao(String authorizationCode) {
     // 1. 카카오 액세스 토큰 요청
@@ -71,12 +87,8 @@ public class KakaoOAuthService {
             .maxAge(7 * 24 * 60 * 60) // 쿠키 유효 시간 (7일)
             .build();
 
-    String redirectUrl = "http://localhost:5173/";
-    Map<String, Object> response = new HashMap<>();
-    response.put("redirectUrl", redirectUrl);
-
     return ResponseEntity.status(302) // HTTP 상태 코드 302: Found (리다이렉션)
-            .header(HttpHeaders.LOCATION, redirectUrl) // 리다이렉트 URL
+            .header(HttpHeaders.LOCATION, FRONT_HOME) // 리다이렉트 URL
             .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString()) // Access Token 쿠키
             .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString()) // Refresh Token 쿠키
             .build();
