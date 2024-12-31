@@ -24,8 +24,8 @@ public class CommunityService {
   private final FavoriteCommunityRepository favoriteCommunityRepository;
 
   public Map<String, List<CommunityListResponseDTO>>  getCommunities(Integer userId) {
-    List<Community> communities = communityRepository.findAll();
-    List<FavoriteCommunity> ids = favoriteCommunityRepository.findByUser_userId(userId);
+    List<Community> communities = communityRepository.findAllByOrderByFirstWordAsc();
+    List<Integer> ids = favoriteCommunityRepository.findIdsByUserId(userId);
     return communities.stream()
             .collect(Collectors.groupingBy(
                     Community::getFirstWord,

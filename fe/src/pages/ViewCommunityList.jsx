@@ -3,7 +3,8 @@ import { getCommunities } from "../services/communityService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreTextLabel from "../components/Labels/PreTextLabel";
 import HorizontalRule from "../components/HorizontalRule";
-import CommunityList from "../components/CommunityList";
+import AllCommunityList from "../components/CommunityList/AllCommunityList"
+import CharCommunityList from "../components/CommunityList/CharCommunityList"
 
 import "@styles/pages/ViewCommunityList.css";
 
@@ -21,6 +22,21 @@ export default function ViewCommunityList() {
     const data = await getCommunities();
     setCommunities(data)
   }
+
+  const groupedCommunities = useMemo(() => {
+    if (!communities || Object.keys(communities).length === 0) {
+      return {};
+    }
+  
+    const keys = Object.keys(communities).filter((key) =>
+      selectedTab === '가나다순' ? /^[ㄱ-ㅎ|가-힣]/.test(key) : /^[A-Z]/i.test(key)
+    );
+  
+    return keys.reduce((newMap, key) => {
+      newMap[key] = communities[key];
+      return newMap;
+    }, {});
+  }, [communities, selectedTab]);
 
   const filteredCommunities = useMemo(() => {
     if (!communities || Object.keys(communities).length === 0) {
@@ -73,6 +89,7 @@ export default function ViewCommunityList() {
           <GodoTitleLabel text="MY" />
         </div>
       </div>
+
       {selectedTab !== 'MY' && (
         <div className="communityList_subTitle">
           {titleItems.map((char, index) => (
@@ -86,16 +103,14 @@ export default function ViewCommunityList() {
           ))}
         </div>
       )}
+
       <HorizontalRule type="hr2" />
-      <div className="communityList_item">
-        {
-          filteredCommunities.length > 0 ? (
-            <CommunityList communityList={filteredCommunities} />
-          ) : (
-            <PreTextLabel text="표시 내용이 없습니다" />
-          )
-       }
-      </div>
+
+      {selectedChar === "전체" ? (
+        <AllCommunityList communities={groupedCommunities } />
+      ) : (
+        <CharCommunityList communities={filteredCommunities} />
+      )}
     </>
   );
 }

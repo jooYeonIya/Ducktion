@@ -18,5 +18,10 @@ public interface FavoriteCommunityRepository extends JpaRepository<FavoriteCommu
             WHERE fc.favoriteCommunityId.userId = :userId AND fc.favoriteCommunityId.communityId IN :communityIds
          """)
   List<Integer> findFavoriteCommunitiesByUserAndCommunityIds(@Param("userId") Integer userId, @Param("communityIds") List<Integer> communityIds);
-  List<FavoriteCommunity> findByUser_userId(Integer userId);
+  @Query("""
+            SELECT fc.favoriteCommunityId.communityId
+            FROM FavoriteCommunity fc
+            WHERE fc.favoriteCommunityId.userId = :userId
+         """)
+  List<Integer> findIdsByUserId(@Param("userId") Integer userId);
 }

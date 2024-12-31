@@ -28,3 +28,15 @@
   color: var(--gold-deep)
 }
 
+.communityList_all_conteinar {
+  display: flex;
+  gap: 80px;
+}
+
+.communityList_all_left{
+  display: flex;
+  align-items: center;
+}
+
+.communityList_all_right {
+}

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { getClosingSoonItems, getMastersCollectorsRare } from '../services/itemService'
 import { getPopularCommunities } from '../services/communityService'
-import CommunityList from '../components/CommunityList'
+import CommunityList from '../components/CommunityList/CommunityList'
 import CardItemsList from '../components/ItemCard/ItemCardList'
 
 import '@styles/pages/Home.css'
-import PreSubTitleLabel from '../components/Labels/PreSubTitleLabel'
 
 export default function Home() {
   const [communities, setCommunities] = useState([]);

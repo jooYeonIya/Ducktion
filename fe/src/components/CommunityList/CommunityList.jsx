@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { postFavoriteCommunity, deleteFavoriteCommunity } from '../services/communityService'
-import { checkLogin } from '../utils/CheckLogin'
-import GodoTitleLabel from './Labels/GodoTitleLabel'
-import IconPlusLabel from './Labels/IconPlusLabel'
+import { postFavoriteCommunity, deleteFavoriteCommunity } from '../../services/communityService'
+import { checkLogin } from '../../utils/CheckLogin'
+import GodoTitleLabel from '../../components/Labels/GodoTitleLabel'
+import IconPlusLabel from '../../components/Labels/IconPlusLabel'
 import '@styles/components/CommunityList.css'
 
 export default function CommunityList({ title, communityList }) {
