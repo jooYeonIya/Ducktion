@@ -1,4 +1,4 @@
-// import api from "./api";
+import api from "./api";
 
 // 사용자 정보 불러오기
 export async function getUserInfo() {
@@ -97,3 +97,13 @@ export async function deleteUserProfileImage(userId) {
   }
 }
 
+// 로그인
+export async function getKakaoLoginUrl() {
+  try {
+    const response = await api.get(`auth/kakao/url`);
+    return response.data.url;
+  } catch (error) {
+    console.error("Failed to fetch Kakao Auth URL", error);
+    throw error;
+  }
+}
