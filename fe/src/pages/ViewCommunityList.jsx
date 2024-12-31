@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getCommunities } from "../services/communityService";
 import GodoTitleLabel from "../components/Labels/GodoTitleLabel";
 import PreTextLabel from "../components/Labels/PreTextLabel";
 import HorizontalRule from "../components/HorizontalRule";
@@ -6,6 +7,7 @@ import HorizontalRule from "../components/HorizontalRule";
 import "@styles/pages/ViewCommunityList.css";
 
 export default function ViewCommunityList() {
+  const [communities, setCommunities] = useState([])
   const hangle = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
   const alphabet = ['전체', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
@@ -13,6 +15,16 @@ export default function ViewCommunityList() {
   const [selectedChar, setSelectedChar] = useState('전체'); 
 
   const titleItems = selectedTab === '가나다순' ? hangle : alphabet;
+
+  const fetchCommunities = async () => {
+    const data = await getCommunities();
+    console.log(data)
+    setCommunities(data)
+  }
+
+  useEffect(() => {
+    fetchCommunities()
+  }, [])
 
   return (
     <>

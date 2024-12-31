@@ -3,6 +3,7 @@ package shop.duction.be.domain.community.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import shop.duction.be.domain.community.dto.CommunityListResponseDTO;
 import shop.duction.be.domain.community.dto.PopularCommunitiesResponseDto;
 import shop.duction.be.domain.community.service.CommunityService;
 
@@ -19,6 +20,11 @@ public class CommunityController {
 
   // 일단 하드코딩
   private Integer userId = 1;
+
+  @GetMapping
+  public CommunityListResponseDTO getCommunities() {
+    return communityService.getCommunities(userId);
+  }
 
   @GetMapping("/popular")
   public List<PopularCommunitiesResponseDto> getPopularCommunities() {
