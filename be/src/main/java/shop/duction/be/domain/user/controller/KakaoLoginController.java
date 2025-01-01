@@ -7,8 +7,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import shop.duction.be.utils.JwtUtils;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +22,8 @@ public class KakaoLoginController {
 
   private final String REST_API_KEY = "00984eb13f890a76eef79a1b5d7974dd";
   private final String REDIRECT_URI = "http://localhost:8080/api/login/oauth/redirect";
+
+  JwtUtils jwtUtils = new JwtUtils();
 
   // 로그인 화면으로 이동할 수 있도록 url 반환
   @GetMapping
@@ -36,10 +41,12 @@ public class KakaoLoginController {
       Map<String, Object> userInfo = requestUserInfo(tokens.get("access_token"));
       saveUserInfo(userInfo);
 
-      String redirectUrl = "http://localhost:5173/resultOauth?access_token=" + tokens.get("access_token");
+      String jwtToken = jwtUtils.generateToken(tokens.get("access_token"));
+      String redirectUrl = "http://localhost:5173/resultOauth?jwt=" + jwtToken;
       response.sendRedirect(redirectUrl);
     } catch (Exception e) {
-      String errorMessage = "로그인에 실패했습니다. 다시 시도해 주세요.";
+      log.error("로그인 처리 중 예외 발생", e);
+      String errorMessage = URLEncoder.encode("로그인에 실패했습니다. 다시 시도해 주세요.", StandardCharsets.UTF_8);
       String errorRedirectUrl = "http://localhost:5173/resultOauth?error=" + errorMessage;
       response.sendRedirect(errorRedirectUrl);
     }

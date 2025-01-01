@@ -51,11 +51,12 @@ export default function Home() {
   useEffect(() => {
     console.log("asdfasgasdg")
     const params = new URLSearchParams(location.search);
-    const accessToken = params.get('access_token');
+    const jwt = params.get('jwt');
     const error = params.get('error');
   
-    if (accessToken) {
-      console.log(accessToken)
+    if (jwt) {
+      localStorage.setItem('jwt', jwt)
+      alert("로그인 성공")
     } else if (error) {
       alert(error);  
     }
