@@ -21,6 +21,7 @@ export default function Routers() {
   return (
     <Routes>
       <Route path='/' element={<Home />} />
+      <Route path='/resultOauth' element={<Home />} />
       <Route path='/requestAddCommunity' element={<RequestAddCommunity />} />
       <Route path='/viewItemList' element={<ViewItemList />} />
       <Route path="/viewCommunityList" element={<ViewCommunityList />} />
