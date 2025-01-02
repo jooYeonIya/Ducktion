@@ -18,6 +18,11 @@ public class NullableJwtInterceptor implements HandlerInterceptor {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+      response.setStatus(HttpServletResponse.SC_OK); // OPTIONS 요청 허용
+      return false; // 이후 로직 처리 중단
+    }
+
     String authorizationHeader = request.getHeader("Authorization");
 
     if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
