@@ -38,7 +38,7 @@ export async function getItemsByCommunityId(acutionItemsRequest) {
 export async function getItemDetails(itemId) {
   console.log("itemId : ", itemId);
   try {
-    const response = await api.get(`items/${itemId}`); // 서버에 GET 요청
+    const response = await api.get(`detail/items/${itemId}`); // 서버에 GET 요청
     console.log("response : ", response);
     return response.data; // 성공적으로 응답 데이터를 반환
     // const dto = {
@@ -118,7 +118,7 @@ export async function putReport(itemId) {
 // 입찰 포기
 export async function putBiddingGiveup(itemId) {
   try {
-    const response = await api.put(`items/${itemId}/giveup`);
+    const response = await api.put(`bdding/items/${itemId}/giveup`);
     // const response = {
     //   ok: "ok",
     // }
@@ -140,7 +140,7 @@ export async function putBiddingGiveup(itemId) {
 // 입찰
 export async function postBidding(itemId, bidRequest) {
   try {
-    const response = await api.post(`items/${itemId}/bidding`, bidRequest);
+    const response = await api.post(`bdding/items/${itemId}/bidding`, bidRequest);
     // const response = {
     //   ok: "ok",
     // }
@@ -163,7 +163,7 @@ export async function postBidding(itemId, bidRequest) {
 // 즉시 낙찰
 export async function postImmediateBidding(itemId) {
   try {
-    const response = await api.post(`items/${itemId}/immediatebidding`);
+    const response = await api.post(`bdding/items/${itemId}/immediatebidding`);
     // const response = {
     //   ok: "ok",
     // }

@@ -28,7 +28,7 @@ public class KakaoLoginController {
   private final String REST_API_KEY = "7878d1c7efff97968a8a0e9e3d63ad2a";
   private final String REDIRECT_URI = "http://localhost:8080/api/login/oauth/redirect";
 
-  JwtUtils jwtUtils = new JwtUtils();
+  private final JwtUtils jwtUtils;
 
   // 로그인 화면으로 이동할 수 있도록 url 반환
   @GetMapping
@@ -53,7 +53,8 @@ public class KakaoLoginController {
         userService.saveMyInfo(userInfo, tokens.get("refresh_token"));
       }
 
-      String jwtToken = jwtUtils.generateToken(tokens.get("access_token"));
+      Integer userId = isUserExist.get().getUserId();
+      String jwtToken = jwtUtils.generateToken(userId, tokens.get("access_token"));
       String redirectUrl = "http://localhost:5173/resultOauth?jwt=" + jwtToken;
       response.sendRedirect(redirectUrl);
     } catch (Exception e) {
