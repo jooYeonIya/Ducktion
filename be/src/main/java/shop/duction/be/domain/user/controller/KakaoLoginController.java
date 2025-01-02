@@ -1,12 +1,14 @@
 package shop.duction.be.domain.user.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import shop.duction.be.domain.user.entity.User;
+import shop.duction.be.domain.user.service.UserService;
 import shop.duction.be.utils.JwtUtils;
 
 import java.io.IOException;
@@ -14,13 +16,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-@Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/login/oauth")
 public class KakaoLoginController {
 
-  private final String REST_API_KEY = "00984eb13f890a76eef79a1b5d7974dd";
+  private final UserService userService;
+
+  private final String REST_API_KEY = "7878d1c7efff97968a8a0e9e3d63ad2a";
   private final String REDIRECT_URI = "http://localhost:8080/api/login/oauth/redirect";
 
   JwtUtils jwtUtils = new JwtUtils();
@@ -39,13 +44,19 @@ public class KakaoLoginController {
     try {
       Map<String, String> tokens = requestTokens(code);
       Map<String, Object> userInfo = requestUserInfo(tokens.get("access_token"));
-      saveUserInfo(userInfo);
+
+      Map<String, Object> account = (Map<String, Object>) userInfo.get("kakao_account");
+      String email = account != null ? (String) account.get("email") : null;
+      Optional<User> isUserExist = userService.checkIfUserExists(email);
+
+      if (isUserExist.isEmpty()) {
+        userService.saveMyInfo(userInfo, tokens.get("refresh_token"));
+      }
 
       String jwtToken = jwtUtils.generateToken(tokens.get("access_token"));
       String redirectUrl = "http://localhost:5173/resultOauth?jwt=" + jwtToken;
       response.sendRedirect(redirectUrl);
     } catch (Exception e) {
-      log.error("로그인 처리 중 예외 발생", e);
       String errorMessage = URLEncoder.encode("로그인에 실패했습니다. 다시 시도해 주세요.", StandardCharsets.UTF_8);
       String errorRedirectUrl = "http://localhost:5173/resultOauth?error=" + errorMessage;
       response.sendRedirect(errorRedirectUrl);
@@ -91,9 +102,5 @@ public class KakaoLoginController {
 
     ResponseEntity<Map> response = restTemplate.exchange(userInfoUrl, HttpMethod.GET, request, Map.class);
     return response.getBody();
-  }
-
-  private void saveUserInfo(Map<String, Object> userInfo) {
-    log.info("userInfo, {}", userInfo);
   }
 }
