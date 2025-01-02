@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { checkLogin } from '../utils/CheckLogin';
 
 const PrivateRoute = () => {
-  const jwt = localStorage.getItem('jwt');
+  const jwt = checkLogin();
 
-  // JWT가 없으면 로그인 페이지로 리다이렉트
   if (!jwt) {
     alert('로그인 후 이용 가능합니다.');
     return <Navigate to="/" />;
