@@ -19,16 +19,13 @@ public class CommunityController {
 
   private final CommunityService communityService;
 
-  // 일단 하드코딩
-  private Integer userId = 1;
-
   @GetMapping
-  public Map<String, List<CommunityListResponseDTO>> getCommunities() {
+  public Map<String, List<CommunityListResponseDTO>> getCommunities(@RequestAttribute("userId") Integer userId) {
     return communityService.getCommunities(userId);
   }
 
   @GetMapping("/popular")
-  public List<PopularCommunitiesResponseDto> getPopularCommunities() {
+  public List<PopularCommunitiesResponseDto> getPopularCommunities(@RequestAttribute("userId") Integer userId) {
     return communityService.getPopularCommunitiesByViews(userId);
   }
 }

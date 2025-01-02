@@ -36,3 +36,5 @@ spring:
           timeout: 5000
           starttls:
             enable: true
+  jwt:
+    secret-key: "skwlrmawlsWkfhwlqdprkrhtlveksakfdlwl5124"

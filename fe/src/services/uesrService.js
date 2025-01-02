@@ -72,3 +72,13 @@ export async function deleteUserProfileImage() {
   }
 }
 
+// 카카오 로그인
+export async function requestLogin() {
+  try {
+    const response = await api.get("login/oauth")
+    return response.data;
+  } catch (error) {
+    console.error("카카오 로그인 실패:", error);
+    alert("로그인 과정에서 문제가 발생했습니다");
+  }
+}

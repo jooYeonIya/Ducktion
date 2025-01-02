@@ -50,10 +50,10 @@ public class User {
     @Column(nullable = false)
     private Role role = Role.USER; // 역할 (USER, ADMIN)
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = true, length = 20)
     private String phone; // 휴대폰 번호
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = true, columnDefinition = "TEXT")
     private String address; // 주소
 
     @Column(nullable = false)
