@@ -32,7 +32,7 @@ public class PublicItemContrller {
 
   @GetMapping("/detail/{itemId}")
   @Operation(summary = "출품 상품 상세 보기")
-  public ResponseEntity<?> getItemDetails(@PathVariable int itemId) {
+  public ResponseEntity<?> getItemDetails(@PathVariable("itemId") Integer itemId) {
     try {
       ViewItemDetailsResponseDTO dto = itemService.readItemDetails(itemId);
       return ResponseEntity.status(HttpStatusConstants.OK).body(dto); // 200 OK 사용

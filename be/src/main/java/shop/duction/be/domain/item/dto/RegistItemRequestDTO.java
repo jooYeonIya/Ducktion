@@ -1,21 +1,21 @@
 package shop.duction.be.domain.item.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
-import java.util.List;
-import shop.duction.be.domain.community.entity.Community;
-import shop.duction.be.domain.item.enums.ItemCondition;
-import shop.duction.be.domain.user.entity.User;
 
-public record RegistItemRequestDTO(
-  String name,
-  List<String> itemImages,
-  String description,
-  String itemCondition,
-  Float rareScore,
-  Integer startPrice,
-  LocalDateTime endTime,
-  Integer immediatePrice,
-  Integer communityId
-) {
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegistItemRequestDTO {
+  private String name;
+  private String description;
+  private String itemCondition;
+  private Float rareScore;
+  private Integer startingBid;
+  private LocalDateTime endTime;
+  private Integer immediateBid;
+  private Integer communityId;
 }
