@@ -37,4 +37,4 @@ spring:
           starttls:
             enable: true
   jwt:
-    secret-key: "skwlrmawlsWkfhwlqdprkrhtlveksakfdlwl5124"
+    secret-key: ${JWT_KEY}

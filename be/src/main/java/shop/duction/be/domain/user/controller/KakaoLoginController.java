@@ -1,5 +1,6 @@
 package shop.duction.be.domain.user.controller;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -23,9 +24,11 @@ import java.util.Optional;
 @RequestMapping("/api/login/oauth")
 public class KakaoLoginController {
 
+  private static final Dotenv dotenv = Dotenv.configure().filename("local.env").load();
+
   private final UserService userService;
 
-  private final String REST_API_KEY = "7878d1c7efff97968a8a0e9e3d63ad2a";
+  private final String REST_API_KEY = dotenv.get("KAKAO_REST_API_KEY");
   private final String REDIRECT_URI = "http://localhost:8080/api/login/oauth/redirect";
 
   private final JwtUtils jwtUtils;
