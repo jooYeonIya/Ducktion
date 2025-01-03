@@ -230,6 +230,13 @@ public class ItemService {
             .build();
     rareRatingRepository.save(rareRating);
 
+    ExhibitHistory exhibitHistory = new ExhibitHistory();
+    exhibitHistory.setRegistTime(LocalDateTime.now());
+    exhibitHistory.setItem(savedItem2);
+    exhibitHistory.setStatus(ExhibitStatus.BIDDING_UNDER);
+    exhibitHistory.setUser(user);
+    exhibitHistoryRepository.save(exhibitHistory);
+
     return savedItem2.getItemId();
 }
 
