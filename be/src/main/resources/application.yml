@@ -5,6 +5,10 @@ dotenv:
 spring:
   application:
     name: be
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 18MB
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}

@@ -1,15 +1,21 @@
 package shop.duction.be.domain.item.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 import shop.duction.be.domain.item.dto.*;
 import shop.duction.be.domain.item.service.ItemService;
 import shop.duction.be.exception.ItemNotFoundException;
 import shop.duction.be.utils.HttpStatusConstants;
+import shop.duction.be.utils.S3UploaderService;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +25,7 @@ import java.util.List;
 @Tag(name = "출품 상품")
 public class ItemController {
   private final ItemService itemService;
+  private final S3UploaderService s3UploaderService;
 
   @GetMapping("/editing/{itemId}")
   @Operation(summary = "수정할 상품 정보 보기")
@@ -46,13 +53,31 @@ public class ItemController {
     }
   }
 
-  @PostMapping()
+  @PostMapping("/regist")
   @Operation(summary = "상품 등록하기")
   public ResponseEntity<?> postItem(
           @RequestAttribute("userId") Integer userId,
-          @RequestBody RegistItemRequestDTO dto) {
+          @RequestParam("itemImages") List<MultipartFile> itemImages,
+          @RequestParam("name") String name,
+          @RequestParam("description") String description,
+          @RequestParam("itemCondition") String itemCondition,
+          @RequestParam("rareScore") Float rareScore,
+          @RequestParam("startingBid") Integer startingBid,
+          @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
+          @RequestParam("immediateBid") Integer immediateBid,
+          @RequestParam("communityId") Integer communityId) {
     try {
-      Integer result = itemService.createItem(userId, dto);
+      RegistItemRequestDTO dto = new RegistItemRequestDTO(
+              name, description, itemCondition, rareScore, startingBid, endTime, immediateBid, communityId
+      );
+      List<String> fileUrls = new ArrayList<>();
+
+      for (MultipartFile file : itemImages) {
+        String fileUrl = s3UploaderService.uploadImageFile(file, "items");
+        fileUrls.add(fileUrl);
+      }
+
+      Integer result = itemService.createItem(userId, dto, fileUrls);
       return ResponseEntity.status(HttpStatusConstants.OK).body(result); // 200 OK 사용
     } catch (ItemNotFoundException e) {
       return ResponseEntity.status(HttpStatusConstants.NOT_FOUND)
@@ -60,6 +85,8 @@ public class ItemController {
     } catch (IllegalArgumentException e) {
       return ResponseEntity.status(HttpStatusConstants.BAD_REQUEST)
               .body("Invalid input"); // 400 BAD REQUEST
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 

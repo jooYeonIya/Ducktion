@@ -150,13 +150,15 @@ export async function postImmediateBidding(itemId) {
   }
 }
 
-// 상품 등록 API 호출
-export async function postItem(dto) {
-  console.log("dto : ", dto);
-  // return true;
+// 상품 등록 
+export async function postItem(formData) {
   try {
-    const response = await api.post("items", dto); // 서버에 POST 요청
-    return response.data; // 성공적으로 응답 데이터를 반환
+    const response = await api.post("/items/regist", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", 
+      },
+    });
+    return response.data; 
   } catch (error) {
     console.error("상품 등록에 실패했습니다:", error);
     throw error; // 에러를 호출한 쪽으로 전달
