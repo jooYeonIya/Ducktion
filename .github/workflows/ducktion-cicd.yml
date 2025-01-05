@@ -74,6 +74,7 @@ jobs:
       - name: Install Dependencies and Build Frontend
         working-directory: ./fe
         run: |
+          rm -rf node_modules/.vite
           npm install
           npm run build
 
