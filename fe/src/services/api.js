@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// 기본 API URL 설정
-export const BASE_URL = "http://localhost:8080/api/";
+// 기본 API URL 설정 - localhost를 변경해야만
+export const BASE_URL = "http://sample-elb-938786939.ap-northeast-2.elb.amazonaws.com/api/";
 
 const api = axios.create({
   baseURL: BASE_URL, // axios 인스턴스의 기본 URL 설정
