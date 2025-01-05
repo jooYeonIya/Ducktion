@@ -47,6 +47,7 @@ jobs:
           echo "KAKAO_REST_API_KEY=${KAKAO_REST_API_KEY}" >> $GITHUB_ENV
 
       - name: Build Backend   # 빌드 파일 생성
+        working-directory: ./be # gradlew 파일이 있는 디렉토리로 설정
         run: ./gradlew build
       
       - name: Build and Push Docker Image for Backend
@@ -70,6 +71,7 @@ jobs:
           node-version: '22'
 
       - name: Install Dependencies and Build Frontend
+        working-directory: ./fe
         run: |
           npm install
           npm run build
