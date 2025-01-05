@@ -1,5 +1,5 @@
 # 1. Node.js 기반 이미지로 빌드 단계 설정
-FROM node:20 AS builder
+FROM node:22 AS builder
 
 # 2. 작업 디렉토리 설정
 WORKDIR /app
