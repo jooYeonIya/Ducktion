@@ -1,9 +1,9 @@
 import PreCaptionLabel from './Labels/PreCaptionLabel'
 import PreSubTitleLabel from './Labels/PreSubTitleLabel'
 
-import '@styles/components/Historybox.css'
+import '@styles/components/BoxHistory.css'
 
-export default function Historybox({ items, onClick }) {
+export default function BoxHistory({ items, onClick }) {
   return (
     <div className='historybox'>
       {items.map((item, index) => (

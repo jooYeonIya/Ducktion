@@ -10,7 +10,7 @@ import PreSubTitleLabel from "../components/Labels/PreSubTitleLabel"
 import IconPlusLabelColumn from "../components/Labels/IconPlusLabelColumn"
 import CardItemsList from '../components/ItemCard/ItemCardList'
 import ProfileImage from "../components/ProfileImage";
-import Historybox from "../components/Historybox";
+import BoxHistory from "../components/BoxHistory";
 import PreCaptionLabel from "../components/Labels/PreCaptionLabel"
 
 import '@styles/pages/ViewMypage.css'
@@ -143,7 +143,7 @@ export default function ViewMypage() {
         <div className='biddingItem_container_title'>
           <GodoTitleLabel text={"입찰 이력"} />
         </div>
-        <Historybox items={biddingSortOptions} onClick={navigateBiddingHistoryList} />
+        <BoxHistory items={biddingSortOptions} onClick={navigateBiddingHistoryList} />
       </div>
 
       {/* 출품 이력 */}
@@ -151,7 +151,7 @@ export default function ViewMypage() {
         <div className='biddedItem_container_title'>
           <GodoTitleLabel text={"출품 이력"} />
         </div>
-        <Historybox items={exhibitSortOptions} onClick={navigateBiddedHistoryList} />
+        <BoxHistory items={exhibitSortOptions} onClick={navigateBiddedHistoryList} />
       </div>
 
       {/* 관심 상품 */}
