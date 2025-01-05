@@ -1,0 +1,28 @@
+.itemCardRow_contaier {
+  display: flex;
+  flex-direction: row;
+  position: relative; 
+  border: 1px solid #bebebe; 
+  border-radius: 12px;
+  width: 100%;
+}
+
+.itemCardRow_leftSection {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.itemCardRow_leftSection img {
+  width: 80%;
+  height: 80%;
+}
+
+.itemCardRow_rightSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-left: 20px;
+}

@@ -1,0 +1,49 @@
+.auctionItems_title {
+  padding-bottom: 40px;
+}
+
+.autionItems_sortOption_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+/* 흐르는 메세지*/
+.message_container {
+  overflow: hidden;
+  display: none;
+}
+
+.message_text {
+  white-space: nowrap;
+  animation: displayMessage 10s linear infinite; /* 10초 동안 왼쪽으로 이동 */
+  background: linear-gradient(to right, #F8CD49, #5C7D77, #2D2E64); 
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent;
+  font-size: 40px;
+  font-weight: bold; 
+}
+
+.message_container.disply {
+  display: block;
+}
+
+@keyframes displayMessage {
+  from {
+    transform: translateX(100%); /* 화면 밖에서 시작 */
+  }
+  to {
+    transform: translateX(-100%); /* 화면 밖으로 나감 */
+  }
+}
+
+.auctionItems_pagination {
+  padding-top: 20px;
+}
+
+.auctionItems_searchTextField {
+  width: 50%;
+  margin: auto;
+  padding-top: 20px;
+}

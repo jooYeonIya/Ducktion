@@ -1,0 +1,32 @@
+@import '../Color.css';
+
+.searchTextField_container {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--gold-deep);
+  padding: 8px;
+}
+
+.searchTextField_input {
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Pretendard-Regular', sans-serif;
+  outline: none;
+  border: none;
+}
+
+.searchTextField_button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.searchTextField_button img {
+  width: 16px;
+  height: 16px;
+}
+
+:root {
+  --focus-border-color: var(--blue-deep);
+  --focus-box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}

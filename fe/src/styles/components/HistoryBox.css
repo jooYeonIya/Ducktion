@@ -1,0 +1,23 @@
+@import '../Color.css';
+
+.historybox {
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(150, 177, 172, 0.5);
+  border: 1px solid var(--green-light);
+}
+
+.historybox_item {
+  flex: 1;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.historybox_item.withBorder {
+  border-right: 1px solid var(--green-light);
+}
+
+.historybox_item:last-child {
+  border-right: none; 
+}

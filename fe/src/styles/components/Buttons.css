@@ -1,0 +1,41 @@
+@import '../Color.css';
+
+.buttonBase {
+  font-size: 12px;
+  font-family: 'Pretendard-Regular', sans-serif;
+  cursor: pointer;
+}
+
+/*네모 버튼*/
+.rectangleButton {
+  background-color: var(--green-deep);
+  color: white;
+  border: none;
+  padding: auto;
+  padding: 12px 20px;
+  border-radius: 8px;
+}
+
+.rectangleButton:hover {
+  background-color: rgba(150, 177, 172, 0.5);
+}
+
+/*라운드 버튼*/
+.roundButton {
+  background-color: white;
+  border: var(--gold-light) solid 2px;
+  border-radius: 24px;
+  padding: 8px;
+  margin-right: 8px;
+  width: 80px;
+}
+
+.roundButton:hover {
+  background-color: rgba(249, 225, 148, 0.5);
+}
+
+.roundButton.selected {
+  background-color: var(--gold-light);
+  color: white;
+  font-weight: bold;
+}

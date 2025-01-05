@@ -1,0 +1,214 @@
+/* 전체 컨테이너 스타일 */
+.view-myinfo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 요소 간 간격 */
+  width: 100%;
+}
+
+/* community-header 스타일 */
+.community-header {
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px; /* 컨텐츠와 간격 */
+}
+
+.community-header:hover {
+  color: var(--blue-deep)
+}
+
+/* 메인 컨텐츠 레이아웃 */
+.main-content {
+  display: flex;
+  width: 100%; /* 너비를 부모 요소에 맞춤 */
+  padding-bottom: 40px;
+  gap: 40px;
+}
+
+/* 이미지 슬라이더 */
+.image-slider {
+  position: relative; /* 화살표 배치의 기준 */
+  width: 360px;
+  height: 360px;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  align-items: center;
+  justify-content: center;
+  /* overflow: hidden; 초과 부분 숨기기 */
+  gap: 16px;
+}
+
+/* 메인 이미지 래퍼 */
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #fff; /* 필요 시 배경색 지정 */
+}
+
+.item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down; /* 원본 비율 유지 */
+}
+
+/* 화살표 버튼 */
+.arrow {
+  position: absolute; /* 화살표 위치 고정 */
+  top: 40%; /* 세로 중앙 */
+  transform: translateY(-50%); /* 세로 정렬 */
+  width: 40px; /* 화살표 크기 */
+  height: 40px;
+  border: none;
+  background: none; /* 배경 제거 */
+  cursor: pointer;
+  z-index: 10;
+}
+
+.arrow img {
+  width: 100%; /* 이미지의 가로 크기 100% */
+  height: 100%; /* 이미지의 세로 크기 100% */
+  object-fit: contain; /* 화살표 비율 유지 */
+  opacity: 0.1; /* 기본 상태에서 10% 투명 */
+  transition: opacity 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.arrow:hover img {
+  opacity: 1; /* 호버 시 완전 불투명 */
+}
+
+/* 왼쪽 화살표 */
+.left-arrow {
+  left: 0px; /* 이미지 왼쪽 끝에 맞닿도록 설정 */
+}
+
+/* 오른쪽 화살표 */
+.right-arrow {
+  right: 0px; /* 이미지 오른쪽 끝에 맞닿도록 설정 */
+}
+
+/* 썸네일 리스트 */
+.thumbnail-container {
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  overflow: hidden; /* 초과 이미지 숨기기 */
+  width: 100%; /* 부모 영역 너비에 맞춤 */
+  position: relative; /* 스크롤 영역 제어 */
+  gap: 16px; /* 썸네일 간격 증가 */
+  margin-top: 20px; /* 위쪽 여백 증가 */
+}
+
+.thumbnail {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.3s ease; /* 선택된 썸네일 확대 효과 */
+}
+
+.thumbnail.active {
+  border-color: #007bff;
+  transform: scale(1.1); /* 선택된 썸네일 확대 */
+}
+
+/* 이미지 아래 버튼 영역 */
+.slider-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* */
+/* 상품 정보 */
+.item-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+/* 입찰, 즉시 낙찰 버튼 영역 */
+.price-button-container {
+  display: flex; 
+  justify-content: space-between; 
+  gap: 12px;
+}
+
+.price-button-container button {
+  width: calc(635px / 2 - 20px); 
+  height: 32px;
+  padding: 0;
+}
+
+/* 상품 상세 정보 */
+.item-details {
+  display: flex;
+  flex-direction: column; /* 항목을 세로로 정렬 */
+  gap: 16px; /* 항목 간 간격 */
+  width: 100%; /* 부모 요소의 너비에 맞춤 */
+}
+
+.item-info-detail-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 남은 시간 텍스트 스타일 */
+.remaining-time-value {
+  font-family: 'Pretendard-Bold';
+}
+
+/* 깜빡임 효과 */
+.remaining-time-value.blinking {
+  animation: color-blink 1s steps(1, start) infinite;
+}
+
+/* 색상 전환 깜빡임 애니메이션 */
+@keyframes color-blink {
+  0% {
+    color: red; /* 빨간색 */
+  }
+  50% {
+    color: black; /* 검은색 */
+  }
+  100% {
+    color: red; /* 다시 빨간색 */
+  }
+}
+
+/* */
+/* 상세 설명, 출품자 정보 */
+.info-grid {
+  display: grid;
+  grid-template-columns: 65% 5% 30%;
+  align-items: start;
+  width: 100%;
+}
+
+/* 상세 설명 섹션 */
+.item-description p {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+/* 세로 구분선 */
+.vertical-separator {
+  background-color: #ddd;
+  width: 1px;
+  height: 100%;
+  margin: 0 auto; /* 세로선 가운데 정렬 */
+}
+
+/* 출품자 정보 섹션 */
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-top: 16px;
+}

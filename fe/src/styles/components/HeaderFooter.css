@@ -1,0 +1,39 @@
+.header_container, .footer_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.header_container {
+  border-bottom: 1px solid #bebebe;
+  padding-bottom: 20px;
+}
+
+.header_container_searchField {
+  width: 500px;
+}
+
+.footer_container {
+  background-color: #eeeeee;
+  height: 80px;
+}
+
+.footer_container_logo {
+  padding-left: 20px;
+}
+
+.footer_container_links {
+  padding-right: 20px;
+}
+
+.header_container_options, 
+.footer_container_links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer_container {
+  flex: 1;
+}
+

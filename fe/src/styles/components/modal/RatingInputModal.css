@@ -1,0 +1,58 @@
+.ratingInputModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.ratingInputModal_slider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  padding-top: 40px;
+}
+
+.ratingInputModal_slider input {
+  -webkit-appearance: none; /* 기본 스타일 제거 */
+  width: 100%;
+  height: 12px;
+  border-radius: 20px;
+  background: #dddddd;
+  outline: none;
+  opacity: 0.8;
+}
+
+.ratingInputModal_slider input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: yellowgreen; /* 핸들 색상 */
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ratingInputModal_slider input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007bff; /* 핸들 색상 */
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.ratingInputModal_slider label {
+  font-size: 14px;
+  font-family: 'Pretendard-Regular', 'sans-serif';
+  color: #bebebe;
+}
+
+.ratingInputModal_buttons {
+  display: flex;
+  justify-content: right;
+  gap: 20px;
+  width: 100%;
+  padding-top: 20px;
+}

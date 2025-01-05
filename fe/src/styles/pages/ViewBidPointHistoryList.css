@@ -1,0 +1,62 @@
+.bidPointHistory_historyCard {
+  background: rgba(150, 177, 172, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px 0;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.bidPointHistory_historyCard_buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.bidPointHistory_historyCard_buttons button {
+  width: 100px;
+  height: 32px;
+  padding: 0;
+}
+
+.bidPointHistory_options_date {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px 0;
+}
+
+.bidPointHistory_historyList {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #bebebe;
+}
+
+.bidPointHistory_historyList_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #bebebe;
+  padding: 20px 0;
+}
+
+.bidPointHistory_historyList_item_left {
+  flex: 1;
+  display: flex;
+  gap: 40px;
+}
+
+.bidPointHistory_historyList_item_leftContent{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bidPointHistory_historyList_item_right.plus {
+  color: var(--gold-deep);
+}
+
+.bidPointHistory_historyList_item_right.minus {
+  color: black;
+}

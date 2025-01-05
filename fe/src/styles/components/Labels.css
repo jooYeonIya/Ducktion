@@ -1,0 +1,83 @@
+/* 고도체 */
+.titleLabelGodo {
+ font-family: 'Godo', sans-serif;
+ font-size: 24px;
+}
+
+.subTitleLabelGodo {
+  font-family: 'Godo', sans-serif;
+  font-size: 20px;
+}
+
+.textLabelGodo {
+  font-family: 'Godo', sans-serif;
+  font-size: 16px;
+}
+
+/* 프리텐다드 */
+.titleLabelPre {
+  font-family: 'Pretendard-Regular', 'sans-serif';
+  font-size: 24px;
+}
+
+.subTitleLabelPre {
+  font-family: 'Pretendard-Regular', sans-serif;
+  font-size: 20px;
+}
+
+.textLabelPre {
+  font-family: 'Pretendard-Regular', sans-serif;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 잘린 텍스트에 "..." 표시 */
+  white-space: nowrap; /* 텍스트를 한 줄로 제한 */
+}
+
+.captionLabelPre {
+  font-family: 'Pretendard-Regular', sans-serif;
+  font-size: 12px;
+}
+
+/* 아이콘 라벨 */
+.iconPlusLabel, .logoIconPlusLabel {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.logoIconPlusLabel div {
+  font-family: 'Pretendard-Regular', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* 아이콘 라벨 row */
+.iconPlusLabelColumn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-hr {
+  border: none;
+  margin: 20px 0; /* 위아래 여백 조정 */
+}
+
+.hr1 {
+  width: 100%;
+  height: 2px; 
+  background: #000; 
+  border: none; /* 기본 테두리 제거 */
+  margin: 20px auto; /* 위아래 여백 및 중앙 정렬 */
+}
+
+
+.hr2 {
+  width: 100%;
+  height: 0.5px; 
+  background: #BEBEBE;
+  border: none; 
+  margin: 20px auto; /* 위아래 여백 및 중앙 정렬 */
+}
